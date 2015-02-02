@@ -1,0 +1,14 @@
+{% extends "base/main.html" %}
+{% block content %}
+	<form id="form" action="{{ action }}" method="post">
+		{{ form.csrf_token }}
+		<div id="fields">
+			<label>E-Mail</label>{{ form.email }}
+			<label>Kennwort</label>{{ form.password }}
+		</div>
+		<input type="submit" value="Sign in">
+		<div class="bar"></div>
+		<a href="/reset">Ich habe mein <strong>Kennwort vergessen</strong>!</a>
+		<a href="/register">Ich möchte mich <strong>neu anmelden</strong>.</a>
+	</form>
+{% endblock %}

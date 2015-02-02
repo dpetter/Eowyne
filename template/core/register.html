@@ -1,0 +1,12 @@
+{% extends "base/main.html" %}
+{% block content %}
+	<form id="form" action="/register" method="post">
+		{{ form.csrf_token }}
+		<div id="fields">
+			<label>E-Mail</label>{{ form.email }}
+			<label>Kennwort</label>{{ form.password }}
+			<label>Name</label>{{ form.name }}
+		</div>
+		<input type="submit" value="Sign in">
+	</form>
+{% endblock %}

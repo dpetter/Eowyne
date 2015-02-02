@@ -1,0 +1,10 @@
+{% macro css(url) -%}
+	<link
+	rel = "stylesheet" type = "text/css" media = "all"
+	href = "{{ url_for('static', filename = url) }}"
+	/>
+{%- endmacro %}
+
+{% macro image(url) -%}
+	<img src="{{ url_for('static', filename = url) }}"></img>
+{%- endmacro %}

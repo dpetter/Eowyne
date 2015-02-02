@@ -1,0 +1,27 @@
+#personalmenu {
+	margin: 0px -10px 5px 5px;
+	text-align: right;
+	font-size: 12px;
+}
+
+#mainmenu {
+	margin: 25px 5px 5px -10px;
+	margin-left: -10px;
+	font-size: 18px;
+}
+
+#extendedmenu {
+	padding: 10px;
+	font-size: 12px;
+	text-align: center;
+}
+
+.menuitem {
+	margin: 15px;
+	font-style: normal;
+	text-decoration: none;
+}
+
+.menuitem img {
+	vertical-align: middle;
+}

@@ -1,0 +1,27 @@
+{% macro build(list) -%}
+	{% for item in list %}
+		<a class="menuitem" href="{{ item.address }}">
+			{% if item.image and item.flags == 0 %}
+				<img alt="" src="{{ url_for('static', filename = item.image) }}"/>
+			{% endif %}
+			{{ item.name }}
+			{% if item.image and item.flags == 1 %}
+				<img alt="" src="{{ url_for('static', filename = item.image) }}"/>
+			{% endif %}
+		</a>
+	{% endfor %}
+{%- endmacro %}
+
+{% macro context(list, id) -%}
+	{% for item in list %}
+		<a class="menuitem" href="{{ item.address|replace('<id>', id) }}">
+			{% if item.image and item.flags == 0 %}
+				<img alt="" src="{{ url_for('static', filename = item.image) }}"/>
+			{% endif %}
+			{{ item.name }}
+			{% if item.image and item.flags == 1 %}
+				<img alt="" src="{{ url_for('static', filename = item.image) }}"/>
+			{% endif %}
+		</a>
+	{% endfor %}
+{%- endmacro %}

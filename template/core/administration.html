@@ -1,0 +1,9 @@
+{% extends "base/main.html" %}
+{% block content %}
+	<h2>Administration</h2>
+	{% for item in links %}
+	<div>
+		<a href="{{ item.address }}"><img src="{{ item.image }}"/>{{ item.name }}</a>
+	</div>
+	{% endfor %}
+{% endblock %}

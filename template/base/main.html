@@ -1,0 +1,28 @@
+<html>
+{% import "base/menu.html" as menu %}
+{% import "base/static.html" as static %}
+<head>
+	{{ static.css("css/base/main.css") }}
+	{{ static.css("css/base/menu.css") }}
+	{% block styles %}{% endblock %}
+</head>
+<body>
+<div id="wrapper">
+	<div id="header">
+		<div class="flag">
+			<div id="personalmenu">{{ menu.build(g.personal_menu) }}</div>
+			<div id="mainmenu">{{ menu.build(g.main_menu) }}</div>
+		</div>
+	</div>
+	<div id="container">
+		<div id="content">{% block content %}{% endblock %}</div>
+	</div>
+	<div id="footer">
+		<div class="flag">
+			<div id = "extendedmenu">{{ menu.build(g.extended_menu) }}</div>
+		</div>
+	</div>
+	<div>{% include "base/messages.html" %}</div>
+</div>
+</body>
+</html>

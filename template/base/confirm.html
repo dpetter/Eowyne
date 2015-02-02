@@ -1,0 +1,13 @@
+{% extends "base/main.html" %}
+{% block content %}
+	<h4>{{ headline }}</h4>
+	<div>{{ text }}</div>
+	<form id="form" action="{{ action }}" method="post">
+		<div id="fields">
+			{% for field in form %}
+				<label>{{ field.label }}</label>
+				<span>{{ field }}</span>
+			{% endfor %}
+		</div>
+	</form>
+{% endblock %}
