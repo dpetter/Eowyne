@@ -1,2 +1,2 @@
 # Eowyne
-Eowyne is a CMS
+Eowyne is a CMS under construction
