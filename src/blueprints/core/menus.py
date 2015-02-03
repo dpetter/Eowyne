@@ -13,8 +13,9 @@ from wtforms.fields.core import IntegerField
 from wtforms.fields.simple import TextField, SubmitField
 from wtforms.validators import DataRequired, NumberRange
 
-from blueprints import render, create_form, delete_form, update_form
+from blueprints import render, create_form, delete_form, update_form, mismatch
 from natives.menu import menubar, contextmenu, Menu
+from utility.localization import localize
 
 
 blueprint = Blueprint("Menu Controller", __name__)
@@ -23,12 +24,16 @@ blueprint = Blueprint("Menu Controller", __name__)
 # Forms
 # -------------------------------------------------------------------------------- #
 class FormMenu(Form):
-    address     = TextField("address", validators = [DataRequired()])
-    name        = TextField("name")
-    menubar     = TextField("menubar", validators = [DataRequired()])
-    weight      = IntegerField("weight", validators = [DataRequired()])
-    flags       = IntegerField("flags", validators = [NumberRange(0, 10)])
-    image       = TextField("image")
+    address     = TextField(localize("administration", "menus.field_address"),
+                            validators = [DataRequired()])
+    name        = TextField(localize("administration", "menus.field_name"))
+    menubar     = TextField(localize("administration", "menus.field_menubar"),
+                            validators = [DataRequired()])
+    weight      = IntegerField(localize("administration", "menus.field_weight"),
+                               validators = [DataRequired()])
+    flags       = IntegerField(localize("administration", "menus.field_flags"),
+                               validators = [NumberRange(0, 10)])
+    image       = TextField(localize("administration", "menus.field_image"))
     confirm     = SubmitField("Confirm")
     cancel      = SubmitField("Cancel")
 
@@ -47,22 +52,27 @@ def entries():
 @blueprint.route("/menus/create", methods = ["GET", "POST"])
 def create():
     item = Menu()
-    return create_form(FormMenu(), item, "Created new menu item.", "/menus")
+    headline = localize("administration", "menus.create_headline")
+    message = localize("administration", "menus.create_success")
+    return create_form(item, FormMenu(), headline, message, "/menus")
 
 # Delete Menu
 # -------------------------------------------------------------------------------- #
 @blueprint.route("/menus/<identifier>/delete", methods = ["GET", "POST"])
 def delete(identifier):
     item = Menu.get(int(identifier))
-    if not item: return "NO SUCH OBJECT"
-    headline = "%s löschen?" % (item.address)
-    text = "Menü %s wirklich löschen?" % (item.address)
-    return delete_form(item, headline, text, "Deleted menu item.", "/menus")
+    if not item: return mismatch()
+    headline = localize("administration", "menus.delete_headline")
+    text = localize("administration", "menus.delete_description") % (item.name)
+    message = localize("administration", "menus.delete_success")
+    return delete_form(item, headline, text, message, "/menus")
 
 # Edit Menu
 # -------------------------------------------------------------------------------- #
 @blueprint.route("/menus/<identifier>/update", methods = ["GET", "POST"])
 def update(identifier):
     item = Menu.get(int(identifier))
-    if not item: return "NO SUCH OBJECT"
-    return update_form(FormMenu(obj = item), item, "Updated menu item.", "/menus")
+    if not item: return mismatch()
+    headline = localize("administration", "menus.update_headline")
+    message = localize("administration", "menus.update_success")
+    return update_form(item, FormMenu(obj = item), headline, message, "/menus")

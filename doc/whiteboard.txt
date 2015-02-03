@@ -1,22 +1,20 @@
 TODO:
 
-
 High priority:
--	Verschlüsselung implementieren (utility) und in models.user benutzen.
--	utility.log mit einer richtigen Log-Library kurzschließen ...
-	struktur erhalten sonst zerbricht vieles
 -	implementierung und design für weine ...
--	natives.rules überarbeiten
+-	generelles form template stylen
+-	design für signin, signout, etc.
 -	die website aufteilen, so dass wir eine hauptbereich haben und verschiedene
 	inhalte die separat gestylt werden können.
--	design für signin, signout, etc.
--	generelles form template
+-	utility.log mit einer richtigen Log-Library kurzschließen ...
+	struktur erhalten sonst zerbricht vieles
+-	Verschlüsselung implementieren (utility) und in models.user benutzen.
 
 Low priority:
+-	reimplementierung von blueprints.core.client
 -	utility.generator.randomkey sollte dahingehend verbessert werden, das nur
 	unique keys rauskommen ... evtl. gleich umorganisieren und mit verschlüsselung
 	in ein paket.
+-	durch models durchgehen und initializers standardisieren
 -	natives von sql-alchemy abkoppeln
--	reimplementierung von blueprints.core.client
--	durch alle blueprints gehen und ordentlich machen
 -	tests ...

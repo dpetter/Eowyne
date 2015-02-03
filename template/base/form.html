@@ -1,5 +1,6 @@
 {% extends "base/main.html" %}
 {% block content %}
+<h2>{{ headline }}</h2>
 <form id="form" action="{{ action }}" method="post">
 	<div class="fields">
 		{% for field in form if field.type != "SubmitField" %}

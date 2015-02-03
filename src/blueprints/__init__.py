@@ -66,6 +66,13 @@ def invalid():
     return render("error/route.html")
 
 # -------------------------------------------------------------------------------- #
+def mismatch():
+    '''
+    Renders "No matching item" page.
+    '''
+    return render("error/match.html")
+
+# -------------------------------------------------------------------------------- #
 def confirmation(headline, text, on_confirm, on_cancel,
                  template = "base/confirm.html"):
     '''
@@ -76,11 +83,11 @@ def confirmation(headline, text, on_confirm, on_cancel,
     form = FormConfirm()
     if form.cancel.data == True: return on_cancel()
     elif form.validate_on_submit(): return on_confirm()
-    return render(template, form = form, action = request.path, headline = headline,
-                  text = text)
+    return render(template, form = form, action = request.path,
+                  headline = headline, text = text)
 
 # -------------------------------------------------------------------------------- #
-def editor(form, on_confirm, on_cancel, template = "base/form.html"):
+def editor(form, headline, on_confirm, on_cancel, template = "base/form.html"):
     '''
     Renders a form. The form can have various elements and two buttons - confirm
     and cancel. on_confirm and on_cancel are functions that have
@@ -88,10 +95,10 @@ def editor(form, on_confirm, on_cancel, template = "base/form.html"):
     '''
     if form.cancel.data == True: return on_cancel()
     elif form.validate_on_submit(): return on_confirm()
-    return render(template, form = form, action = request.path)
+    return render(template, form = form, action = request.path, headline = headline)
 
 # -------------------------------------------------------------------------------- #
-def create_form(form, item, message, on_confirm, on_cancel = None,
+def create_form(item, form, headline, message, on_confirm, on_cancel = None,
                 template = "base/form.html"):
     '''
     Renders a default create form. If the user confirms the item is filled
@@ -105,7 +112,7 @@ def create_form(form, item, message, on_confirm, on_cancel = None,
         return redirect(on_confirm)
     if on_cancel: o_can = lambda: redirect(on_cancel)
     else: o_can = lambda: redirect(on_confirm)
-    return editor(form, o_con, o_can)
+    return editor(form, headline, o_con, o_can)
 
 # -------------------------------------------------------------------------------- #
 def delete_form(item, headline, text, message, on_confirm, on_cancel = None,
@@ -124,7 +131,7 @@ def delete_form(item, headline, text, message, on_confirm, on_cancel = None,
     return confirmation(headline, text, o_con, o_can, template)
 
 # -------------------------------------------------------------------------------- #
-def update_form(form, item, message, on_confirm, on_cancel = None,
+def update_form(item, form, headline, message, on_confirm, on_cancel = None,
                 template = "base/form.html"):
     '''
     Renders a default update form. If the user confirms the item is filled
@@ -138,4 +145,4 @@ def update_form(form, item, message, on_confirm, on_cancel = None,
         return redirect(on_confirm)
     if on_cancel: o_can = lambda: redirect(on_cancel)
     else: o_can = lambda: redirect(on_confirm)
-    return editor(form, o_con, o_can)
+    return editor(form, headline, o_con, o_can)

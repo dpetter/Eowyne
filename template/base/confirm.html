@@ -1,13 +1,12 @@
 {% extends "base/main.html" %}
 {% block content %}
-	<h4>{{ headline }}</h4>
-	<div>{{ text }}</div>
-	<form id="form" action="{{ action }}" method="post">
-		<div id="fields">
-			{% for field in form %}
-				<label>{{ field.label }}</label>
-				<span>{{ field }}</span>
-			{% endfor %}
-		</div>
-	</form>
+<h2>{{ headline }}</h2>
+<div>{{ text }}</div>
+<form id="form" action="{{ action }}" method="post">
+	<div class="buttons">
+		{{ form.csrf_token }}
+		{{ form.confirm }}
+		{{ form.cancel }}
+	</div>
+</form>
 {% endblock %}

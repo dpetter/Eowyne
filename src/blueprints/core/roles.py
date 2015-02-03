@@ -13,9 +13,10 @@ from wtforms.fields.core import SelectField
 from wtforms.fields.simple import TextField, SubmitField
 from wtforms.validators import DataRequired
 
-from blueprints import render, create_form, delete_form, update_form
+from blueprints import render, create_form, delete_form, update_form, mismatch
 from natives.menu import menubar, contextmenu
 from natives.role import Role
+from utility.localization import localize
 
 
 blueprint = Blueprint("Role Controller", __name__)
@@ -24,9 +25,12 @@ blueprint = Blueprint("Role Controller", __name__)
 # Forms
 # -------------------------------------------------------------------------------- #
 class FormRole(Form):
-    name        = TextField("name", validators = [DataRequired()])
-    description = TextField("description", validators = [DataRequired()])
-    parent_id   = SelectField("parent_id", coerce = int)
+    name        = TextField(localize("administration", "roles.field_name"),
+                            validators = [DataRequired()])
+    description = TextField(localize("administration", "roles.field_description"),
+                            validators = [DataRequired()])
+    parent_id   = SelectField(localize("administration", "roles.field_parent_id"),
+                              coerce = int)
     confirm     = SubmitField("Confirm")
     cancel      = SubmitField("Cancel")
 
@@ -47,24 +51,29 @@ def create():
     item = Role()
     form = FormRole()
     form.parent_id.choices = [(role.id, role.name) for role in Role.all()]
-    return create_form(form, item, "Created new role.", "/roles")
+    headline = localize("administration", "roles.create_headline")
+    message = localize("administration", "roles.create_success")
+    return create_form(item, form, headline, message, "/roles")
 
 # Delete Role
 # -------------------------------------------------------------------------------- #
 @blueprint.route("/roles/<identifier>/delete", methods = ["GET", "POST"])
 def delete(identifier):
     item = Role.get(int(identifier))
-    if not item: return "NO SUCH OBJECT"
-    headline = "%s löschen?" % (item.name)
-    text = "Rolle %s wirklich löschen?" % (item.name)
-    return delete_form(item, headline, text, "Deleted role.", "/roles")
+    if not item: return mismatch()
+    headline = localize("administration", "roles.delete_headline")
+    text = localize("administration", "roles.delete_description") % (item.name)
+    message = localize("administration", "roles.delete_success")
+    return delete_form(item, headline, text, message, "/roles")
 
 # Edit Role
 # -------------------------------------------------------------------------------- #
 @blueprint.route("/roles/<identifier>/update", methods = ["GET", "POST"])
 def update(identifier):
     item = Role.get(int(identifier))
-    if not item: return "NO SUCH OBJECT"
+    if not item: return mismatch()
     form = FormRole(obj = item)
     form.parent_id.choices = [(role.id, role.name) for role in Role.all()]
-    return update_form(form, item, "Updated role.", "/roles")
+    headline = localize("administration", "roles.update_headline")
+    message = localize("administration", "roles.update_success")
+    return update_form(item, form, headline, message, "/roles")

@@ -4,7 +4,8 @@ from flask_wtf.form import Form
 from wtforms.fields.simple import TextField, SubmitField
 from wtforms.validators import DataRequired
 
-from blueprints import render, create_form, delete_form, update_form, forbidden
+from blueprints import render, create_form, delete_form, update_form, forbidden,\
+    mismatch
 from models.blog import Blog
 from natives.menu import menubar, contextmenu
 from natives.rule import access
@@ -29,7 +30,8 @@ class FormBlog(Form):
 def blog(identifier):
     actions = menubar("blog", g.role.id)
     i = int(identifier)
-    if i == 0: item = Blog.query.order_by(Blog.changedOn.desc()).first()  # @UndefinedVariable
+    if i == 0:
+        item = Blog.query.order_by(Blog.changedOn.desc()).first()# @UndefinedVariable
     else: item = Blog.get(i)
     if not item: return render("modules/blog-empty.html", actions = actions)
     ownership = (item.author == g.user)
@@ -47,7 +49,7 @@ def listentries():
 # Create Blog Entry
 # -------------------------------------------------------------------------------- #
 @blueprint.route("/blog/create", methods = ["GET", "POST"])
-def createentry():
+def create_entry():
     item = Blog()
     item.author_id = g.user.id
     return create_form(FormBlog(), item, "Created blog entry.", "/blog")
@@ -57,7 +59,7 @@ def createentry():
 @blueprint.route("/blog/<identifier>/delete", methods = ["GET", "POST"])
 def delete_entry(identifier):
     item = Blog.get(int(identifier))
-    if not item: return "NO SUCH OBJECT"
+    if not item: return mismatch()
     ownership = (item.author == g.user)
     if access(request.path, g.role.id, ownership) != 1: return forbidden()
     headline = "%s löschen?" % (item.title)
@@ -70,7 +72,7 @@ def delete_entry(identifier):
 @blueprint.route("/blog/<identifier>/update", methods = ["GET", "POST"])
 def update_entry(identifier):
     item = Blog.get(int(identifier))
-    if not item: return "NO SUCH OBJECT"
+    if not item: return mismatch()
     ownership = (item.author == g.user)
     if access(request.path, g.role.id, ownership) != 1: return forbidden()
     return update_form(FormBlog(obj = item), item, "Updated blog entry.",
