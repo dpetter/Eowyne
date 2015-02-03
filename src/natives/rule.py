@@ -138,83 +138,70 @@ class Rule(Native):
         self.view       = view
         self.search     = search
     
-    # ---------------------------------------------------------------------------- #
-    @classmethod
-    def access(cls, route, role, isOwner = False):
-        '''
-        This method receives a route and a role.
-        The route is disassembled into a resource locator and an action (create,
-        read, update, delete, find).
-        The method then checks whether there is a rule for this route, and
-        determines the permissions the role has for the associated action.
-        Returns -1 if the route is not in the table and logs (not a valid url).
-        Returns 0 if the role is not allowed to perform that action.
-        Returns 1 if the role is allowed to perform that action on objects
-        owned by the requesting user.
-        Returns 2 if the role is allowed to perform that action on objects
-        not owned by the requesting user.
-        Returns 3 if the role has access to both own and All objects.
-        '''
-        try:
-            if re.match("^.+/create$", route):
-                item = cls.match(re.sub("/create$", "/", route), role)
-                if item: return cls.mask(item.insert, isOwner)
-            elif re.match("^.+/[^/]+/delete$", route):
-                item = cls.match(re.sub("/[^/]+/delete$", "/", route), role)
-                if item: return cls.mask(item.remove, isOwner)
-            elif re.match("^.+/[^/]+/update$", route):
-                item = cls.match(re.sub("/[^/]+/update$", "/", route), role)
-                if item: return cls.mask(item.change, isOwner)
-            elif re.match("^.+/find$", route):
-                item = cls.match(re.sub("/find$", "/", route), role)
-                if item: return cls.mask(item.search, isOwner)
-            else:
-                item = cls.match(route, role)
-                if item: return cls.mask(item.view, isOwner)
-            return 0
-        except ValueError:
-            Log.debug(cls.__name__, "Invalid route accessed.")
-            return -1
-    
-    # ---------------------------------------------------------------------------- #
-    @classmethod
-    def mask(cls, permissions, isOwner):
-        if permissions == "None": return 0
-        if (not isOwner) and (permissions == "Own"): return 0
-        return 1
-    
-    # ---------------------------------------------------------------------------- #
-    @classmethod
-    def match(cls, route, role_id):
-        '''
-        This is a purely internal helper method. It should not be called outside
-        of Rule.access.
-        '''
-        Log.debug(cls.__name__, route)
-        items = cls.all()
-        # Try to match the route directly. This will collect the
-        # correct results for all actions that are explicitly defined
-        # (f.i. /mailbox/[^/]+/reply) and for the create, delete, update and find
-        # actions of an object folder.
-        # It will not find the rules for the view actions for object folders.
-        rules = [item for item in items if \
-                 re.match(re.sub("/$", "/?", item.route) + "$", route)]
-        # If there was no rule found assume this is an object view action.
-        # Try to remove the object identifier (f.i. /mailbox/mail123 becomes
-        # /mailbox/) and to match again.
-        if not rules:
-            route = re.sub("(?<=.)/[^/]+$", "/", route)
-            rules = [item for item in items if re.match(item.route + "$", route)]
-        # If there still was no matching rule found raise a ValueError.
-        if not rules: raise ValueError()
-        # From all the collected rules, find the one that is most applicable to
-        # the given role. Try to find the rule that belongs to the role.
-        # If none is found try to find the rule that belongs to the role's parent.
-        # Recurse like this until a match is found.
-        # If you hit the root of the role tree, return None.
-        role = Role.get(role_id)
-        while(role):
-            for item in rules:
-                if Role.get(item.role_id) == role: return item
-            role = Role.get(role.parent_id)
-        return None
+# -------------------------------------------------------------------------------- #
+def access(route, role_id, isOwner = False):
+    '''
+    @returns        -1 if the route is not in the Rules table.
+                    0 of the client is not allowed to perform this action.
+                    1 if the client is allowed to perform this action.
+    @param route:   The address to check. Either request.path or a link on the
+                    site.
+    @param role_id: The clients current role_id.
+    @param isOwner: Whether the client owns the item associated with the requested
+                    action.
+    '''
+    # This here is trying to figure out if this is a standard action (create,
+    # delete, update) and use the appropriate permission field. If it is
+    # not "view" is used.
+    actions = {"/create$": lambda item: item.insert,
+               "/[^/]+/delete$": lambda item: item.remove,
+               "/[^/]+/update$": lambda item: item.change}
+    try:
+        for key, value in actions.items():
+            if re.match("^.+" + key, route):
+                item = lookup(re.sub(key, "/", route), role_id)
+                if item: return has_permissions(value(item), isOwner)
+        item = lookup(route, role_id)
+        if item: return has_permissions(item.view, isOwner)
+        return 0
+    except ValueError:
+        Log.warning(__name__, "Invalid route accessed (%s)." % (route))
+        return -1
+
+# -------------------------------------------------------------------------------- #
+def has_permissions(permissions, isOwner):
+    if permissions == "None": return 0
+    if isOwner: return (permissions == "Own" or permissions == "All")
+    else: return (permissions == "Foreign" or permissions == "All")
+
+# -------------------------------------------------------------------------------- #
+def lookup(route, role_id):
+    '''
+    Tries to look up the entry in the Rules table whose route matches route.
+    If no rule is found a ValueError is raised. Otherwise the function finds
+    the rule that applies to the given role most directly and returns it.
+    If there is a rule for the given role that is returned.
+    If not the function tries to find a rule for the parent, grandparent, ...
+    If there is not found a matching still the function returns None.
+    '''
+    Log.debug(__name__, route)
+    items = Rule.all()
+    # Try to match the route directly. This will collect the correct results for
+    # all actions that are explicitly defined (f.i. /mailbox/[^/]+/reply) and for
+    # the create, delete, update and find actions of an object folder.
+    rules = [item for item in items if \
+             re.match(re.sub("/$", "/?", item.route) + "$", route)]
+    # If there was no rule found assume this is an object view action.
+    # Try to remove the object identifier (f.i. /mailbox/mail123 becomes
+    # /mailbox/) and to match again.
+    if not rules:
+        route = re.sub("(?<=.)/[^/]+$", "/", route)
+        rules = [item for item in items if re.match(item.route + "$", route)]
+    # If there still was no matching rule found raise a ValueError.
+    if not rules: raise ValueError()
+    role = Role.get(role_id)
+    while(role):
+        for item in rules:
+            if Role.get(item.role_id) == role: return item
+        role = Role.get(role.parent_id)
+    return None

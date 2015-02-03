@@ -1,12 +1,13 @@
 from flask.blueprints import Blueprint
-from flask.globals import g
+from flask.globals import g, request
 from flask_wtf.form import Form
 from wtforms.fields.simple import TextField, SubmitField
 from wtforms.validators import DataRequired
 
-from blueprints import render, create_form, delete_form, update_form
+from blueprints import render, create_form, delete_form, update_form, forbidden
 from models.blog import Blog
 from natives.menu import menubar, contextmenu
+from natives.rule import access
 
 
 blueprint = Blueprint("Blog Controller", __name__)
@@ -26,22 +27,22 @@ class FormBlog(Form):
 @blueprint.route("/blog", defaults = {"identifier": 0}, methods = ["GET"])
 @blueprint.route("/blog/<identifier>", methods = ["GET"])
 def blog(identifier):
-    try:
-        actions = menubar("blog", g.role.id)
-        i = int(identifier)
-        if i == 0:
-            item = Blog.query.order_by(Blog.changedOn.desc()).limit(1).all()[0]
-        else:
-            item = Blog.get(int(i))
-        ownership = (item.author_id == g.user.id)
-        item.actions = contextmenu("blog", g.role.id, ownership)            
-        return render("modules/blog.html", item = item, actions = actions)
-    except Exception as e:
-        return str(e)
+    actions = menubar("blog", g.role.id)
+    i = int(identifier)
+    if i == 0: item = Blog.query.order_by(Blog.changedOn.desc()).first()  # @UndefinedVariable
+    else: item = Blog.get(i)
+    if not item: return render("modules/blog-empty.html", actions = actions)
+    ownership = (item.author == g.user)
+    item.actions = contextmenu("blog", g.role.id, ownership)            
+    return render("modules/blog.html", item = item, actions = actions)
 
+# List all blog entries
+# -------------------------------------------------------------------------------- #
 @blueprint.route("/blog/list", methods = ["GET"])
-def listentry():
-    return "HI"
+def listentries():
+    actions = menubar("blog", g.role.id)
+    items = Blog.query.order_by(Blog.changedOn.desc()).all()  # @UndefinedVariable
+    return render("modules/blog-list.html", items = items, actions = actions)
 
 # Create Blog Entry
 # -------------------------------------------------------------------------------- #
@@ -57,6 +58,8 @@ def createentry():
 def delete_entry(identifier):
     item = Blog.get(int(identifier))
     if not item: return "NO SUCH OBJECT"
+    ownership = (item.author == g.user)
+    if access(request.path, g.role.id, ownership) != 1: return forbidden()
     headline = "%s löschen?" % (item.title)
     text = "Menü %s wirklich löschen?" % (item.title)
     return delete_form(item, headline, text, "Deleted blog entry.", "/blog",
@@ -68,5 +71,7 @@ def delete_entry(identifier):
 def update_entry(identifier):
     item = Blog.get(int(identifier))
     if not item: return "NO SUCH OBJECT"
+    ownership = (item.author == g.user)
+    if access(request.path, g.role.id, ownership) != 1: return forbidden()
     return update_form(FormBlog(obj = item), item, "Updated blog entry.",
                        "/blog/%s" % (identifier))

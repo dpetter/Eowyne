@@ -44,6 +44,11 @@ class User(Model):
         self.name           = name
         self.password       = password
         self.generated      = generated
+    
+    # ---------------------------------------------------------------------------- #
+    def __eq__(self, other):
+        if not hasattr(other, "id"): return False
+        return self.id == other.id
 
 
 class Editor(User):

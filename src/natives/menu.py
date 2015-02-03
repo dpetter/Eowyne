@@ -2,7 +2,7 @@ from sqlalchemy.sql.schema import Column
 from sqlalchemy.sql.sqltypes import Integer, String
 
 from natives import Native
-from natives.rule import Rule
+from natives.rule import access
 
 
 # -------------------------------------------------------------------------------- #
@@ -37,7 +37,7 @@ def menubar(name, role_id):
     '''
     items = Menu.find(Menu.menubar == name)
     result = [item for item in items if not "<id>" in item.address and \
-              Rule.access(item.address, role_id, True) == 1]
+              access(item.address, role_id, True) == 1]
     return sorted(result, key = lambda item: item.weight)
 
 # -------------------------------------------------------------------------------- #
@@ -47,5 +47,5 @@ def contextmenu(name, role_id, owned = False):
     '''
     items = Menu.find(Menu.menubar == name)
     result = [item for item in items if "<id>" in item.address and \
-              Rule.access(item.address, role_id, owned) == 1]
+              access(item.address, role_id, owned) == 1]
     return sorted(result, key = lambda item: item.weight)

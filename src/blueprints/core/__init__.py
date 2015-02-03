@@ -13,10 +13,11 @@
 from flask.blueprints import Blueprint
 from flask.globals import request, g, session
 
-from blueprints import render
+from blueprints import render, invalid, forbidden
 from models.session import Session
 from models.user import Client
 from natives.menu import menubar
+from natives.rule import access
 from utility.log import Log
 
 
@@ -39,9 +40,9 @@ def beforerequest():
     g.main_menu     = menubar("main", g.role.id)
     g.personal_menu = menubar("personal", g.role.id)
     g.extended_menu = menubar("extended", g.role.id)
-#    access = Rule.access(request.path, g.Role, True)
-#    if access == -1: return invalid()
-#    elif access == 0: return forbidden()
+    permitted       = access(request.path, g.role.id, True)
+    if permitted == -1: return invalid()
+    elif permitted == 0: return forbidden()
 
 
 # -------------------------------------------------------------------------------- #
