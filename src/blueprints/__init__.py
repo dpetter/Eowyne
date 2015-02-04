@@ -34,7 +34,7 @@ from utility.log import Log
 
 # Forms
 # -------------------------------------------------------------------------------- #
-class FormConfirm(Form):
+class DefaultForm(Form):
     confirm = SubmitField("Confirm")
     cancel = SubmitField("Deny")
 
@@ -80,7 +80,7 @@ def confirmation(headline, text, on_confirm, on_cancel,
     buttons - confirm and cancel. on_confirm and on_cancel are functions that have
     to perform the desired actions and return a redirect or html.
     '''
-    form = FormConfirm()
+    form = DefaultForm()
     if form.cancel.data == True: return on_cancel()
     elif form.validate_on_submit(): return on_confirm()
     return render(template, form = form, action = request.path,

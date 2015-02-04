@@ -8,12 +8,12 @@
 # ================================================================================ #
 from flask.blueprints import Blueprint
 from flask.globals import g
-from flask_wtf.form import Form
 from wtforms.fields.core import SelectField
-from wtforms.fields.simple import TextField, SubmitField
+from wtforms.fields.simple import TextField
 from wtforms.validators import DataRequired
 
-from blueprints import render, create_form, delete_form, update_form, mismatch
+from blueprints import DefaultForm, render, create_form, mismatch, delete_form, \
+    update_form
 from natives.menu import menubar, contextmenu
 from natives.role import Role
 from natives.rule import Rule
@@ -25,7 +25,7 @@ blueprint = Blueprint("Rule Controller", __name__)
 
 # Forms
 # -------------------------------------------------------------------------------- #
-class FormRule(Form):
+class FormRule(DefaultForm):
     route       = TextField(localize("administration", "rules.field_route"),
                             validators = [DataRequired()])
     role_id     = SelectField(localize("administration", "rules.field_role"),
@@ -38,8 +38,6 @@ class FormRule(Form):
                               choices = [(item, item) for item in Rule.permissions])
     view        = SelectField(localize("administration", "rules.field_view"),
                               choices = [(item, item) for item in Rule.permissions])
-    confirm     = SubmitField("Confirm")
-    cancel      = SubmitField("Cancel")
 
 
 # Default route: View a list of all rules

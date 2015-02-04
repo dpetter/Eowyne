@@ -1,12 +1,26 @@
 {% extends "base/main.html" %}
 {% block content %}
-	<form id="form" action="/register" method="post">
-		{{ form.csrf_token }}
-		<div id="fields">
-			<label>E-Mail</label>{{ form.email }}
-			<label>Kennwort</label>{{ form.password }}
-			<label>Name</label>{{ form.name }}
+<h2>Register</h2>
+<div>Enter your data ...</div>
+<form id="form" action="{{ action }}" method="post">
+	<div class="fields">
+		{% for field in form if field.type != "SubmitField" %}
+		<div>
+			{%if field.type != "CSRFTokenField" %}
+				{{ field.label }}
+			{% endif %}
+			{{ field }}
+			{% if field.errors %}
+    			<ul class=errors>
+    			{% for error in field.errors %}<li>{{ error }}</li>{% endfor %}
+    			</ul>
+			{% endif %}
 		</div>
-		<input type="submit" value="Sign in">
-	</form>
+		{% endfor %}
+	</div>
+	<div class="buttons">
+		{{ form.confirm }}
+		{{ form.cancel }}
+	</div>
+</form>
 {% endblock %}

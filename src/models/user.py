@@ -38,7 +38,8 @@ class User(Model):
     role = relation(Role, "role_id")
     
     # ---------------------------------------------------------------------------- #
-    def __init__(self, role, email, name, password, generated):
+    def __init__(self, role = None, email = None, name = None, password = None,
+                 generated = None):
         self.role           = role
         self.email          = email
         self.name           = name

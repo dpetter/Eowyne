@@ -8,13 +8,13 @@
 # ================================================================================ #
 from flask.blueprints import Blueprint
 from flask.globals import g
-from flask_wtf.form import Form
 from wtforms.fields.core import IntegerField
-from wtforms.fields.simple import TextField, SubmitField
+from wtforms.fields.simple import TextField
 from wtforms.validators import DataRequired, NumberRange
 
-from blueprints import render, create_form, delete_form, update_form, mismatch
-from natives.menu import menubar, contextmenu, Menu
+from blueprints import DefaultForm, render, create_form, mismatch, delete_form, \
+    update_form
+from natives.menu import Menu, menubar, contextmenu
 from utility.localization import localize
 
 
@@ -23,7 +23,7 @@ blueprint = Blueprint("Menu Controller", __name__)
 
 # Forms
 # -------------------------------------------------------------------------------- #
-class FormMenu(Form):
+class FormMenu(DefaultForm):
     address     = TextField(localize("administration", "menus.field_address"),
                             validators = [DataRequired()])
     name        = TextField(localize("administration", "menus.field_name"))
@@ -34,8 +34,6 @@ class FormMenu(Form):
     flags       = IntegerField(localize("administration", "menus.field_flags"),
                                validators = [NumberRange(0, 10)])
     image       = TextField(localize("administration", "menus.field_image"))
-    confirm     = SubmitField("Confirm")
-    cancel      = SubmitField("Cancel")
 
 
 # Default route: View a list of all menus

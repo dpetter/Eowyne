@@ -1,10 +1,16 @@
 {% extends "base/main.html" %}
 {% block content %}
-	<form id="form" action="/reset" method="post">
+<h2>Reset password</h2>
+<div>Enter your email ...</div>
+<form id="form" action="{{ action }}" method="post">
+	<div class="fields">
 		{{ form.csrf_token }}
-		<div id="fields">
-			<label>E-Mail</label>{{ form.email }}
-		</div>
-		<input type="submit" value="Submit">
-	</form>
+		{{ form.email.label }}
+		{{ form.email }}
+	</div>
+	<div class="buttons">
+		{{ form.confirm }}
+		{{ form.cancel }}
+	</div>
+</form>
 {% endblock %}

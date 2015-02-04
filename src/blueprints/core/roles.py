@@ -8,12 +8,12 @@
 # ================================================================================ #
 from flask.blueprints import Blueprint
 from flask.globals import g
-from flask_wtf.form import Form
 from wtforms.fields.core import SelectField
-from wtforms.fields.simple import TextField, SubmitField
+from wtforms.fields.simple import TextField
 from wtforms.validators import DataRequired
 
-from blueprints import render, create_form, delete_form, update_form, mismatch
+from blueprints import DefaultForm, render, create_form, mismatch, delete_form, \
+    update_form
 from natives.menu import menubar, contextmenu
 from natives.role import Role
 from utility.localization import localize
@@ -24,15 +24,13 @@ blueprint = Blueprint("Role Controller", __name__)
 
 # Forms
 # -------------------------------------------------------------------------------- #
-class FormRole(Form):
+class FormRole(DefaultForm):
     name        = TextField(localize("administration", "roles.field_name"),
                             validators = [DataRequired()])
     description = TextField(localize("administration", "roles.field_description"),
                             validators = [DataRequired()])
     parent_id   = SelectField(localize("administration", "roles.field_parent_id"),
                               coerce = int)
-    confirm     = SubmitField("Confirm")
-    cancel      = SubmitField("Cancel")
 
 
 # Default route: View a list of all roles
