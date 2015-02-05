@@ -4,11 +4,11 @@
 <div>Enter your new password ...</div>
 <form id="form" action="{{ action }}" method="post">
 	<div class="fields">
-		{% for field in form if field.type != "SubmitField" %}
+		{{ form.csrf_token }}
+		{% for field in form if field.type != "SubmitField" and
+		field.type != "CSRFTokenField" %}
 		<div>
-			
-				{{ field.label }}
-			
+			{{ field.label }}
 			{{ field }}
 			{% if field.errors %}
     			<ul class=errors>
