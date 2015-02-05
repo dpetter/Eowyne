@@ -1,3 +1,5 @@
 # Byte-code
 __pycache__/
 *.py[cod]
+
+cache/*

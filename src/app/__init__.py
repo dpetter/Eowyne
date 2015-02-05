@@ -18,6 +18,7 @@ from app.configuration import Configuration
 from app.globals import cache, db, mailservice
 import blueprints
 from blueprints.core import BlueprintCore
+from utility import localization
 from utility.log import Log
 
 
@@ -41,6 +42,7 @@ if (__name__ == "__main__"):
     Log.information(__name__, "Setting up mailservice...")
     mailservice.init_app(Configuration["email_host"], Configuration["email_host"],
                          Configuration["email_user"], Configuration["email_pass"])
+    localization.text_path = Configuration["text_files"]
     
     # Register blueprints
     # ---------------------------------------------------------------------------- #
