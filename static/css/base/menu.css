@@ -37,3 +37,25 @@
 .menuitem img {
 	vertical-align: middle;
 }
+.whitebg{
+	background-color: rgba(255, 230, 230, 0.8)!important;
+	margin-top: 75px;
+	margin-bottom: 110px;
+	margin-left: -65px;
+	width: 112%;
+	margin-right: -65px;
+	color: white;
+}
+.buttons{
+color:darkgrey;
+}
+a{
+	color:white;
+}
+a:hover{
+	color:brown;
+}
+label{
+	font-size: 16px;
+	font-weight: bold;
+}
