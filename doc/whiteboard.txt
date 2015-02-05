@@ -11,7 +11,6 @@ High priority:
 -	Verschlüsselung implementieren (utility) und in models.user benutzen.
 
 Low priority:
--	reimplementierung von blueprints.core.client
 -	utility.generator.randomkey sollte dahingehend verbessert werden, das nur
 	unique keys rauskommen ... evtl. gleich umorganisieren und mit verschlüsselung
 	in ein paket.

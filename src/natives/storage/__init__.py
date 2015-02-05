@@ -20,7 +20,7 @@ class Storage(object):
 # -------------------------------------------------------------------------------- #
 def fields(cls):
     fields = (key for key, value in vars(cls).items() if \
-               key != "id" and value.__class__ == InstrumentedAttribute)
+              key != "id" and value.__class__ == InstrumentedAttribute)
     return ("id",) + tuple(fields)
 
 # -------------------------------------------------------------------------------- #
