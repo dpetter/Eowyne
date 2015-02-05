@@ -14,6 +14,13 @@ from app.globals import cache, db
 from models.blog import Blog
 from models.session import Session
 from models.user import User
+from models.gattung import Gattung
+from models.jahrgang import Jahrgang
+from models.land import Land
+from models.rebsorte import Rebsorte
+from models.region import Region
+from models.weingut import Weingut
+from models.wein import Wein
 from natives.menu import Menu
 from natives.role import Role
 from natives.rule import Rule
@@ -161,8 +168,55 @@ class Installer():
     def installSessions():
         Session.get(1)
     
+    # ---------------------------------------------------------------------------- #
+    @staticmethod
+    def installGattungen():
+        if Gattung.get(1): return
+        Log.debug(Installer.__name__, "Installing Gattungen...")
+        items = [
+                Gattung("Rotwein"),
+                Gattung("Weisswein"),
+                Gattung("Roséwein"),
+                Gattung("Champagner"),
+                Gattung("Sekt"),
+                ]
+        for item in items: item.create()
+
+    # ---------------------------------------------------------------------------- #
+    @staticmethod
+    def installWein():
+        if Wein.get(1): return
+        Log.debug(Installer.__name__, "Installing Wein...")
+        Wein.add(   "La Grange Terroir Merlor Pabrio",
+                    "Rotwein",
+                    "Merlot",
+                    "Frankreich",
+                    "Languedoc Roussillon",
+                    "Domaine de La Grange",
+                    "2013")
+
+# Install
+# -------------------------------------------------------------------------------- #
+def createDatabase():
+    db.create_all()
+    createTableData()
+
+def createTableData():
+    Installer.installRoles()
+    Installer.installRules()
+    Installer.installMenus()
+    Installer.installUsers()
+    Installer.installSessions()
+    Installer.installGattungen()
+    Installer.installWein()
+
+def recreateDatabase():
+    db.drop_all()
+    createDatabase()
+
 # Initialise application
 # -------------------------------------------------------------------------------- #
+
 Log.level(Log.DEBUG)
 Log.information(__name__, "Initialising Flask...")
 app = Flask(__name__,
@@ -177,12 +231,3 @@ app.config["SQLALCHEMY_DATABASE_URI"] = Configuration["sql_db_uri"]
 db.app = app
 db.init_app(app)
 
-
-# Install
-# -------------------------------------------------------------------------------- #
-db.create_all()
-Installer.installRoles()
-Installer.installRules()
-Installer.installMenus()
-Installer.installUsers()
-Installer.installSessions()
