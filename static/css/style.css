@@ -1,0 +1,22 @@
+.page{
+	font-family: Calibri;
+}
+.new_brand{
+	font-family: Akka;
+}
+.cali{
+	font-family: Calibri;
+}
+
+.box {
+    background-color: rgba(255, 230, 230, 0.6)!important;
+
+}
+
+footer{
+    background-color: rgba(255, 230, 230, 0.8)!important;
+}
+
+.navbar-default{
+	background-color: rgba(255, 230, 230, 0.8)!important;
+}

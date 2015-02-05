@@ -6,9 +6,9 @@
 	<div class="fields">
 		{% for field in form if field.type != "SubmitField" %}
 		<div>
-			{%if field.type != "CSRFTokenField" %}
+			
 				{{ field.label }}
-			{% endif %}
+			
 			{{ field }}
 			{% if field.errors %}
     			<ul class=errors>
