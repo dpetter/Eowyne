@@ -1,0 +1,7 @@
+Flask
+Flask-SQLAlchemy
+Flask-WTF
+Flask-Cache
+Flask-Bootstrap
+SQLAlchemy
+pymysql
