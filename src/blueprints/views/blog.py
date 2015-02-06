@@ -50,9 +50,12 @@ def listentries():
 # -------------------------------------------------------------------------------- #
 @blueprint.route("/blog/create", methods = ["GET", "POST"])
 def create_entry():
-    item = Blog()
-    item.author_id = g.user.id
-    return create_form(FormBlog(), item, "Created blog entry.", "/blog")
+    try:
+        item = Blog()
+        item.author_id = g.user.id
+        return create_form(item, FormBlog(), "", "Created blog entry.", "/blog")
+    except Exception as e:
+        return(str(e))
 
 # Delete Blog Entry
 # -------------------------------------------------------------------------------- #
@@ -75,5 +78,5 @@ def update_entry(identifier):
     if not item: return mismatch()
     ownership = (item.author == g.user)
     if access(request.path, g.role.id, ownership) != 1: return forbidden()
-    return update_form(FormBlog(obj = item), item, "Updated blog entry.",
+    return update_form(item, FormBlog(obj = item), "", "Updated blog entry.",
                        "/blog/%s" % (identifier))

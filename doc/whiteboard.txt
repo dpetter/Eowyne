@@ -3,12 +3,10 @@ TODO:
 High priority:
 -	implementierung und design für weine ...
 -	generelles form template stylen
--	design für signin, signout, etc.
--	die website aufteilen, so dass wir eine hauptbereich haben und verschiedene
-	inhalte die separat gestylt werden können.
 -	utility.log mit einer richtigen Log-Library kurzschließen ...
 	struktur erhalten sonst zerbricht vieles
 -	Verschlüsselung implementieren (utility) und in models.user benutzen.
+-	multithreading ...
 
 Low priority:
 -	utility.generator.randomkey sollte dahingehend verbessert werden, das nur
