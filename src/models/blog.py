@@ -16,10 +16,10 @@ class Blog(Model):
     author_id           = Column(Integer, ForeignKey("Users.id"))
     author              = relationship("Editor")
     title               = Column(String(255))
-    content             = Column(Text)
+    description         = Column(Text)
     
     # ---------------------------------------------------------------------------- #
-    def __init__(self, author_id = 0, title = None, content = None):
+    def __init__(self, author_id = 0, title = None, description = None):
         self.author_id = author_id
         self.title = title
-        self.content = content
+        self.description = description
