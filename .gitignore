@@ -4,3 +4,4 @@ __pycache__/
 
 cache/*
 static/img
+.DS_Store/
