@@ -5,6 +5,10 @@
 	/>
 {%- endmacro %}
 
+{% macro js(url) -%}
+	<script src="{{ url_for('static', filename = url) }}"></script>
+{%- endmacro %}
+
 {% macro image(url) -%}
 	<img src="{{ url_for('static', filename = url) }}"></img>
 {%- endmacro %}
