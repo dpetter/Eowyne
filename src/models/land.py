@@ -6,7 +6,7 @@ from models import Model
 
 class Land(Model):
     __mapper_args__     = {"concrete": True}
-    __tablename__       = "Gattung"
+    __tablename__       = "Land"
 
     id                  = Column(Integer, primary_key = True)
     name                = Column(String(255))

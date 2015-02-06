@@ -1,5 +1,5 @@
 from sqlalchemy.sql.schema import Column, ForeignKey
-from sqlalchemy.sql.schema import Integer, String
+from sqlalchemy.types import Integer, String
 
 from models import Model
 

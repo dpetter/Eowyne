@@ -15,7 +15,6 @@ from models.blog import Blog
 from models.session import Session
 from models.user import User
 from models.gattung import Gattung
-from models.jahrgang import Jahrgang
 from models.land import Land
 from models.rebsorte import Rebsorte
 from models.region import Region
@@ -170,7 +169,7 @@ class Installer():
     
     # ---------------------------------------------------------------------------- #
     @staticmethod
-    def installGattungen():
+    def installGattung():
         if Gattung.get(1): return
         Log.debug(Installer.__name__, "Installing Gattungen...")
         items = [
@@ -184,16 +183,50 @@ class Installer():
 
     # ---------------------------------------------------------------------------- #
     @staticmethod
+    def installLand():
+        if Land.get(1): return
+        Log.debug(Installer.__name__, "Installing Laender...")
+        item = Land("Frankreich")
+        item.create()
+
+    # ---------------------------------------------------------------------------- #
+    @staticmethod
+    def installRebsorte():
+        if Rebsorte.get(1): return
+        Log.debug(Installer.__name__, "Installing Rebsorten...")
+        item = Rebsorte("Merlot")
+        item.create()
+
+    # ---------------------------------------------------------------------------- #
+    @staticmethod
+    def installRegion():
+        if Region.get(1): return
+        Log.debug(Installer.__name__, "Installing Regionen...")
+        item = Region("Languedoc Roussillon")
+        item.create()
+
+    # ---------------------------------------------------------------------------- #
+    @staticmethod
+    def installWeingut():
+        if Weingut.get(1): return
+        Log.debug(Installer.__name__, "Installing Weingueter...")
+        item = Weingut("Domaine de La Grange")
+        item.create()
+
+    # ---------------------------------------------------------------------------- #
+    @staticmethod
     def installWein():
         if Wein.get(1): return
         Log.debug(Installer.__name__, "Installing Wein...")
-        Wein.add(   "La Grange Terroir Merlor Pabrio",
-                    "Rotwein",
-                    "Merlot",
-                    "Frankreich",
-                    "Languedoc Roussillon",
-                    "Domaine de La Grange",
-                    "2013")
+        item = Wein("La Grange Terroir Merlot Pabrio",
+                    Gattung.get(1),
+                    Rebsorte.get(1),
+                    Land.get(1),
+                    Region.get(1),
+                    Weingut.get(1),
+                    2013,
+        )
+        item.create()
 
 # Install
 # -------------------------------------------------------------------------------- #
@@ -207,7 +240,11 @@ def createTableData():
     Installer.installMenus()
     Installer.installUsers()
     Installer.installSessions()
-    Installer.installGattungen()
+    Installer.installGattung()
+    Installer.installLand()
+    Installer.installRebsorte()
+    Installer.installRegion()
+    Installer.installWeingut()
     Installer.installWein()
 
 def recreateDatabase():
@@ -231,3 +268,4 @@ app.config["SQLALCHEMY_DATABASE_URI"] = Configuration["sql_db_uri"]
 db.app = app
 db.init_app(app)
 
+createDatabase()
