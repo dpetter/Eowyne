@@ -15,3 +15,4 @@ from utility.mail import MailService
 db                      = SQLAlchemy()
 cache                   = Cache()
 mailservice             = MailService()
+timer                   = 0.0
