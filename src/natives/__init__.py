@@ -4,7 +4,7 @@ from datetime import datetime
 from sqlalchemy.sql.schema import Column
 from sqlalchemy.sql.sqltypes import Integer
 
-from app.globals import db
+from app.shared import db
 from natives.expressions import parseExpression
 from natives.storage import fields, storage, store
 from utility.log import Log

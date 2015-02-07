@@ -7,7 +7,7 @@ from models.rebsorte import Rebsorte
 from models.land import Land
 from models.region import Region
 from models.weingut import Weingut
-from app.globals import db
+from app.shared import db
 
 
 class Wein(Model):

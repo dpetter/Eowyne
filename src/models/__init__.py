@@ -23,7 +23,7 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.sql.schema import Column
 from sqlalchemy.sql.sqltypes import Integer
 
-from app.globals import db
+from app.shared import db
 from utility.log import Log
 
 
