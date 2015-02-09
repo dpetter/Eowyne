@@ -24,26 +24,28 @@ class Native(db.Model):
     # ---------------------------------------------------------------------------- #
     @classmethod
     def heartbeat(cls):
-        filename = "/home/dp/Programming/Eowyne/msg/" + cls.__name__
-        if os.path.exists(filename):
-            timestamp = os.path.getmtime(filename)
-            if timestamp == cls.__timestamp__: return
-            cls.__timestamp__ = timestamp
-            cls.__list__ = []
-        else:
-            f = open(filename, mode='w')
-            f.close()
-            timestamp = os.path.getatime(filename)
-            cls.__timestamp__ = timestamp
+        pass
+#        filename = "./msg/" + cls.__name__
+#        if os.path.exists(filename):
+#            timestamp = os.path.getmtime(filename)
+#            if timestamp == cls.__timestamp__: return
+#            cls.__timestamp__ = timestamp
+#            cls.__list__ = []
+#        else:
+#            f = open(filename, mode='w')
+#            f.close()
+#            timestamp = os.path.getatime(filename)
+#            cls.__timestamp__ = timestamp
     
     # ---------------------------------------------------------------------------- #
     @classmethod
     def stamp(cls):
-        filename = "/home/dp/Programming/Eowyne/msg/" + cls.__name__
-        f = open(filename, mode='w')
-        f.close()
-        timestamp = os.path.getmtime(filename)
-        cls.__timestamp__ = timestamp
+        pass
+#        filename = "./msg/" + cls.__name__
+#        f = open(filename, mode='w')
+#        f.close()
+#        timestamp = os.path.getmtime(filename)
+#        cls.__timestamp__ = timestamp
     
     # ---------------------------------------------------------------------------- #
     @classmethod
