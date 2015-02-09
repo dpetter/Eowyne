@@ -13,10 +13,10 @@ from werkzeug.utils import redirect
 from wtforms.fields.simple import TextField, PasswordField
 from wtforms.validators import Email, DataRequired
 
-from app.shared import mailservice
-from blueprints import editor, DefaultForm
-from models.user import User
-from natives.role import Role
+from core.models.user import User
+from core.natives.role import Role
+from core.rendering import DefaultForm, editor
+from core.shared import mailservice
 from utility.generator import randomkey
 from utility.localization import localize
 

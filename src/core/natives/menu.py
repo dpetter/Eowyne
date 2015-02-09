@@ -1,11 +1,18 @@
+# -*- coding: utf-8 -*-
+#
+# Menu
+#
+# Used to build all kind of menu bars.
+#
+# Created by dp on 2015-01-05.
+# ================================================================================ #
 from sqlalchemy.sql.schema import Column
 from sqlalchemy.sql.sqltypes import Integer, String
 
+from core.natives.rule import access
 from natives import Native
-from natives.rule import access
 
 
-# -------------------------------------------------------------------------------- #
 class Menu(Native):
     __mapper_args__     = {"concrete": True}
     __tablename__       = "Menus"
@@ -32,8 +39,12 @@ class Menu(Native):
 # -------------------------------------------------------------------------------- #
 def menubar(name, role_id):
     '''
-    Returns the menu bar with the given name. Only items the role with the given id
-    can access are returned.
+    @returns            Returns all menu items in the menu bar identified by name.
+                        Only links not dependent on an item (that is not
+                        contained <id> in their address) are returned. Results are
+                        sorted by weight.
+    @param name         Identifies the menu bar.
+    @param role_id      Identifies the client's role.
     '''
     items = Menu.find(Menu.menubar == name)
     result = [item for item in items if not "<id>" in item.address and \
@@ -41,11 +52,17 @@ def menubar(name, role_id):
     return sorted(result, key = lambda item: item.weight)
 
 # -------------------------------------------------------------------------------- #
-def contextmenu(name, role_id, owned = False):
+def contextmenu(name, role_id, elevated = False):
     '''
-    Returns the context menu for the given item.
+    @returns            Returns all menu items in the menu bar identified by name.
+                        Only links dependent on an item (that is containing <id>
+                        in their address) are returned. Results are sorted by
+                        weight.
+    @param name         Identifies the menu bar.
+    @param role_id      Identifies the client's role.
+    @param elevated     Whether the client has extended permissions.
     '''
     items = Menu.find(Menu.menubar == name)
     result = [item for item in items if "<id>" in item.address and \
-              access(item.address, role_id, owned) == 1]
+              access(item.address, role_id, elevated) == 1]
     return sorted(result, key = lambda item: item.weight)

@@ -2,7 +2,8 @@
 #
 # Main Package
 #
-# Contains the server and it's configuration, shared objects and install scripts.
+# Contains all the things related to startup. The main server, it's configuration
+# and install scripts.
 #
 # Created on 2015-01-24.
 # ================================================================================ #

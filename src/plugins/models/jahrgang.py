@@ -11,6 +11,6 @@ class Jahrgang(Model):
     id                  = Column(Integer, primary_key = True)
     jahr                = Column(String(4))
 
-    def __init__(self, name):
+    def __init__(self, jahr):
         self.jahr       = jahr
 

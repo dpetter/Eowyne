@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 #
+# Session
+#
 # A Session stores the remote client's ip, a randomly generated key and the
 # sessions user id. acquire() checks the client's ip and cookie to retrieve his
 # unique session.
@@ -7,17 +9,14 @@
 # Created by dp on 2015-01-02.
 # ================================================================================ #
 from flask.globals import request
-from sqlalchemy.schema import Column, ForeignKey
-from sqlalchemy.sql.sqltypes import DateTime
-from sqlalchemy.types import Integer, String
+from sqlalchemy.sql.schema import Column, ForeignKey
+from sqlalchemy.sql.sqltypes import Integer, DateTime, String
 
+from models import Model
 from utility.generator import randomkey
 from utility.log import Log
-from models import Model
 
 
-# Session
-##================================================================================##
 class Session(Model):
     __mapper_args__     = {"concrete": True}
     __tablename__       = "Sessions"

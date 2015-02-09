@@ -6,7 +6,6 @@ High priority:
 -	utility.log mit einer richtigen Log-Library kurzschließen ...
 	struktur erhalten sonst zerbricht vieles
 -	Verschlüsselung implementieren (utility) und in models.user benutzen.
--	multithreading ...
 
 Low priority:
 -	utility.generator.randomkey sollte dahingehend verbessert werden, das nur

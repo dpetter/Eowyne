@@ -13,12 +13,11 @@
 #
 # Created by dp on 2015-01-05.
 # ================================================================================ #
-from sqlalchemy.schema import Column, ForeignKey
-from sqlalchemy.sql.sqltypes import DateTime
-from sqlalchemy.types import Integer, String
+from sqlalchemy.sql.schema import Column, ForeignKey
+from sqlalchemy.sql.sqltypes import Integer, DateTime, String
 
+from core.natives.role import Role
 from models import Model
-from natives.role import Role
 from natives import relation
 
 

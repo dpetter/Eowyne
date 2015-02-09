@@ -1,14 +1,13 @@
 from flask.blueprints import Blueprint
 from flask.globals import g, request
-from flask_wtf.form import Form
-from wtforms.fields.simple import TextField, SubmitField
+from wtforms.fields.simple import TextField
 from wtforms.validators import DataRequired
 
-from blueprints import render, create_form, delete_form, update_form, forbidden,\
-    mismatch
-from models.blog import Blog
-from natives.menu import menubar, contextmenu
-from natives.rule import access
+from core.natives.menu import menubar, contextmenu
+from core.natives.rule import access
+from core.rendering import DefaultForm, render, create_form, mismatch, forbidden, \
+    delete_form, update_form
+from plugins.models.blog import Blog
 
 
 blueprint = Blueprint("Blog Controller", __name__)
@@ -16,11 +15,9 @@ blueprint = Blueprint("Blog Controller", __name__)
 
 # Forms
 # -------------------------------------------------------------------------------- #
-class FormBlog(Form):
+class FormBlog(DefaultForm):
     title       = TextField("Title", validators = [DataRequired()])
     description = TextField("Content", validators = [DataRequired()])
-    confirm     = SubmitField("Confirm")
-    cancel      = SubmitField("Cancel")
 
 
 # Default route: View the latest blog entry.

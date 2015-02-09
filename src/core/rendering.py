@@ -1,25 +1,10 @@
 # -*- coding: utf-8 -*-
 #
-# Blueprints
+# Rendering
 #
-# Blueprints are the user's interface to the application.
-# They render pages and process forms. In the current implementation blueprints
-# contain a lot of the business logic directly. They can hover relay this to the
-# logic package if required. Blueprints can import from any part of the project,
-# except from app.__init__. They shall not be imported from any module.
+# Adds helper functions for rendering forms and views.
 #
-# Every module in blueprints that implements ...
-# blueprint = Blueprint("<pick a name>", __name__)
-# ... is automatically imported and designated routes are assigned.
-# For every route a rule must be created in the /rules administration so that
-# users are allowed to visit that route.
-#
-# Every Blueprint can access the global scope (flask.globals.g) containing:
-# - g.user -> the requesting client
-# - g.role -> his (security) role
-# - g.main_menu, g.personal_menu, g.extended_menu -> three navigation menus
-#
-# Created by dp on 2014-02-02.
+# Created on 2015-02-02.
 # ================================================================================ #
 from flask.globals import request
 from flask.helpers import flash

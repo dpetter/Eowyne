@@ -4,32 +4,31 @@
 #
 # Contains views for the core functionality of the project.
 # - Preparing the global scope before every request.
-# - Static pages.
-# - Client functionality (sign in etc.)
 # - Administration pages for roles, rules and menus.
+# - Static pages.
 #
 # Created by dp on 2015-02-02.
 # ================================================================================ #
+import time
+
 from flask.blueprints import Blueprint
 from flask.globals import request, g, session
 
-from blueprints import render, invalid, forbidden
-from models.session import Session
-from models.user import Client
-from natives.menu import menubar, Menu
-from natives.rule import access, Rule
+from core import shared
+from core.models.session import Session
+from core.models.user import Client
+from core.natives.menu import menubar, Menu
+from core.natives.role import Role
+from core.natives.rule import access, Rule
+from core.rendering import invalid, forbidden, render
 from utility.log import Log
-from app.shared import timer
-import time
-from natives.role import Role
-from app import shared
 
 
-BlueprintCore = Blueprint("Core Controller", __name__)
+blueprint = Blueprint("Core Controller", __name__)
 
 
 # -------------------------------------------------------------------------------- #
-@BlueprintCore.before_app_request
+@blueprint.before_app_request
 def beforerequest():
     Log.debug(__name__, "Incoming request")
     Log.debug(__name__, request.path)
@@ -63,7 +62,13 @@ def heartbeat():
         Log.error(__name__, "Heartbeat failed:" + str(e))
 
 # -------------------------------------------------------------------------------- #
-@BlueprintCore.route("/administration", methods = ["GET"])
+@blueprint.route("/administration", methods = ["GET"])
 def administration():
     links = menubar("administration", g.role.id)
     return render("core/administration.html", links = links)
+
+# -------------------------------------------------------------------------------- #
+@blueprint.route("/", defaults = {"identifier": "index"}, methods = ["GET"])
+@blueprint.route("/pages/<identifier>", methods = ["GET"])
+def page(identifier):
+    return render("pages/%s.html" % (identifier))

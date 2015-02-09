@@ -8,25 +8,25 @@ from flask.app import Flask
 from flask_bootstrap import Bootstrap
 
 from app.configuration import Configuration
-from app.shared import db
-from models.gattung import Gattung
-from models.land import Land
-from models.rebsorte import Rebsorte
-from models.region import Region
-from models.session import Session
-from models.user import User
-from models.wein import Wein
-from models.weingut import Weingut
-from natives.menu import Menu
-from natives.role import Role
-from natives.rule import Rule
+from core.models.session import Session
+from core.models.user import User
+from core.natives.menu import Menu
+from core.natives.role import Role
+from core.natives.rule import Rule
+from core.shared import db
 from utility.log import Log
+from plugins.models.gattung import Gattung
+from plugins.models.land import Land
+from plugins.models.rebsorte import Rebsorte
+from plugins.models.region import Region
+from plugins.models.wein import Wein
+from plugins.models.weingut import Weingut
 
 
 # -------------------------------------------------------------------------------- #
 def installRoles():
     if Role.get(1): return
-    Log.debug(__name__, "Installing roles...")
+    Log.information(__name__, "Installing roles...")
     items = [#    parent, name, description
              Role(None, "Root", "Applies to everyone."),
              Role(1, "Guest", "Applies to clients who aren't logged in."),
@@ -40,29 +40,29 @@ def installRoles():
 # -------------------------------------------------------------------------------- #
 def installRules():
     if Rule.get(1): return
-    Log.debug(__name__, "Installing rules...")
+    Log.information(__name__, "Installing rules...")
     items = [#    role_id, pattern, insert, delete, update, view, search
-             Rule(1, "/",                   "None", "None", "None", "All",  "None"),
-             Rule(1, "/pages/",             "None", "None", "None", "All",  "None"),
-             Rule(2, "/register/",          "None", "None", "None", "All",  "None"),
-             Rule(2, "/reset/",             "None", "None", "None", "All",  "None"),
-             Rule(2, "/signin",             "None", "None", "None", "All",  "None"),
-             Rule(3, "/signout",            "None", "None", "None", "All",  "None"),
-             Rule(5, "/",                   "All",  "All",  "All",  "All",  "All"),
-             Rule(5, "/pages/",             "All",  "All",  "All",  "All",  "All"),
-             Rule(5, "/administration",     "All",  "All",  "All",  "All",  "All"),
-             Rule(5, "/roles/",             "All",  "All",  "All",  "All",  "All"),
-             Rule(5, "/rules/",             "All",  "All",  "All",  "All",  "All"),
-             Rule(5, "/menus/",             "All",  "All",  "All",  "All",  "All"),
-             Rule(3, "/personal/",          "None", "None", "None", "All",  "None"),
-             Rule(3, "/blog/",              "Own",  "Own",  "Own",  "All",  "None")
+             Rule(1, "/",                   "None", "None", "None", "All"),
+             Rule(1, "/pages/",             "None", "None", "None", "All"),
+             Rule(2, "/register/",          "None", "None", "None", "All"),
+             Rule(2, "/reset/",             "None", "None", "None", "All"),
+             Rule(2, "/signin",             "None", "None", "None", "All"),
+             Rule(3, "/signout",            "None", "None", "None", "All"),
+             Rule(5, "/",                   "All",  "All",  "All",  "All"),
+             Rule(5, "/pages/",             "All",  "All",  "All",  "All"),
+             Rule(5, "/administration",     "All",  "All",  "All",  "All"),
+             Rule(5, "/roles/",             "All",  "All",  "All",  "All"),
+             Rule(5, "/rules/",             "All",  "All",  "All",  "All"),
+             Rule(5, "/menus/",             "All",  "All",  "All",  "All"),
+             Rule(3, "/personal/",          "None", "None", "None", "All"),
+             Rule(3, "/blog/",              "Own",  "Own",  "Own",  "All")
              ]
     for item in items: item.create()
 
 # -------------------------------------------------------------------------------- #
 def installMenus():
     if Menu.get(1): return
-    Log.debug(__name__, "Installing menus...")
+    Log.information(__name__, "Installing menus...")
     items = [#    address, name, menubar, weight, flags, image
              Menu("/signin",            "Sign in",          "personal",
                   2, 1, ""),
@@ -116,7 +116,7 @@ def installMenus():
 # -------------------------------------------------------------------------------- #
 def installUsers():
     if User.get(1): return
-    Log.debug(__name__, "Installing users...")
+    Log.information(__name__, "Installing users...")
     items = [#    role, email, name, password, key
              User(Role.get(2),  None,               "Gast",None,         ""),
              User(Role.get(5),  "eowyn@eowyne.de",  "Administrator","pwd",        ""),
@@ -132,7 +132,7 @@ def installSessions():
 # -------------------------------------------------------------------------------- #
 def installGattung():
     if Gattung.get(1): return
-    Log.debug(__name__, "Installing Gattungen...")
+    Log.information(__name__, "Installing Gattungen...")
     items = [
              Gattung("Rotwein"),
              Gattung("Weisswein"),
@@ -145,21 +145,21 @@ def installGattung():
 # -------------------------------------------------------------------------------- #
 def installLand():
     if Land.get(1): return
-    Log.debug(__name__, "Installing Laender...")
+    Log.information(__name__, "Installing Laender...")
     item = Land("Frankreich")
     item.create()
 
 # -------------------------------------------------------------------------------- #
 def installRebsorte():
     if Rebsorte.get(1): return
-    Log.debug(__name__, "Installing Rebsorten...")
+    Log.information(__name__, "Installing Rebsorten...")
     item = Rebsorte("Merlot")
     item.create()
 
 # -------------------------------------------------------------------------------- #
 def installRegion():
     if Region.get(1): return
-    Log.debug(__name__, "Installing Regionen...")
+    Log.information(__name__, "Installing Regionen...")
     item = Region("Languedoc Roussillon")
     item.create()
 
@@ -173,7 +173,7 @@ def installWeingut():
 # -------------------------------------------------------------------------------- #
 def installWein():
     if Wein.get(1): return
-    Log.debug(__name__, "Installing Wein...")
+    Log.information(__name__, "Installing Wein...")
     item = Wein("La Grange Terroir Merlot Pabrio",
                 Gattung.get(1),
                 Rebsorte.get(1),
@@ -210,7 +210,7 @@ def recreateDatabase():
 
 # Initialise application
 # -------------------------------------------------------------------------------- #
-Log.level(Log.DEBUG)
+Log.level(Log.INFORMATION)
 Log.information(__name__, "Initialising Flask...")
 app = Flask(__name__,
             static_folder = "../../static",
@@ -222,5 +222,4 @@ Log.information(__name__, "Connecting to database...")
 app.config["SQLALCHEMY_DATABASE_URI"] = Configuration["sql_db_uri"]
 db.app = app
 db.init_app(app)
-
 createDatabase()

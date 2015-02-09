@@ -14,9 +14,7 @@ from flask_bootstrap import Bootstrap
 from werkzeug.contrib.fixers import ProxyFix
 
 from app.configuration import Configuration
-from app.shared import db, cache, mailservice
-import blueprints
-from blueprints.core import BlueprintCore
+from core.shared import db, cache, mailservice
 from utility import localization
 from utility.log import Log
 
@@ -47,15 +45,22 @@ localization.text_path = Configuration["text_files"]
     
 # Register blueprints
 # -------------------------------------------------------------------------------- #
-Log.information(__name__, "Registering blueprints...")
-app.register_blueprint(BlueprintCore)
-package = blueprints
-path = blueprints.__path__
-prefix = blueprints.__name__ + "."
+Log.information(__name__, "Registering core blueprints...")
+path = ["./src/core/blueprints"]
+prefix = "core.blueprints."
 for module_loader, name, ispkg in pkgutil.walk_packages(path, prefix):
     module = importlib.import_module(name)
     if not hasattr(module, "blueprint"): continue
-    Log.information(__name__, "Importing blueprint %s" % (name))
+    Log.information(__name__, "Importing %s" % (name))
+    app.register_blueprint(module.blueprint)
+
+Log.information(__name__, "Registering plugin blueprints...")
+path = ["./src/plugins/blueprints"]
+prefix = "plugins.blueprints."
+for module_loader, name, ispkg in pkgutil.walk_packages(path, prefix):
+    module = importlib.import_module(name)
+    if not hasattr(module, "blueprint"): continue
+    Log.information(__name__, "Importing %s" % (name))
     app.register_blueprint(module.blueprint)
 
 # Run application

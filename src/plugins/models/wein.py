@@ -1,13 +1,8 @@
 from sqlalchemy.sql.schema import Column, ForeignKey
-from sqlalchemy.sql.sqltypes import Integer, SmallInteger, String
+from sqlalchemy.sql.sqltypes import Integer, String, SmallInteger
 
+from core.shared import db
 from models import Model
-from models.gattung import Gattung
-from models.rebsorte import Rebsorte
-from models.land import Land
-from models.region import Region
-from models.weingut import Weingut
-from app.shared import db
 
 
 class Wein(Model):

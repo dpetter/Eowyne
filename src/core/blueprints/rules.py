@@ -12,11 +12,11 @@ from wtforms.fields.core import SelectField
 from wtforms.fields.simple import TextField
 from wtforms.validators import DataRequired
 
-from blueprints import DefaultForm, render, create_form, mismatch, delete_form, \
+from core.natives.menu import menubar, contextmenu
+from core.natives.role import Role
+from core.natives.rule import Rule
+from core.rendering import DefaultForm, render, create_form, mismatch, delete_form, \
     update_form
-from natives.menu import menubar, contextmenu
-from natives.role import Role
-from natives.rule import Rule
 from utility.localization import localize
 
 

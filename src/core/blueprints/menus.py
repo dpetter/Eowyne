@@ -12,9 +12,9 @@ from wtforms.fields.core import IntegerField
 from wtforms.fields.simple import TextField
 from wtforms.validators import DataRequired, NumberRange
 
-from blueprints import DefaultForm, render, create_form, mismatch, delete_form, \
+from core.natives.menu import Menu, menubar, contextmenu
+from core.rendering import DefaultForm, render, create_form, mismatch, delete_form, \
     update_form
-from natives.menu import Menu, menubar, contextmenu
 from utility.localization import localize
 
 
