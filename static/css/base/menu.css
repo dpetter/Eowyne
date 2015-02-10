@@ -71,3 +71,12 @@ input{
 	text-align: center;
 
 }
+.whiteb{
+	background: white!important;
+	border:2px ridge brown;
+	border-radius: 5px;
+	box-shadow: 5px 5px 5px lightgrey;
+}
+.whiteb>.container>a{
+	color:grey!important;
+}
