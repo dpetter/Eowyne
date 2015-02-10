@@ -37,6 +37,7 @@ def beforerequest():
     # but urls don't it simply checks whether the path contains a full stop.
     if "." in request.path: return
     heartbeat()
+    if request.path.startswith(shared.noscope_url): return
     # Fill the global scope ...
     g.session       = Session.acquire(session)
     g.user          = Client.get(g.session.user_id)
@@ -52,14 +53,23 @@ def beforerequest():
 def heartbeat():
     try:
         now = time.time()
-        if now - shared.timer < 10.0: return
-        shared.timer = now
-        Log.debug(__name__, "Heartbeat")
+        if now - shared.time_elapsed < shared.heartbeat_time: return
+        shared.time_elapsed = now
+        Log.information(__name__, "Heartbeat")
         Role.heartbeat()
         Rule.heartbeat()
         Menu.heartbeat()
     except Exception as e:
         Log.error(__name__, "Heartbeat failed:" + str(e))
+
+# -------------------------------------------------------------------------------- #
+def is_authenticated():
+    '''
+    Returns True if this request comes from a logged in user.
+    '''
+    g.session       = Session.acquire(session)
+    g.user          = Client.get(g.session.user_id)
+    return g.user >= 3
 
 # -------------------------------------------------------------------------------- #
 @blueprint.route("/administration", methods = ["GET"])

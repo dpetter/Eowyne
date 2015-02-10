@@ -18,14 +18,16 @@ class Native(db.Model):
     __list__            = []        # Do not touch this
     __fields__          = None      # Do not touch this
     __store__           = None      # Do not touch this
-    __timestamp__       = None
+    __timestamp__       = None      # Do not touch this
+    __message__         = None
     
     id                  = Column(Integer, primary_key = True)
     
     # ---------------------------------------------------------------------------- #
     @classmethod
     def heartbeat(cls):
-        filename = "./msg/" + cls.__name__
+        if not cls.__message__: return
+        filename = cls.__message__ + cls.__name__
         if os.path.exists(filename):
             timestamp = os.path.getmtime(filename)
             if timestamp == cls.__timestamp__: return
@@ -40,7 +42,8 @@ class Native(db.Model):
     # ---------------------------------------------------------------------------- #
     @classmethod
     def stamp(cls):
-        filename = "./msg/" + cls.__name__
+        if not cls.__message__: return
+        filename = cls.__message__ + cls.__name__
         f = open(filename, mode='w')
         f.close()
         timestamp = os.path.getmtime(filename)

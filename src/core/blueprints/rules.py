@@ -53,7 +53,7 @@ def entries():
 # -------------------------------------------------------------------------------- #
 @blueprint.route("/rules/create", methods = ["GET", "POST"])
 def create():
-    item = Rule(None, None, None, None, None, None, None)
+    item = Rule()
     form = FormRule()
     form.role_id.choices = [(role.id, role.name) for role in Role.all()]
     headline = localize("administration", "rules.create_headline")

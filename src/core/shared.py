@@ -15,4 +15,6 @@ from utility.mail import MailService
 db                      = SQLAlchemy()
 cache                   = Cache()
 mailservice             = MailService()
-timer                   = 0.0
+heartbeat_time          = 0.0
+time_elapsed            = 0.0
+noscope_url             = "/api/"

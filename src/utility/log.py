@@ -7,9 +7,11 @@
 # Created by dp on 2014-12-06.
 # ================================================================================ #
 class Log():
-    DEBUG               = 3
-    INFORMATION         = 2
+    DEBUG               = 4
+    INFORMATION         = 3
+    EXPERIMENTAL        = 2
     WARNING             = 1
+    ERROR               = 0
     __level__           = WARNING
     
     
@@ -28,6 +30,12 @@ class Log():
     @staticmethod
     def error(module, message):
         print("Error (%s): %s" % (module, message))
+    
+    # ---------------------------------------------------------------------------- #
+    @staticmethod
+    def experimental(module, message):
+        if Log.__level__ >= Log.EXPERIMENTAL:
+            print("Experimental (%s): %s" % (module, message))
     
     # ---------------------------------------------------------------------------- #
     @staticmethod
