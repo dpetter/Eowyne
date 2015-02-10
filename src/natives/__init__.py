@@ -4,10 +4,11 @@ from datetime import datetime
 from sqlalchemy.sql.schema import Column
 from sqlalchemy.sql.sqltypes import Integer
 
-from app.globals import db
+from app.shared import db
 from natives.expressions import parseExpression
 from natives.storage import fields, storage, store
 from utility.log import Log
+import os
 
 
 class Native(db.Model):
@@ -16,8 +17,35 @@ class Native(db.Model):
     __list__            = []        # Do not touch this
     __fields__          = None      # Do not touch this
     __store__           = None      # Do not touch this
+    __timestamp__       = None
     
     id                  = Column(Integer, primary_key = True)
+    
+    # ---------------------------------------------------------------------------- #
+    @classmethod
+    def heartbeat(cls):
+        pass
+#        filename = "./msg/" + cls.__name__
+#        if os.path.exists(filename):
+#            timestamp = os.path.getmtime(filename)
+#            if timestamp == cls.__timestamp__: return
+#            cls.__timestamp__ = timestamp
+#            cls.__list__ = []
+#        else:
+#            f = open(filename, mode='w')
+#            f.close()
+#            timestamp = os.path.getatime(filename)
+#            cls.__timestamp__ = timestamp
+    
+    # ---------------------------------------------------------------------------- #
+    @classmethod
+    def stamp(cls):
+        pass
+#        filename = "./msg/" + cls.__name__
+#        f = open(filename, mode='w')
+#        f.close()
+#        timestamp = os.path.getmtime(filename)
+#        cls.__timestamp__ = timestamp
     
     # ---------------------------------------------------------------------------- #
     @classmethod
@@ -63,6 +91,7 @@ class Native(db.Model):
             db.session.flush()  # @UndefinedVariable
             db.session.commit()  # @UndefinedVariable
             cls.__list__.append(cls.__store__(cls, self))
+            cls.stamp()
         except Exception as e:
             db.session.rollback()  # @UndefinedVariable
             cls.__list__ = []
@@ -80,6 +109,7 @@ class Native(db.Model):
             if cls.__batch__: return
             db.session.commit()  # @UndefinedVariable
             cls.__list__.remove(item)
+            cls.stamp()
         except Exception as e:
             db.session.rollback()  # @UndefinedVariable
             cls.__list__ = []
@@ -97,6 +127,7 @@ class Native(db.Model):
             for field in cls.__fields__: setattr(x, field, getattr(item, field))
             if cls.__batch__: return
             db.session.commit()  # @UndefinedVariable
+            cls.stamp()
         except Exception as e:
             db.session.rollback()  # @UndefinedVariable
             cls.__list__ = []

@@ -13,7 +13,7 @@ from werkzeug.utils import redirect
 from wtforms.fields.simple import TextField, PasswordField
 from wtforms.validators import Email, DataRequired
 
-from app.globals import mailservice
+from app.shared import mailservice
 from blueprints import editor, DefaultForm
 from models.user import User
 from natives.role import Role

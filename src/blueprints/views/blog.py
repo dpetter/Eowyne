@@ -18,7 +18,7 @@ blueprint = Blueprint("Blog Controller", __name__)
 # -------------------------------------------------------------------------------- #
 class FormBlog(Form):
     title       = TextField("Title", validators = [DataRequired()])
-    content     = TextField("Content", validators = [DataRequired()])
+    description = TextField("Content", validators = [DataRequired()])
     confirm     = SubmitField("Confirm")
     cancel      = SubmitField("Cancel")
 

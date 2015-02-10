@@ -16,9 +16,13 @@ from flask.globals import request, g, session
 from blueprints import render, invalid, forbidden
 from models.session import Session
 from models.user import Client
-from natives.menu import menubar
-from natives.rule import access
+from natives.menu import menubar, Menu
+from natives.rule import access, Rule
 from utility.log import Log
+from app.shared import timer
+import time
+from natives.role import Role
+from app import shared
 
 
 BlueprintCore = Blueprint("Core Controller", __name__)
@@ -33,6 +37,7 @@ def beforerequest():
     # (style sheet, image, etc.) is requested. Since all files have an extension
     # but urls don't it simply checks whether the path contains a full stop.
     if "." in request.path: return
+    heartbeat()
     # Fill the global scope ...
     g.session       = Session.acquire(session)
     g.user          = Client.get(g.session.user_id)
@@ -44,6 +49,18 @@ def beforerequest():
     if permitted == -1: return invalid()
     elif permitted == 0: return forbidden()
 
+# -------------------------------------------------------------------------------- #
+def heartbeat():
+    try:
+        now = time.time()
+        if now - shared.timer < 10.0: return
+        shared.timer = now
+        Log.debug(__name__, "Heartbeat")
+        Role.heartbeat()
+        Rule.heartbeat()
+        Menu.heartbeat()
+    except Exception as e:
+        Log.error(__name__, "Heartbeat failed:" + str(e))
 
 # -------------------------------------------------------------------------------- #
 @BlueprintCore.route("/administration", methods = ["GET"])
