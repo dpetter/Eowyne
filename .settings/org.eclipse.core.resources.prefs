@@ -18,7 +18,6 @@ encoding//src/core/natives/rule.py=utf-8
 encoding//src/core/rendering.py=utf-8
 encoding//src/core/shared.py=utf-8
 encoding//src/models/__init__.py=utf-8
-encoding//src/plugins/blueprints/__init__.py=utf-8
 encoding//src/utility/__init__.py=utf-8
 encoding//src/utility/log.py=utf-8
 encoding//src/utility/mail.py=utf-8

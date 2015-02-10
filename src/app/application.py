@@ -63,8 +63,8 @@ for module_loader, name, ispkg in pkgutil.walk_packages(path, prefix):
     app.register_blueprint(module.blueprint)
 
 Log.information(__name__, "Registering plugin blueprints...")
-path = ["./src/plugins/blueprints"]
-prefix = "plugins.blueprints."
+path = ["./src/plugins"]
+prefix = "plugins."
 for module_loader, name, ispkg in pkgutil.walk_packages(path, prefix):
     module = importlib.import_module(name)
     if not hasattr(module, "blueprint"): continue

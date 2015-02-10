@@ -14,13 +14,13 @@ from core.natives.menu import Menu
 from core.natives.role import Role
 from core.natives.rule import Rule
 from core.shared import db
+from plugins.wine.gattung import Gattung
+from plugins.wine.land import Land
+from plugins.wine.rebsorte import Rebsorte
+from plugins.wine.region import Region
+from plugins.wine.wein import Wein
+from plugins.wine.weingut import Weingut
 from utility.log import Log
-from plugins.models.gattung import Gattung
-from plugins.models.land import Land
-from plugins.models.rebsorte import Rebsorte
-from plugins.models.region import Region
-from plugins.models.wein import Wein
-from plugins.models.weingut import Weingut
 
 
 # -------------------------------------------------------------------------------- #

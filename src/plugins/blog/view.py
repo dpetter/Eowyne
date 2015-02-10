@@ -7,7 +7,7 @@ from core.natives.menu import menubar, contextmenu
 from core.natives.rule import access
 from core.rendering import DefaultForm, render, create_form, mismatch, forbidden, \
     delete_form, update_form
-from plugins.models.blog import Blog
+from plugins.blog.blog import Blog
 
 
 blueprint = Blueprint("Blog Controller", __name__)
