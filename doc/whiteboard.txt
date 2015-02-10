@@ -15,3 +15,5 @@ Low priority:
 -	durch models durchgehen und initializers standardisieren
 -	natives von sql-alchemy abkoppeln
 -	tests ...
+
+-Newsbox auf der Startseite mit den neusten Weinen 

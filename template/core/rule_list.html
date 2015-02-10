@@ -3,8 +3,15 @@
 	{{ static.css("css/administration/table.css") }}
 {% endblock %}
 {% block content %}
-	<div class="toolbar">{{ menu.build(actions) }}</div>
-	<table>
+
+
+<div class="row col-xs-12 box">
+<div class="row col-sm-4 ">
+</div>
+<div class="row col-sm-4 ">
+	<div class="container" style="width:100%;height:auto;padding:50px;left: 80px;position:relative;">
+		<div class="toolbar">{{ menu.build(actions) }}</div>
+		<table>
 		<thead>
 			<th>Route</th>
 			<th>Role</th>
@@ -30,4 +37,9 @@
 			{% endfor %}
 		</tbody>
 	</table>
+	</div>
+</div>
+<div class="row col-sm-4">
+</div>
+</div>
 {% endblock %}
