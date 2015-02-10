@@ -1,26 +1,39 @@
+
+
+
 {% extends "base/main.html" %}
 {% block content %}
-<h2>{{ headline }}</h2>
-<form id="form" action="{{ action }}" method="post">
-	<div class="fields">
-		{% for field in form if field.type != "SubmitField" %}
-		<div>
-			{%if field.type != "CSRFTokenField" %}
-				{{ field.label }}
-			{% endif %}
-			{{ field }}
-			{% if field.errors %}
-    			<ul class=errors>
-    			{% for error in field.errors %}<li>{{ error }}</li>{% endfor %}
-    			</ul>
-			{% endif %}
-		</div>
-		{% endfor %}
+<div class="row col-xs-12 box">
+<div class="row col-sm-4 ">
+</div>
+<div class="row col-sm-4 ">
+	<div class="container" style="width:100%;height:auto;padding:50px;left: 80px;position:relative;">
+		<h2>{{ headline }}</h2>
+		<form id="form" action="{{ action }}" method="post">
+			<div class="fields">
+				{% for field in form if field.type != "SubmitField" %}
+				<div>
+					{%if field.type != "CSRFTokenField" %}
+						{{ field.label }}
+					{% endif %}
+					{{ field }}
+					{% if field.errors %}
+		    			<ul class=errors>
+		    			{% for error in field.errors %}<li>{{ error }}</li>{% endfor %}
+		    			</ul>
+					{% endif %}
+				</div>
+				{% endfor %}
+			</div>
+			<div class="buttons">
+				{% for field in form if field.type == "SubmitField" %}
+					{{ field }}
+				{% endfor %}
+			</div>
+		</form>
 	</div>
-	<div class="buttons">
-		{% for field in form if field.type == "SubmitField" %}
-			{{ field }}
-		{% endfor %}
-	</div>
-</form>
+</div>
+<div class="row col-sm-4">
+</div>
+</div>
 {% endblock %}
