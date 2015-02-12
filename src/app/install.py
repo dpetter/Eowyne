@@ -14,6 +14,7 @@ from core.natives.menu import Menu
 from core.natives.role import Role
 from core.natives.rule import Rule
 from core.shared import db
+from plugins.blog.blog import import Blog
 from plugins.wine.gattung import Gattung
 from plugins.wine.land import Land
 from plugins.wine.rebsorte import Rebsorte

@@ -46,18 +46,15 @@ def listentries():
 # -------------------------------------------------------------------------------- #
 @blueprint.route("/blog/create", methods = ["GET", "POST"])
 def create_entry():
-    try:
-        item = Blog()
-        item.author_id = g.user.id
-        return create_form(item, FormBlog(), "", "Created blog entry.", "/blog")
-    except Exception as e:
-        return(str(e))
+    item = Blog()
+    item.author_id = g.user.id
+    return create_form(item, FormBlog(), "", "Created blog entry.", "/blog")
 
 # Delete Blog Entry
 # -------------------------------------------------------------------------------- #
-@blueprint.route("/blog/<identifier>/delete", methods = ["GET", "POST"])
+@blueprint.route("/blog/<int:identifier>/delete", methods = ["GET", "POST"])
 def delete_entry(identifier):
-    item = Blog.get(int(identifier))
+    item = Blog.get(identifier)
     if not item: return mismatch()
     ownership = (item.author == g.user)
     if access(request.path, g.role.id, ownership) != 1: return forbidden()
@@ -68,9 +65,9 @@ def delete_entry(identifier):
 
 # Edit Blog Entry
 # -------------------------------------------------------------------------------- #
-@blueprint.route("/blog/<identifier>/update", methods = ["GET", "POST"])
+@blueprint.route("/blog/<int:identifier>/update", methods = ["GET", "POST"])
 def update_entry(identifier):
-    item = Blog.get(int(identifier))
+    item = Blog.get(identifier)
     if not item: return mismatch()
     ownership = (item.author == g.user)
     if access(request.path, g.role.id, ownership) != 1: return forbidden()
