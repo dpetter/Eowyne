@@ -1,0 +1,43 @@
+{% extends "base/adminbackend.html" %}
+{% block styles %}
+	{{ static.css("css/administration/table.css") }}
+{% endblock %}
+{% block content %}
+
+
+<div class="row col-xs-12 box whiteb">
+<div class="row col-sm-1 ">
+</div>
+<div class="row col-sm-10 ">
+	<div class="container" style="">
+		<div class="toolbar">{{ menu.build(actions) }}</div>
+	<table>
+		<thead>
+			<th>Menu Bar</th>
+			<th>Name</th>
+			<th>Address</th>
+			<th>Weight</th>
+			<th>Flags</th>
+			<th>Image</th>
+			<th>Actions</th>
+		</thead>
+		<tbody>
+			{% for item in items %}
+			<tr class="{{ loop.cycle('odd', 'even') }}">
+				<td>{{ item.menubar }}</td>
+				<td>{{ item.name }}</td>
+				<td>{{ item.address }}</td>
+				<td>{{ item.weight }}</td>
+				<td>{{ item.flags }}</td>
+				<td>{{ item.image }}</td>
+				<td>{{ menu.context(item.actions, item.id) }}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	</div>
+</div>
+<div class="row col-sm-1">
+</div>
+</div>
+{% endblock %}

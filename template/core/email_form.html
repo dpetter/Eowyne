@@ -1,0 +1,26 @@
+{% extends "base/main.html" %}
+{% block content %}
+<div class="row col-xs-12 box">
+<div class="row col-sm-4 ">
+</div>
+<div class="row col-sm-4 ">
+	<div class="container" style="width:100%;height:auto;padding:50px;left: 80px;position:relative;">
+		<h2>Reset password</h2>
+		<div>Enter your email ...</div>
+		<form id="form" action="{{ action }}" method="post">
+			<div class="fields">
+				{{ form.csrf_token }}
+				{{ form.email.label }}
+				{{ form.email }}
+			</div>
+			<div class="buttons">
+				{{ form.confirm }}
+				{{ form.cancel }}
+			</div>
+		</form>
+	</div>
+</div>
+<div class="row col-sm-4">
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "base/adminbackend.html" %}
+{% block content %}
+<div class="row col-xs-12 box whiteb">
+<div class="row col-sm-4 ">
+</div>
+<div class="row col-sm-4 ">
+	<div class="container">
+		<h2>Administration</h2>
+		{% for item in links %}
+		<div>
+			<a href="{{ item.address }}" style="color:grey;"><img src="{{ item.image }}" />{{ item.name }}</a>
+		</div>
+		{% endfor %}
+
+	</div>
+</div>
+<div class="row col-sm-4">
+</div>
+</div>
+{% endblock %}
