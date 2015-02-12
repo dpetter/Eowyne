@@ -5,7 +5,6 @@ encoding//src/app/configuration.py=utf-8
 encoding//src/app/install.py=utf-8
 encoding//src/core/__init__.py=utf-8
 encoding//src/core/blueprints/__init__.py=utf-8
-encoding//src/core/blueprints/client.py=utf-8
 encoding//src/core/blueprints/core.py=utf-8
 encoding//src/core/blueprints/menus.py=utf-8
 encoding//src/core/blueprints/roles.py=utf-8

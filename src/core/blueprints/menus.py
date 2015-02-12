@@ -24,16 +24,16 @@ blueprint = Blueprint("Menu Controller", __name__)
 # Forms
 # -------------------------------------------------------------------------------- #
 class FormMenu(DefaultForm):
-    menubar     = TextField(localize("administration", "menus.field_menubar"),
+    menubar     = TextField(localize("core", "menus.field_menubar"),
                             validators = [DataRequired()])
-    address     = TextField(localize("administration", "menus.field_address"),
+    address     = TextField(localize("core", "menus.field_address"),
                             validators = [DataRequired()])
-    name        = TextField(localize("administration", "menus.field_name"))
-    weight      = IntegerField(localize("administration", "menus.field_weight"),
+    name        = TextField(localize("core", "menus.field_name"))
+    weight      = IntegerField(localize("core", "menus.field_weight"),
                                validators = [NumberRange(0, 25)])
-    flags       = IntegerField(localize("administration", "menus.field_flags"),
+    flags       = IntegerField(localize("core", "menus.field_flags"),
                                validators = [NumberRange(0, 16)])
-    image       = TextField(localize("administration", "menus.field_image"))
+    image       = TextField(localize("core", "menus.field_image"))
 
 
 # Default route: View a list of all menus
@@ -50,8 +50,8 @@ def entries():
 @blueprint.route("/menus/create", methods = ["GET", "POST"])
 def create():
     item = Menu()
-    headline = localize("administration", "menus.create_headline")
-    message = localize("administration", "menus.create_success")
+    headline = localize("core", "menus.create_headline")
+    message = localize("core", "menus.create_success")
     return create_form(item, FormMenu(), headline, message, "/menus")
 
 # Delete Menu
@@ -60,9 +60,9 @@ def create():
 def delete(identifier):
     item = Menu.get(int(identifier))
     if not item: return mismatch()
-    headline = localize("administration", "menus.delete_headline")
-    text = localize("administration", "menus.delete_description") % (item.name)
-    message = localize("administration", "menus.delete_success")
+    headline = localize("core", "menus.delete_headline")
+    text = localize("core", "menus.delete_description") % (item.name)
+    message = localize("core", "menus.delete_success")
     return delete_form(item, headline, text, message, "/menus")
 
 # Edit Menu
@@ -71,6 +71,6 @@ def delete(identifier):
 def update(identifier):
     item = Menu.get(int(identifier))
     if not item: return mismatch()
-    headline = localize("administration", "menus.update_headline")
-    message = localize("administration", "menus.update_success")
+    headline = localize("core", "menus.update_headline")
+    message = localize("core", "menus.update_success")
     return update_form(item, FormMenu(obj = item), headline, message, "/menus")

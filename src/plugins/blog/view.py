@@ -23,13 +23,12 @@ class FormBlog(DefaultForm):
 # Default route: View the latest blog entry.
 # -------------------------------------------------------------------------------- #
 @blueprint.route("/blog", defaults = {"identifier": 0}, methods = ["GET"])
-@blueprint.route("/blog/<identifier>", methods = ["GET"])
+@blueprint.route("/blog/<int:identifier>", methods = ["GET"])
 def blog(identifier):
     actions = menubar("blog", g.role.id)
-    i = int(identifier)
-    if i == 0:
+    if identifier == 0:
         item = Blog.query.order_by(Blog.changedOn.desc()).first()# @UndefinedVariable
-    else: item = Blog.get(i)
+    else: item = Blog.get(identifier)
     if not item: return render("modules/blog-empty.html", actions = actions)
     ownership = (item.author == g.user)
     item.actions = contextmenu("blog", g.role.id, ownership)            

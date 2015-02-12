@@ -25,11 +25,11 @@ blueprint = Blueprint("Role Controller", __name__)
 # Forms
 # -------------------------------------------------------------------------------- #
 class FormRole(DefaultForm):
-    name        = TextField(localize("administration", "roles.field_name"),
+    name        = TextField(localize("core", "roles.field_name"),
                             validators = [DataRequired()])
-    description = TextField(localize("administration", "roles.field_description"),
+    description = TextField(localize("core", "roles.field_description"),
                             validators = [DataRequired()])
-    parent_id   = SelectField(localize("administration", "roles.field_parent_id"),
+    parent_id   = SelectField(localize("core", "roles.field_parent_id"),
                               coerce = int)
 
 
@@ -49,8 +49,8 @@ def create():
     item = Role()
     form = FormRole()
     form.parent_id.choices = [(role.id, role.name) for role in Role.all()]
-    headline = localize("administration", "roles.create_headline")
-    message = localize("administration", "roles.create_success")
+    headline = localize("core", "roles.create_headline")
+    message = localize("core", "roles.create_success")
     return create_form(item, form, headline, message, "/roles")
 
 # Delete Role
@@ -59,9 +59,9 @@ def create():
 def delete(identifier):
     item = Role.get(int(identifier))
     if not item: return mismatch()
-    headline = localize("administration", "roles.delete_headline")
-    text = localize("administration", "roles.delete_description") % (item.name)
-    message = localize("administration", "roles.delete_success")
+    headline = localize("core", "roles.delete_headline")
+    text = localize("core", "roles.delete_description") % (item.name)
+    message = localize("core", "roles.delete_success")
     return delete_form(item, headline, text, message, "/roles")
 
 # Edit Role
@@ -72,6 +72,6 @@ def update(identifier):
     if not item: return mismatch()
     form = FormRole(obj = item)
     form.parent_id.choices = [(role.id, role.name) for role in Role.all()]
-    headline = localize("administration", "roles.update_headline")
-    message = localize("administration", "roles.update_success")
+    headline = localize("core", "roles.update_headline")
+    message = localize("core", "roles.update_success")
     return update_form(item, form, headline, message, "/roles")

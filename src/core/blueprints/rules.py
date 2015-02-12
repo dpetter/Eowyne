@@ -26,17 +26,17 @@ blueprint = Blueprint("Rule Controller", __name__)
 # Forms
 # -------------------------------------------------------------------------------- #
 class FormRule(DefaultForm):
-    route       = TextField(localize("administration", "rules.field_route"),
+    route       = TextField(localize("core", "rules.field_route"),
                             validators = [DataRequired()])
-    role_id     = SelectField(localize("administration", "rules.field_role"),
+    role_id     = SelectField(localize("core", "rules.field_role"),
                               coerce = int)
-    insert      = SelectField(localize("administration", "rules.field_insert"),
+    insert      = SelectField(localize("core", "rules.field_insert"),
                               choices = [(item, item) for item in Rule.permissions])
-    remove      = SelectField(localize("administration", "rules.field_remove"),
+    remove      = SelectField(localize("core", "rules.field_remove"),
                               choices = [(item, item) for item in Rule.permissions])
-    change      = SelectField(localize("administration", "rules.field_change"),
+    change      = SelectField(localize("core", "rules.field_change"),
                               choices = [(item, item) for item in Rule.permissions])
-    view        = SelectField(localize("administration", "rules.field_view"),
+    view        = SelectField(localize("core", "rules.field_view"),
                               choices = [(item, item) for item in Rule.permissions])
 
 
@@ -56,8 +56,8 @@ def create():
     item = Rule()
     form = FormRule()
     form.role_id.choices = [(role.id, role.name) for role in Role.all()]
-    headline = localize("administration", "rules.create_headline")
-    message = localize("administration", "rules.create_success")
+    headline = localize("core", "rules.create_headline")
+    message = localize("core", "rules.create_success")
     return create_form(item, form, headline, message, "/rules")
 
 # Delete Rule
@@ -66,9 +66,9 @@ def create():
 def delete(identifier):
     item = Rule.get(int(identifier))
     if not item: return mismatch()
-    headline = localize("administration", "rules.delete_headline")
-    text = localize("administration", "rules.delete_description") % (item.route)
-    message = localize("administration", "rules.delete_success")
+    headline = localize("core", "rules.delete_headline")
+    text = localize("core", "rules.delete_description") % (item.route)
+    message = localize("core", "rules.delete_success")
     return delete_form(item, headline, text, message, "/rules")
 
 # Edit Rule
@@ -79,6 +79,6 @@ def update(identifier):
     if not item: return mismatch()
     form = FormRule(obj = item)
     form.role_id.choices = [(role.id, role.name) for role in Role.all()]
-    headline = localize("administration", "rules.update_headline")
-    message = localize("administration", "rules.update_success")
+    headline = localize("core", "rules.update_headline")
+    message = localize("core", "rules.update_success")
     return update_form(item, form, headline, message, "/rules")
