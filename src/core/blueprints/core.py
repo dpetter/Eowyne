@@ -108,7 +108,7 @@ def is_authenticated():
 @blueprint.route("/administration", methods = ["GET"])
 def administration():
     links = menubar("administration", g.role.id)
-    return render("core/administration.html", links = links)
+    return render("core/administration/main.html", links = links)
 
 # Show static page
 # -------------------------------------------------------------------------------- #
@@ -134,7 +134,7 @@ def signin():
         g.session.update()
         flash(localize("core", "client.signin_success") % (user.name))
         return redirect("/")
-    return editor(form, "", confirm, lambda: redirect("/"), "core/signin.html")
+    return editor(form, "", confirm, lambda: redirect("/"), "core/signin_form.html")
 
 # Sign out
 # -------------------------------------------------------------------------------- #
@@ -167,7 +167,7 @@ def register():
         mailservice.send([form.email.data], "Activate your account", text)
         flash(localize("core", "client.register_success"))
         return redirect("/")
-    return editor(form, "", confirm, lambda: redirect("/"), "core/register.html")
+    return editor(form, "", confirm, lambda: redirect("/"), "core/register_form.html")
 
 # Unlock Account
 # -------------------------------------------------------------------------------- #
@@ -201,7 +201,7 @@ def reset():
         mailservice.send([form.email.data], "Reset your password", text)
         flash(localize("core", "client.reset_success"))
         return redirect("/")
-    return editor(form, "", confirm, lambda: redirect("/"), "core/email.html")
+    return editor(form, "", confirm, lambda: redirect("/"), "core/email_form.html")
 
 # Update Password
 # -------------------------------------------------------------------------------- #
@@ -219,4 +219,4 @@ def reset_update(key):
         user.update()
         flash(localize("core", "client.password_success"))
         return redirect("/")
-    return editor(form, "", confirm, lambda: redirect("/"), "core/password.html")
+    return editor(form, "", confirm, lambda: redirect("/"), "core/password_form.html")

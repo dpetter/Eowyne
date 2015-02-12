@@ -43,7 +43,7 @@ def entries():
     items = Menu.all()
     actions = menubar("menu", g.role.id)
     for item in items: item.actions = contextmenu("menu", g.role.id)
-    return render("core/menu_list.html", items = items, actions = actions)
+    return render("core/administration/menus.html", items = items, actions = actions)
 
 # Create Menu
 # -------------------------------------------------------------------------------- #

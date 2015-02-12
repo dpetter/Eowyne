@@ -29,10 +29,10 @@ def blog(identifier):
     if identifier == 0:
         item = Blog.query.order_by(Blog.changedOn.desc()).first()# @UndefinedVariable
     else: item = Blog.get(identifier)
-    if not item: return render("modules/blog-empty.html", actions = actions)
+    if not item: return render("plugins/blog/empty.html", actions = actions)
     ownership = (item.author == g.user)
     item.actions = contextmenu("blog", g.role.id, ownership)            
-    return render("modules/blog.html", item = item, actions = actions)
+    return render("plugins/blog/view.html", item = item, actions = actions)
 
 # List all blog entries
 # -------------------------------------------------------------------------------- #
@@ -40,7 +40,7 @@ def blog(identifier):
 def listentries():
     actions = menubar("blog", g.role.id)
     items = Blog.query.order_by(Blog.changedOn.desc()).all()  # @UndefinedVariable
-    return render("modules/blog-list.html", items = items, actions = actions)
+    return render("plugins/blog/list.html", items = items, actions = actions)
 
 # Create Blog Entry
 # -------------------------------------------------------------------------------- #

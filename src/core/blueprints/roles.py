@@ -40,7 +40,7 @@ def entries():
     items = Role.all()
     actions = menubar("role", g.role.id)
     for item in items: item.actions = contextmenu("role", g.role.id)
-    return render("core/role_list.html", items = items, actions = actions)
+    return render("core/administration/roles.html", items = items, actions = actions)
 
 # Create Role
 # -------------------------------------------------------------------------------- #

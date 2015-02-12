@@ -47,7 +47,7 @@ def entries():
     items = Rule.all()
     actions = menubar("rule", g.role.id)
     for item in items: item.actions = contextmenu("rule", g.role.id)
-    return render("core/rule_list.html", items = items, actions = actions)
+    return render("core/administration/rules.html", items = items, actions = actions)
 
 # Create Rule
 # -------------------------------------------------------------------------------- #
