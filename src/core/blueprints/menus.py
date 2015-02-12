@@ -24,15 +24,15 @@ blueprint = Blueprint("Menu Controller", __name__)
 # Forms
 # -------------------------------------------------------------------------------- #
 class FormMenu(DefaultForm):
+    menubar     = TextField(localize("administration", "menus.field_menubar"),
+                            validators = [DataRequired()])
     address     = TextField(localize("administration", "menus.field_address"),
                             validators = [DataRequired()])
     name        = TextField(localize("administration", "menus.field_name"))
-    menubar     = TextField(localize("administration", "menus.field_menubar"),
-                            validators = [DataRequired()])
     weight      = IntegerField(localize("administration", "menus.field_weight"),
-                               validators = [DataRequired()])
+                               validators = [NumberRange(0, 25)])
     flags       = IntegerField(localize("administration", "menus.field_flags"),
-                               validators = [NumberRange(0, 10)])
+                               validators = [NumberRange(0, 16)])
     image       = TextField(localize("administration", "menus.field_image"))
 
 

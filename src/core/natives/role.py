@@ -24,7 +24,7 @@ class Role(Native):
     parent              = recursion("parent_id")
     
     # ---------------------------------------------------------------------------- #
-    def __init__(self, parent_id = 0, name = None, description = None):
+    def __init__(self, parent_id = 0, name = "", description = ""):
         self.parent_id      = parent_id
         self.name           = name
         self.description    = description

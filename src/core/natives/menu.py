@@ -26,8 +26,8 @@ class Menu(Native):
     image               = Column(String(255))
     
     # ---------------------------------------------------------------------------- #
-    def __init__(self, address = None, name = None, menubar = None, weight = None,
-                 flags = None, image = None):
+    def __init__(self, address = "", name = "", menubar = "", weight = 0, flags = 0,
+                 image = ""):
         self.address        = address
         self.name           = name
         self.menubar        = menubar
