@@ -5,12 +5,7 @@
 {% block content %}
 
 
-<div class="row col-xs-12 box whiteb">
-<div class="row col-sm-1 ">
-</div>
-<div class="row col-sm-10 ">
-	<div class="container" style="">
-		<div class="toolbar">{{ menu.build(actions) }}</div>
+	<div class="toolbar">{{ menu.build(actions) }}</div>
 	<table>
 		<thead>
 			<th>Menu Bar</th>
@@ -35,9 +30,5 @@
 			{% endfor %}
 		</tbody>
 	</table>
-	</div>
-</div>
-<div class="row col-sm-1">
-</div>
-</div>
+
 {% endblock %}

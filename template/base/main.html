@@ -65,10 +65,19 @@
     </nav>
     {% include "base/messages.html" %}
     <div class="container">
-
+        <div class="row col-xs-12 box">
+            <div class="row col-sm-2 ">
+            </div>
+            <div class="row col-sm-8 ">
+                {% block content %}{% endblock %}
+                
+            </div>
+            <div class="row col-sm-2">
+            </div>
+            </div>
        
 
-        {% block content %}{% endblock %}
+        
         
 
         

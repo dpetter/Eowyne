@@ -10,13 +10,12 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>La Bodega - Ihr Somelier für die Hosentasche</title>
-    <link rel="shortcut icon" href="./static/img/favicon.png" type="image/png" />
+    <title>Adminbackend</title>
+    <link rel="shortcut icon" href="./static/img/faviconab.png" type="image/png" />
     <!-- Bootstrap Core CSS -->
     {{ static.css("css/bootstrap.min.css") }}
 
     <!-- Custom CSS -->
-    <!--{{ static.css("css/business-casual.css") }}-->
     {{ static.css("css/style.css") }}
 
     <!-- Fonts -->
@@ -35,12 +34,11 @@
 	{% block styles %}{% endblock %}
 </head>
 <body>
-<div id="personalmenu">{{ menu.build(g.personal_menu) }}</div>
-<div class="brand new_brand">La Bodega</div>
-    <div class="address-bar new_brand">Wein | Geschmack | Genuss</div>
+<div id="personalmenu" style="color:darkgrey!important;">{{ menu.build(g.personal_menu) }}</div>
+
 
  <!-- Navigation -->
-    <nav class="navbar navbar-default" role="navigation">
+    <nav class="navbar navbar-default" style="background:lightgrey!important;" role="navigation">
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
@@ -51,7 +49,6 @@
                     <span class="icon-bar"></span>
                 </button>
                 <!-- navbar-brand is hidden on larger screens, but visible when the menu is collapsed -->
-                <a class="navbar-brand" href="index.html">Business Casual</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -66,9 +63,19 @@
     {% include "base/messages.html" %}
     <div class="container">
 
-       
+       <div class="row col-xs-12 box whiteb">
+            <div class="row col-sm-1 ">
+            </div>
+            <div class="row col-sm-10 ">
+                <div>
+                    {% block content %}{% endblock %}
 
-        {% block content %}{% endblock %}
+                </div>
+            </div>
+            <div class="row col-sm-1">
+            </div>
+        </div>
+
         
 
         
@@ -76,11 +83,11 @@
     </div>
     <!-- /.container -->
 
-    <footer>
-        <div class="container">
-            <div class="row">
+    <footer style="background:lightgrey!important;">
+        <div class="container" style="background:lightgrey!important;">
+            <div class="row" style="background:lightgrey!important;">
                 <div class="col-lg-12 text-center">
-                    <p>Copyright ACME&copy; 2014</p>
+                    <p>Copyright EOWYNE&copy; 2015</p>
                 </div>
             </div>
         </div>
