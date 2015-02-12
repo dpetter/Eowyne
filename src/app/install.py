@@ -15,12 +15,7 @@ from core.natives.role import Role
 from core.natives.rule import Rule
 from core.shared import db
 from plugins.blog.blog import Blog
-from plugins.wine.models.gattung import Gattung
-from plugins.wine.models.land import Land
-from plugins.wine.models.rebsorte import Rebsorte
-from plugins.wine.models.region import Region
-from plugins.wine.models.wein import Wein
-from plugins.wine.models.weingut import Weingut
+from plugins.wine.models import *
 from utility.log import Log
 
 
@@ -56,7 +51,9 @@ def installRules():
              Rule(5, "/rules/",             "All",  "All",  "All",  "All"),
              Rule(5, "/menus/",             "All",  "All",  "All",  "All"),
              Rule(3, "/personal/",          "None", "None", "None", "All"),
-             Rule(3, "/blog/",              "Own",  "Own",  "Own",  "All")
+             Rule(3, "/blog/",              "Own",  "Own",  "Own",  "All"),
+             Rule(1, "/wein/",              "None", "None", "None", "All"),
+             Rule(1, "/wein/suche/[^/]+",   "None", "None", "None", "All")
              ]
     for item in items: item.create()
 
@@ -71,12 +68,14 @@ def installMenus():
                   2, 1, ""),
              Menu("/personal",          "My Account",       "personal",
                   0, 1, ""),
-             Menu("/pages/about",       "About us",         "main",
+             Menu("/wein/tops",         "Top Wines",        "main",
                   0, 0, ""),
              Menu("/blog",              "Blog",             "main",
                   1, 0, ""),
-             Menu("/administration",    "Administration",   "main",
+             Menu("/pages/about",       "About us",         "main",
                   2, 0, ""),
+             Menu("/administration",    "Administration",   "main",
+                  10, 0, ""),
              Menu("/pages/contact",     "Contact",          "extended",
                   0, 0, ""),
              Menu("/pages/legal",       "Legal",            "extended",

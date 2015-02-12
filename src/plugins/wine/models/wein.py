@@ -38,3 +38,5 @@ class Wein(Model):
         self.weingut    = weingut
         self.jahrgang   = jahrgang
 
+    def __str__(self):
+        return "Wein '%s'" % (self.name)
