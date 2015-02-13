@@ -1,10 +1,6 @@
 {% extends "base/main.html" %}
 {% block content %}
-<div class="row col-xs-12 box">
-	<div class="row col-sm-4 ">
-	</div>
-	<div class="row col-sm-4 ">
-		<div class="container" style="width:100%;height:auto;padding:50px;left: 80px;position:relative;">
+
 			<form id="form" action="{{ action }}" method="post">
 				<div class="fields ">
 					{{ form.csrf_token }}
@@ -33,9 +29,5 @@
 					<a href="/register">I'd like to <strong>register</strong>.</a></p>
 				</div>
 			</form>
-		</div>
-	</div>
-	<div class="row col-sm-4">
-	</div>
-</div>
+
 {% endblock %}
