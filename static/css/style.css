@@ -39,3 +39,68 @@ padding: 20px 20px 60px 20px;
 .rating{
 	margin-bottom: 50px;
 }
+.left{
+	text-align: left;
+}
+.right{
+	text-align: left;
+}
+.sbhead{
+    background-clip: border-box;
+    background-color: #1a0700;
+    background-image: none;
+    background-position: 0 0;
+    background-repeat: repeat;
+    background-size: auto auto;
+    color: #e9bc8b;
+    height: 50px;
+    left: -20px;
+    padding-top: 0;
+    position: relative;
+    text-align: center;
+    top: -40px;
+    width: 350px;
+}
+.sbhead>h3{
+	padding-top: 10px;
+}
+li{
+	list-style-image: url("/static/img/bullet.png")
+}
+.nobullet{
+    line-height: 35px;
+    list-style-image: none !important;
+    list-style-type: none;
+    position: relative;
+    top: 10px;
+    font-weight: normal;
+}
+li {
+    list-style-image: url("/static/img/bullet.png");
+    font-weight: bold;
+}
+* {
+    box-sizing: border-box;
+}
+.right {
+    text-align: left;
+}
+html, body {
+    font-family: arial,helvetica,clean,sans-serif;
+}
+body {
+    font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+body {
+    color: #333;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    line-height: 1.42857;
+}
+html, body {
+    font-family: arial,helvetica,clean,sans-serif;
+}
+html {
+    font-size: 10px;
+}
+}
