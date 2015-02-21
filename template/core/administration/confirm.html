@@ -1,0 +1,14 @@
+{% extends "core/administration/base.html" %}
+{% block content %}
+	<h1>{{ headline }}</h1>
+	<form id="form" action="{{ action }}" method="post">
+		<div class="text">
+			{{ form.csrf_token }}
+			{{ text }}
+		</div>
+		<div class="buttons">
+			{{ form.confirm }}
+			{{ form.cancel }}
+		</div>
+	</form>
+{% endblock %}

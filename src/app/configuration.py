@@ -11,7 +11,7 @@ from utility.log import Log
 
 Configuration = {
     # Set this to Log.WARNING (fastest) or Log.INFORMATION in production.
-    "log_level": Log.DEBUG,
+    "log_level": Log.WARNING,
     
     # Flask settings. Set host = 0.0.0.0 to route into the internet.
     # Put your static files (js, css, etc) into static_dir.
@@ -28,8 +28,8 @@ Configuration = {
     # Where your localisation files are.
     "text_files": "./static/txt/",
     
-    # Tested with pymysql and mysql-connector.
-    "sql_db_uri": "sqlite:////tmp/Datenbank.datenbank",
+    # Tested with sqlite, pymysql and mysql-connector. May work with more...
+    "sql_db_uri": "mysql+pymysql://theoden:king@localhost/eowyne",
     
     # This is required for multithreaded/cluster usage. See doc on that.
     "native_msg": "./message/",

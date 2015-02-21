@@ -1,0 +1,40 @@
+<html>
+{% import "base/menu.html" as menu %}
+{% import "base/static.html" as static %}
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Eowyne Administration">
+	<meta name="author" content="The Eowyne Team">
+	<title>Eowyne Administration</title>
+	<link rel="shortcut icon" href="./static/img/faviconab.png" type="image/png" />
+	{{ static.js("js/jquery.js") }}
+	{{ static.js("js/bootstrap.min.js") }}
+	{{ static.js("js/scripts.js") }}
+	{% block scripts %}{% endblock %}
+	{{ static.css("css/bootstrap.min.css") }}
+	{{ static.css("css/style.css") }}
+	{{ static.css("css/base/main.css") }}
+	{{ static.css("css/base/menu.css") }}
+	{{ static.css("css/administration/main.css") }}
+	{% block styles %}{% endblock %}
+</head>
+<body>
+	<nav role="navigation">
+		<div class="container"><ul>
+				<li><a href="/">{{ static.glyph("home") }}</a></li>
+				<li>
+					<a id="administration" href="/administration">
+						{{ static.glyph("chevron-down") }}
+						Administration
+					</a>
+				</li>
+		</ul></div>
+	</nav>
+	{{ menu.popup("administration", navigation) }}
+	<div id="personalmenu">{{ menu.build(g.personal_menu, "menuitem") }}</div>
+	{% include "base/messages.html" %}
+	<div class="container">{% block content %}{% endblock %}</div>
+</body>
+</html>

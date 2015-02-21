@@ -6,34 +6,50 @@
 #
 # Created by dp on 2015-01-05.
 # ================================================================================ #
-from sqlalchemy.sql.schema import Column
+from sqlalchemy.sql.schema import Column, ForeignKey
 from sqlalchemy.sql.sqltypes import Integer, String
 
 from core.natives.rule import access
-from natives import Native
+from natives import Native, relation
 
 
-class Menu(Native):
+# -------------------------------------------------------------------------------- #
+class Menubar(Native):
     __mapper_args__     = {"concrete": True}
-    __tablename__       = "Menus"
+    __tablename__       = "Menubars"
     
     id                  = Column(Integer, primary_key = True)
-    address             = Column(String(255))
-    name                = Column(String(255))
-    menubar             = Column(String(255))
-    weight              = Column(Integer)
-    flags               = Column(Integer)
-    image               = Column(String(255))
+    name                = Column(String(255), unique = True)
     
     # ---------------------------------------------------------------------------- #
-    def __init__(self, address = "", name = "", menubar = "", weight = 0, flags = 0,
-                 image = ""):
-        self.address        = address
+    def __init__(self, name = ""):
         self.name           = name
-        self.menubar        = menubar
-        self.weight         = weight
-        self.flags          = flags
-        self.image          = image
+
+
+# -------------------------------------------------------------------------------- #
+class Menuitem(Native):
+    __mapper_args__     = {"concrete": True}
+    __tablename__       = "Menuitems"
+    
+    id                  = Column(Integer, primary_key = True)
+    menubar_id          = Column(Integer, ForeignKey("Menubars.id"))
+    weight              = Column(Integer)
+    name                = Column(String(255))
+    image               = Column(String(255))
+    flags               = Column(Integer)
+    address             = Column(String(255))
+    
+    menubar             = relation(Menubar, "menubar_id")
+    
+    # ---------------------------------------------------------------------------- #
+    def __init__(self, menubar_id = 0, weight = 0, name = "", image = "",
+                 flags = 0, address = ""):
+        self.address    = address
+        self.name       = name
+        self.menubar_id = menubar_id
+        self.weight     = weight
+        self.flags      = flags
+        self.image      = image
 
 
 # -------------------------------------------------------------------------------- #
@@ -46,7 +62,9 @@ def menubar(name, role_id):
     @param name         Identifies the menu bar.
     @param role_id      Identifies the client's role.
     '''
-    items = Menu.find(Menu.menubar == name)
+    bar = Menubar.unique(Menubar.name == name)
+    if not bar: return None
+    items = Menuitem.find(Menuitem.menubar_id == bar.id)
     result = [item for item in items if not "<id>" in item.address and \
               access(item.address, role_id, True) == 1]
     return sorted(result, key = lambda item: item.weight)
@@ -62,7 +80,9 @@ def contextmenu(name, role_id, elevated = False):
     @param role_id      Identifies the client's role.
     @param elevated     Whether the client has extended permissions.
     '''
-    items = Menu.find(Menu.menubar == name)
+    bar = Menubar.unique(Menubar.name == name)
+    if not bar: return None
+    items = Menuitem.find(Menuitem.menubar_id == bar.id)
     result = [item for item in items if "<id>" in item.address and \
               access(item.address, role_id, elevated) == 1]
     return sorted(result, key = lambda item: item.weight)

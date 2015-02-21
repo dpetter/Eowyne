@@ -1,12 +1,5 @@
-{% extends "base/adminbackend.html" %}
+{% extends "core/administration/base.html" %}
 {% block content %}
-
-		<h2>Administration</h2>
-		{% for item in links %}
-		<div>
-			<a href="{{ item.address }}" style="color:grey;"><img src="{{ item.image }}" />{{ item.name }}</a>
-		</div>
-		{% endfor %}
-
-
+	<h1>Administration</h1>
+	<div class="frame">{{ menu.build(navigation, "link") }}</div>
 {% endblock %}

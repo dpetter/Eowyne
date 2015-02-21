@@ -6,13 +6,17 @@ High priority:
 -	utility.log mit einer richtigen Log-Library kurzschließen ...
 	struktur erhalten sonst zerbricht vieles
 -	Verschlüsselung implementieren (utility) und in models.user benutzen.
+-	Add menu bar implementieren
+-	Optimize Design for Admin a little.
+-	Newsbox auf der Startseite mit den neusten Weinen
+
 
 Low priority:
 -	utility.generator.randomkey sollte dahingehend verbessert werden, das nur
 	unique keys rauskommen ... evtl. gleich umorganisieren und mit verschlüsselung
 	in ein paket.
--	durch models durchgehen und initializers standardisieren
--	natives von sql-alchemy abkoppeln
 -	tests ...
 
--Newsbox auf der Startseite mit den neusten Weinen 
+
+Maybe ...
+-	natives von sql-alchemy abkoppeln

@@ -14,14 +14,14 @@ import time
 from flask.blueprints import Blueprint
 from flask.globals import request, g, session
 from flask.helpers import flash
-from werkzeug import redirect
+from werkzeug.utils import redirect
 from wtforms.fields.simple import TextField, PasswordField
 from wtforms.validators import Email, DataRequired
 
 from core import shared
 from core.models.session import Session
 from core.models.user import Client, User
-from core.natives.menu import menubar, Menu
+from core.natives.menu import menubar, Menubar, Menuitem
 from core.natives.role import Role
 from core.natives.rule import access, Rule
 from core.rendering import DefaultForm, invalid, forbidden, render, editor
@@ -90,7 +90,8 @@ def heartbeat():
         Log.information(__name__, "Heartbeat")
         Role.heartbeat()
         Rule.heartbeat()
-        Menu.heartbeat()
+        Menubar.heartbeat()
+        Menuitem.heartbeat()
     except Exception as e:
         Log.error(__name__, "Heartbeat failed:" + str(e))
 
@@ -108,7 +109,7 @@ def is_authenticated():
 @blueprint.route("/administration", methods = ["GET"])
 def administration():
     links = menubar("administration", g.role.id)
-    return render("core/administration/main.html", links = links)
+    return render("core/administration/main.html", navigation = links)
 
 # Show static page
 # -------------------------------------------------------------------------------- #

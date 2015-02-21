@@ -12,3 +12,7 @@
 {% macro image(url) -%}
 	<img src="{{ url_for('static', filename = url) }}"></img>
 {%- endmacro %}
+
+{% macro glyph(name) -%}
+	<span class="glyphicon glyphicon-{{ name }}"></span>
+{%- endmacro %}

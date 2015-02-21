@@ -37,41 +37,52 @@ class FormRole(DefaultForm):
 # -------------------------------------------------------------------------------- #
 @blueprint.route("/roles", methods = ["GET"])
 def entries():
+    navigation = menubar("administration", g.role.id)
     items = Role.all()
     actions = menubar("role", g.role.id)
     for item in items: item.actions = contextmenu("role", g.role.id)
-    return render("core/administration/roles.html", items = items, actions = actions)
+    return render("core/administration/roles.html", navigation = navigation,
+                  items = items, actions = actions)
 
 # Create Role
 # -------------------------------------------------------------------------------- #
 @blueprint.route("/roles/create", methods = ["GET", "POST"])
 def create():
+    navigation = menubar("administration", g.role.id)
     item = Role()
     form = FormRole()
     form.parent_id.choices = [(role.id, role.name) for role in Role.all()]
     headline = localize("core", "roles.create_headline")
     message = localize("core", "roles.create_success")
-    return create_form(item, form, headline, message, "/roles")
+    return create_form(item, form, headline, message, "/roles",
+                       template = "core/administration/form.html",
+                       navigation = navigation)
 
 # Delete Role
 # -------------------------------------------------------------------------------- #
 @blueprint.route("/roles/<identifier>/delete", methods = ["GET", "POST"])
 def delete(identifier):
+    navigation = menubar("administration", g.role.id)
     item = Role.get(int(identifier))
     if not item: return mismatch()
     headline = localize("core", "roles.delete_headline")
     text = localize("core", "roles.delete_description") % (item.name)
     message = localize("core", "roles.delete_success")
-    return delete_form(item, headline, text, message, "/roles")
+    return delete_form(item, headline, text, message, "/roles",
+                       template = "core/administration/confirm.html",
+                       navigation = navigation)
 
 # Edit Role
 # -------------------------------------------------------------------------------- #
 @blueprint.route("/roles/<identifier>/update", methods = ["GET", "POST"])
 def update(identifier):
+    navigation = menubar("administration", g.role.id)
     item = Role.get(int(identifier))
     if not item: return mismatch()
     form = FormRole(obj = item)
     form.parent_id.choices = [(role.id, role.name) for role in Role.all()]
     headline = localize("core", "roles.update_headline")
     message = localize("core", "roles.update_success")
-    return update_form(item, form, headline, message, "/roles")
+    return update_form(item, form, headline, message, "/roles",
+                       template = "core/administration/form.html",
+                       navigation = navigation)

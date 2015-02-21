@@ -1,43 +1,78 @@
-{% macro build(list) -%}
+{% macro build(list, class) -%}
 	{% for item in list %}
-		<a class="menuitem" href="{{ item.address }}">
+		<a class="{{ class }}" href="{{ item.address }}">
 			{% if item.image and item.flags == 0 %}
-				<img alt="" src="{{ url_for('static', filename = item.image) }}"/>
+				<span class="glyphicon glyphicon-{{ item.image }}"></span>
 			{% endif %}
-			{{ item.name }}
+			<span>{{ item.name }}</span>
 			{% if item.image and item.flags == 1 %}
-				<img alt="" src="{{ url_for('static', filename = item.image) }}"/>
+				<span class="glyphicon glyphicon-{{ item.image }}"></span>
 			{% endif %}
 		</a>
 	{% endfor %}
 {%- endmacro %}
 
-{% macro context(list, id) -%}
+{% macro context(list, id, class) -%}
 	{% for item in list %}
-		<a class="menuitem" href="{{ item.address|replace('<id>', id) }}">
+		<a class="{{ class }}" href="{{ item.address|replace('<id>', id) }}">
 			{% if item.image and item.flags == 0 %}
-				<img alt="" src="{{ url_for('static', filename = item.image) }}"/>
+				<span class="glyphicon glyphicon-{{ item.image }}"></span>
 			{% endif %}
-			{{ item.name }}
+			<span>{{ item.name }}</span>
 			{% if item.image and item.flags == 1 %}
-				<img alt="" src="{{ url_for('static', filename = item.image) }}"/>
+				<span class="glyphicon glyphicon-{{ item.image }}"></span>
 			{% endif %}
 		</a>
 	{% endfor %}
 {%- endmacro %}
 
-{% macro nav(list) -%}
+{% macro navigation(list, class) -%}
 	{% for item in list %}
 		<li>
-			<a class="menuitem" href="{{ item.address }}">
+			<a class="{{ class }}" href="{{ item.address }}">
 			{% if item.image and item.flags == 0 %}
-				<img alt="" src="{{ url_for('static', filename = item.image) }}"/>
+				<span class="glyphicon glyphicon-{{ item.image }}"></span>
 			{% endif %}
 			{{ item.name }}
 			{% if item.image and item.flags == 1 %}
-				<img alt="" src="{{ url_for('static', filename = item.image) }}"/>
+				<span class="glyphicon glyphicon-{{ item.image }}"></span>
 			{% endif %}
 			</a>
 		</li>
 	{% endfor %}
+{%- endmacro %}
+
+{% macro popup(id, list, class) -%}
+	<script>
+		$(function() {
+			$("#{{ id }}").hover(function(event) {
+				var pos = $(this).position();
+				var width = $(this).outerWidth();
+				var height = $(this).outerHeight();
+				$("#{{ id }}-popup").css({top: (pos.top + height) + "px",
+					left: pos.left + "px",
+					width: width +"px"}).show();
+			}, function() { $("#{{ id }}-popup").hide(); });
+			$("#{{ id }}-popup").hover(function(event) {
+				$("#{{ id }}-popup").show();
+			}, function() {
+				$("#{{ id }}-popup").hide();
+			});
+		});
+	</script>
+	<ul id="{{ id }}-popup">
+		{% for item in list %}
+			<li>
+				<a class="{{ class }}" href="{{ item.address }}">
+				{% if item.image and item.flags == 0 %}
+					<span class="glyphicon glyphicon-{{ item.image }}"></span>
+				{% endif %}
+				{{ item.name }}
+				{% if item.image and item.flags == 1 %}
+					<span class="glyphicon glyphicon-{{ item.image }}"></span>
+				{% endif %}
+				</a>
+			</li>
+		{% endfor %}
+	</ul>
 {%- endmacro %}

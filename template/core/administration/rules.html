@@ -1,38 +1,45 @@
-{% extends "base/adminbackend.html" %}
+{% extends "core/administration/base.html" %}
+{% import "base/table.html" as table %}
 {% block styles %}
-	{{ static.css("css/administration/table.css") }}
+	<style type="text/css">
+		{{ table.column_width("50%", [2, 3]) }}
+		{{ table.column_style("font-size: 12px; color: #888;", [4, 5, 6, 7]) }}
+		{{ table.column_centered([4, 5, 6, 7]) }}
+	</style>
 {% endblock %}
 {% block content %}
-
-
-		<div class="toolbar">{{ menu.build(actions) }}</div>
-		<table>
-		<thead>
-			<th>Route</th>
-			<th>Role</th>
-			<th>Create</th>
-			<th>Delete</th>
-			<th>Update</th>
-			<th>View / Use</th>
-			<th>Find</th>
-			<th>Actions</th>
-		</thead>
-		<tbody>
-			{% for item in items %}
-			<tr class="{{ loop.cycle('odd', 'even') }}">
-				<td>{{ item.route }}</td>
-				<td>{{ item.role.name }}</td>
-				<td>{{ item.insert }}</td>
-				<td>{{ item.remove }}</td>
-				<td>{{ item.change }}</td>
-				<td>{{ item.view }}</td>
-				<td>{{ item.search }}</td>
-				<td>{{ menu.context(item.actions, item.id) }}</td>
-			</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-	</div>
-
-
+<h1>Rule Administration</h1>
+<table>
+	<thead>
+		<th>{{ menu.build(actions) }}</th>
+		<th>Route</th>
+		<th>Role</th>
+		<th><span class="glyphicon glyphicon-plus"/></th>
+		<th><span class="glyphicon glyphicon-remove"/></th>
+		<th><span class="glyphicon glyphicon-pencil"/></th>
+		<th><span class="glyphicon glyphicon-eye-open"/></th>
+	</thead>
+	<tbody>
+		<tr class="filters">
+			<td><span class="glyphicon glyphicon-filter"/></td>
+			<td>{{ table.filter_text("route_filter") }}</td>
+			<td>{{ table.filter_select("role_filter") }}</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		{% for item in items %}
+		<tr class="{{ loop.cycle('odd', 'even') }}">
+			<td>{{ menu.context(item.actions, item.id) }}</td>
+			<td class="route">{{ item.route }}</td>
+			<td class="role">{{ item.role.name }}</td>
+			<td>{% if item.insert != "None" %}{{ item.insert }}{% endif %}</td>
+			<td>{% if item.remove != "None" %}{{ item.remove }}{% endif %}</td>
+			<td>{% if item.change != "None" %}{{ item.change }}{% endif %}</td>
+			<td>{% if item.view != "None" %}{{ item.view }}{% endif %}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
 {% endblock %}

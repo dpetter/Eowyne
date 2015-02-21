@@ -73,7 +73,7 @@ class Native(db.Model):
         if not cls.__fields__: cls.__fields__ = fields(cls)
         if not cls.__store__: cls.__store__ = storage(cls)
         Log.debug(cls.__name__, "Loading cache...")
-        items = cls.query.all()
+        items = cls.query.order_by(cls.id).all()
         cls.__list__ = store(cls, items)
         Log.debug(cls.__name__, "Cache loaded...")
         return True

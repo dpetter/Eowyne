@@ -1,0 +1,73 @@
+{% macro column_width(width, nums) -%}
+	{% for num in nums %}
+		table th:nth-child({{ num }}), table td:nth-child({{ num }}) {
+			width: {{ width }};
+		}
+	{% endfor %}
+{%- endmacro %}
+
+{% macro column_style(style, nums) -%}
+	{% for num in nums %}
+		table td:nth-child({{ num }}) {
+			{{ style }}
+		}
+	{% endfor %}
+{%- endmacro %}
+
+{% macro column_centered(nums) -%}
+	{% for num in nums %}
+		table th:nth-child({{ num }}), table td:nth-child({{ num }}) {
+			text-align: center;
+		}
+	{% endfor %}
+{%- endmacro %}
+
+
+{% macro filter_text(name) -%}
+	<script>
+	$(document).ready(function () {
+		var ${{ name }} = $('#{{ name }}');
+		${{ name }}.on('input', function() {
+			var n = $(this).parent()[0].cellIndex + 1;
+			var value = ${{ name }}.val();
+			$('tr').show();
+			if (value!= "" && value != "*") {
+				$('table td:nth-child(' + n + '):not(:contains("' + value + '"))').
+				parent().hide();
+				$(this).parent().parent().show();
+			}
+		});
+	});
+	</script>	
+	<input type="text" name="{{ name }}" id="{{ name }}"/>
+{%- endmacro %}
+
+{% macro filter_select(name) -%}
+	<script>
+	$(document).ready(function () {
+		var ${{ name }} = $('#{{ name }}');
+		var n = ${{ name }}.parent()[0].cellIndex + 1;
+		var arr = []
+		$('table td:nth-child(' + n + ')').each(function(index) {
+			var text = $(this).text();
+			if (text.indexOf("<script>") > -1) return;
+			if (arr.indexOf(text) > -1) return;
+			arr.push(text);
+			$('<option>').text($(this).text()).appendTo(${{ name }});
+		});
+		${{ name }}.change(function() {
+			var n = $(this).parent()[0].cellIndex + 1;
+			var value = ${{ name }}.val();
+			$('tr').show();
+			if (value!= "" && value != "*") {
+				$('table td:nth-child(' + n + '):not(:contains("' + value + '"))').
+				parent().hide();
+				$(this).parent().parent().show();
+			}
+		});
+	});
+	</script>
+	<select name="{{ name }}" id="{{ name }}">
+		<option>*</option>
+	</select>
+{%- endmacro %}

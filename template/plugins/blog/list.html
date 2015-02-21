@@ -6,7 +6,7 @@
 <div class="row col-sm-4 ">
 	<div class="container" style="width:100%;height:auto;padding:50px;left: 80px;position:relative;">
 		<div class="toolbar">
-		{{ menu.build(actions) }}
+		{{ menu.build(actions, "menuitem") }}
 	</div>
 	<h1>All blog entries</h1>
 	{% for item in items %}
@@ -14,7 +14,6 @@
 		<a href="/blog/{{ item.id }}">{{ item.createdOn}} - {{ item.title }}</a>
 	</div>
 	{% endfor %}
-
 	</div>
 </div>
 <div class="row col-sm-4">

@@ -10,7 +10,7 @@ from flask_bootstrap import Bootstrap
 from app.configuration import Configuration
 from core.models.session import Session
 from core.models.user import User
-from core.natives.menu import Menu
+from core.natives.menu import Menubar, Menuitem
 from core.natives.role import Role
 from core.natives.rule import Rule
 from core.shared import db
@@ -52,6 +52,7 @@ def installRules():
              Rule(5, "/menus/",             "All",  "All",  "All",  "All"),
              Rule(3, "/personal/",          "None", "None", "None", "All"),
              Rule(3, "/blog/",              "Own",  "Own",  "Own",  "All"),
+             Rule(3, "/blog/[^/]+/comment", "None", "None", "None", "Foreign"),
              Rule(1, "/wein/",              "None", "None", "None", "All"),
              Rule(1, "/wein/suche/[^/]+",   "None", "None", "None", "All")
              ]
@@ -59,57 +60,68 @@ def installRules():
 
 # -------------------------------------------------------------------------------- #
 def installMenus():
-    if Menu.get(1): return
+    if Menubar.get(1): return
     Log.information(__name__, "Installing menus...")
-    items = [#    address, name, menubar, weight, flags, image
-             Menu("/signin",            "Sign in",          "personal",
-                  2, 1, ""),
-             Menu("/signout",           "Sign out",         "personal",
-                  2, 1, ""),
-             Menu("/personal",          "My Account",       "personal",
-                  0, 1, ""),
-             Menu("/wein/tops",         "Top Wines",        "main",
-                  0, 0, ""),
-             Menu("/blog",              "Blog",             "main",
-                  1, 0, ""),
-             Menu("/pages/about",       "About us",         "main",
-                  2, 0, ""),
-             Menu("/administration",    "Administration",   "main",
-                  10, 0, ""),
-             Menu("/pages/contact",     "Contact",          "extended",
-                  0, 0, ""),
-             Menu("/pages/legal",       "Legal",            "extended",
-                  0, 0, ""),
-             Menu("/rules",             "Rules",            "administration",
-                  0, 0, ""),
-             Menu("/roles",             "Roles",            "administration",
-                  0, 0, ""),
-             Menu("/menus",             "Menus",            "administration",
-                  0, 0, ""),
-             Menu("/rules/create",      "Add rule",         "rule",
-                  0, 0, "img/administration/create-24.png"),
-             Menu("/rules/<id>/delete", "",                 "rule",
-                  1, 0, "img/administration/delete-24.png"),
-             Menu("/rules/<id>/update", "",                 "rule",
-                  2, 0, "img/administration/update-24.png"),
-             Menu("/roles/create",      "Add role",         "role",
-                  0, 0, "img/administration/create-24.png"),
-             Menu("/roles/<id>/delete", "",                 "role",
-                  1, 0, "img/administration/delete-24.png"),
-             Menu("/roles/<id>/update", "",                 "role",
-                  2, 0, "img/administration/update-24.png"),
-             Menu("/menus/create",      "Add menu item",    "menu",
-                  0, 0, "img/administration/create-24.png"),
-             Menu("/menus/<id>/delete", "",                 "menu",
-                  1, 0, "img/administration/delete-24.png"),
-             Menu("/menus/<id>/update", "",                 "menu",
-                  2, 0, "img/administration/update-24.png"),
-             Menu("/blog/create",       "Write blog entry", "blog",
-                  0, 0, "img/administration/create-24.png"),
-             Menu("/blog/<id>/delete",  "",                 "blog",
-                  1, 0, "img/administration/delete-24.png"),
-             Menu("/blog/<id>/update",  "",                 "blog",
-                  2, 0, "img/administration/update-24.png")
+    items = [# name
+             Menubar("personal"),
+             Menubar("administration"),
+             Menubar("rule"),
+             Menubar("role"),
+             Menubar("menu"),
+             Menubar("main"),
+             Menubar("extended"),
+             Menubar("blog")
+             ]
+    for item in items: item.create()
+    items = [# menubar, weight, name, image, flags, address 
+             Menuitem(1,    0,  "My Account",       "user",             0,
+                      "/personal"),
+             Menuitem(1,    10, "Sign in",          "log-in",           0,
+                      "/signin"),
+             Menuitem(1,    10, "Sign out",         "log-out",          0,
+                      "/signout"),
+             Menuitem(2,    0,  "Rules",            "lock",             0,
+                      "/rules"),
+             Menuitem(2,    1,  "Roles",            "bishop",           0,
+                      "/roles"),
+             Menuitem(2,    2,  "Menus",            "menu-hamburger",   0,
+                      "/menus"),
+             Menuitem(3,    0,  "",                 "plus",             0,
+                      "/rules/create"),
+             Menuitem(3,    1,  "",                 "remove",           0,
+                      "/rules/<id>/delete"),
+             Menuitem(3,    2,  "",                 "pencil",           0,
+                      "/rules/<id>/update"),
+             Menuitem(4,    0,  "",                 "plus",             0,
+                      "/roles/create"),
+             Menuitem(4,    1,  "",                 "remove",           0,
+                      "/roles/<id>/delete"),
+             Menuitem(4,    2,  "",                 "pencil",           0,
+                      "/roles/<id>/update"),
+             Menuitem(5,    0,  "",                 "plus",             0,
+                      "/menus/create"),
+             Menuitem(5,    1,  "",                 "remove",           0,
+                      "/menus/<id>/delete"),
+             Menuitem(5,    2,  "",                 "pencil",           0,
+                      "/menus/<id>/update"),
+             Menuitem(6,    0,  "About us",         "",                 0,
+                      "/pages/about"),
+             Menuitem(6,    1,  "Blog",             "",                 0,
+                      "/blog"),
+             Menuitem(6,    2,  "Top Wines",        "",                 0,
+                      "/wein/tops"),
+             Menuitem(7,    0,  "Contact",          "",                 0,
+                      "/pages/contact"),
+             Menuitem(7,    1,  "Legal",            "",                 0,
+                      "/pages/legal"),
+             Menuitem(8,    0,  "",                 "plus",             0,
+                      "/blog/create"),
+             Menuitem(8,    1,  "",                 "remove",           0,
+                      "/blog/<id>/delete"),
+             Menuitem(8,    2,  "",                 "pencil",           0,
+                      "/blog/<id>/update"),
+             Menuitem(8,    2,  "Leave a comment",  "comment",          0,
+                      "/blog/<id>/comment")
              ]
     for item in items: item.create()
 
@@ -117,7 +129,7 @@ def installMenus():
 def installUsers():
     if User.get(1): return
     Log.information(__name__, "Installing users...")
-    items = [#    role, email, name, password, key
+    items = [# role, email, name, password, key
              User(Role.get(2),  None,               "Gast",None,         ""),
              User(Role.get(5),  "eowyn@eowyne.de",  "Administrator","pwd",        ""),
              User(Role.get(3),  "user@eowyne.de",   "Benutzer","pwd",        ""),
@@ -128,7 +140,7 @@ def installUsers():
 # -------------------------------------------------------------------------------- #
 def installSessions():
     Session.get(1)
-    
+
 # -------------------------------------------------------------------------------- #
 def installGattung():
     if Gattung.get(1): return

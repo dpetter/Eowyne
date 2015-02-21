@@ -35,7 +35,7 @@
 	{% block styles %}{% endblock %}
 </head>
 <body>
-<div id="personalmenu">{{ menu.build(g.personal_menu) }}</div>
+<div id="personalmenu">{{ menu.build(g.personal_menu, "menuitem") }}</div>
 <div class="brand new_brand">La Bodega</div>
     <div class="address-bar new_brand">Wein | Geschmack | Genuss</div>
 
@@ -55,7 +55,7 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                	{{ menu.nav(g.main_menu) }}
+                	{{ menu.navigation(g.main_menu, "menuitem") }}
                 </ul>
             </div>
             <!-- /.navbar-collapse -->

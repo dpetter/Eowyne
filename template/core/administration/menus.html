@@ -1,35 +1,45 @@
-{% extends "base/adminbackend.html" %}
+{% extends "core/administration/base.html" %}
+{% import "base/table.html" as table %}
 {% block styles %}
-	{{ static.css("css/administration/table.css") }}
+	<style type="text/css">
+		{{ table.column_style("border-left: 1px solid #ddd;" +
+		"border-right: 1px solid #ddd;", [2]) }}
+		{{ table.column_width("25%", [3]) }}
+		{{ table.column_width("75%", [4]) }}
+		{{ table.column_style("font-size: 12px; color: #888;", [4, 5, 6]) }}
+		{{ table.column_centered([6]) }}
+	</style>
 {% endblock %}
 {% block content %}
-
-
-		<div class="toolbar">{{ menu.build(actions) }}</div>
-	<table>
-		<thead>
-			<th>Menu Bar</th>
-			<th>Name</th>
-			<th>Address</th>
-			<th>Weight</th>
-			<th>Flags</th>
-			<th>Image</th>
-			<th>Actions</th>
-		</thead>
-		<tbody>
-			{% for item in items %}
-			<tr class="{{ loop.cycle('odd', 'even') }}">
-				<td>{{ item.menubar }}</td>
-				<td>{{ item.name }}</td>
-				<td>{{ item.address }}</td>
-				<td>{{ item.weight }}</td>
-				<td>{{ item.flags }}</td>
-				<td>{{ item.image }}</td>
-				<td>{{ menu.context(item.actions, item.id) }}</td>
-			</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-	</div>
-
+<h1>Menu Administration</h1>
+<table>
+	<thead>
+		<th>{{ menu.build(actions) }}</th>
+		<th><span class="glyphicon glyphicon-camera"></span></th>
+		<th>Name</th>
+		<th>Address</th>
+		<th>Menu Bar</th>
+		<th><span class="glyphicon glyphicon-scale"></span></th>
+	</thead>
+	<tbody>
+		<tr class="filters">
+			<td><span class="glyphicon glyphicon-filter"/></td>
+			<td></td>
+			<td></td>
+			<td>{{ table.filter_text("address_filter") }}</td>
+			<td>{{ table.filter_select("menubar_filter") }}</td>
+			<td></td>
+		</tr>
+		{% for item in items %}
+		<tr class="{{ loop.cycle('odd', 'even') }}">
+			<td>{{ menu.context(item.actions, item.id) }}</td>
+			<td><span class="glyphicon glyphicon-{{ item.image }}"></span></td>
+			<td>{{ item.name }}</td>
+			<td>{{ item.address }}</td>
+			<td>{{ item.menubar.name }}</td>
+			<td>{{ item.weight }}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
 {% endblock %}
