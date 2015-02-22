@@ -19,6 +19,7 @@ from sqlalchemy.sql.sqltypes import Integer, DateTime, String
 from core.natives.role import Role
 from models import Model
 from natives import relation
+from utility.keyutility import encrypt
 
 
 class User(Model):
@@ -42,7 +43,7 @@ class User(Model):
         self.role           = role
         self.email          = email
         self.name           = name
-        self.password       = password
+        self.password       = encrypt(password)
         self.generated      = generated
     
     # ---------------------------------------------------------------------------- #

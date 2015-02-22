@@ -1,9 +1,9 @@
 {% if get_flashed_messages() %}
-<div id="infofield">
-{% with messages = get_flashed_messages() %}
-	{% for message in messages %}
-		<p>{{ message }}</p>
-	{% endfor %}
-{% endwith %}
-</div>
+	<div id="infofield">
+	{% with messages = get_flashed_messages() %}
+		{% for message in messages %}
+			<p>{{ message }}</p>
+		{% endfor %}
+	{% endwith %}
+	</div>
 {% endif %}

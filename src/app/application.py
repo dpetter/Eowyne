@@ -15,7 +15,7 @@ from werkzeug.contrib.fixers import ProxyFix
 
 from app.configuration import Configuration
 from core.shared import db, cache, mailservice
-from utility import localization
+from utility import localization, keyutility
 from utility.log import Log
 from core import shared
 from natives import Native
@@ -32,6 +32,7 @@ app.wsgi_app = ProxyFix(app.wsgi_app)
 Bootstrap(app)
 app.secret_key = Configuration["secret_key"]
 localization.text_path = Configuration["text_files"]
+keyutility.salt = Configuration["crypt_salt"]
 shared.noscope_url = Configuration["noscopeurl"]
 
 Log.information(__name__, "Connecting to database...")

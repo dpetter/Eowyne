@@ -16,6 +16,7 @@ from core.natives.rule import Rule
 from core.shared import db
 from plugins.blog.blog import Blog
 from plugins.wine.models import *
+from utility import keyutility
 from utility.log import Log
 
 
@@ -227,8 +228,8 @@ Log.information(__name__, "Initialising Flask...")
 app = Flask(__name__,
             static_folder = "../../static",
             template_folder = "../../template")
-Bootstrap(app)
 app.secret_key = Configuration["secret_key"]
+keyutility.salt = Configuration["crypt_salt"]
 
 Log.information(__name__, "Connecting to database...")
 app.config["SQLALCHEMY_DATABASE_URI"] = Configuration["sql_db_uri"]

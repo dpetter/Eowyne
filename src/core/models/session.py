@@ -13,7 +13,7 @@ from sqlalchemy.sql.schema import Column, ForeignKey
 from sqlalchemy.sql.sqltypes import Integer, DateTime, String
 
 from models import Model
-from utility.generator import randomkey
+from utility.keyutility import randomkey
 from utility.log import Log
 
 

@@ -26,7 +26,7 @@ from core.natives.role import Role
 from core.natives.rule import access, Rule
 from core.rendering import DefaultForm, invalid, forbidden, render, editor
 from core.shared import mailservice
-from utility.generator import randomkey
+from utility.keyutility import randomkey, encrypt
 from utility.localization import localize
 from utility.log import Log
 
@@ -125,8 +125,7 @@ def signin():
     form = FormSignin()
     def confirm():
         email = form.email.data
-        # TODO: Encrypt here.
-        password = form.password.data
+        password = encrypt(form.password.data)
         user = User.unique((User.email == email) & (User.password == password))
         if not user:
             flash(localize("core", "client.signin_failure"))
@@ -159,8 +158,7 @@ def register():
             flash(localize("core", "client.name_taken"))
             return redirect(request.path)
         key = randomkey(24, form.name.data)
-        # TODO: Encrypt here.
-        password = form.password.data
+        password = encrypt(form.password.data)
         user = User(Role.get(4), form.email.data, form.name.data, password, key)
         user.create()
         link = "http://localhost:5000/register/" + key
@@ -215,8 +213,7 @@ def reset_update(key):
             flash(localize("core", "client.no_account"))
             return redirect(request.path)
         user.generated = ""
-        # TODO: Encrypt here.
-        user.password = form.password.data
+        user.password = encrypt(form.password.data)
         user.update()
         flash(localize("core", "client.password_success"))
         return redirect("/")

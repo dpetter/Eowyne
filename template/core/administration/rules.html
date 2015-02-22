@@ -32,8 +32,8 @@
 		{% for item in items %}
 		<tr class="{{ loop.cycle('odd', 'even') }}">
 			<td>{{ menu.context(item.actions, item.id) }}</td>
-			<td class="route">{{ item.route }}</td>
-			<td class="role">{{ item.role.name }}</td>
+			<td>{{ item.route }}</td>
+			<td>{{ item.role.name }}</td>
 			<td>{% if item.insert != "None" %}{{ item.insert }}{% endif %}</td>
 			<td>{% if item.remove != "None" %}{{ item.remove }}{% endif %}</td>
 			<td>{% if item.change != "None" %}{{ item.change }}{% endif %}</td>
