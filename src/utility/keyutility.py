@@ -35,4 +35,7 @@ def hash_password(text):
 
 # -------------------------------------------------------------------------------- #
 def match_password(text, pw_hash):
+    '''
+    Checks if the password matches.
+    '''
     return bcrypt.hashpw(text, pw_hash) == pw_hash  # @UndefinedVariable
