@@ -21,8 +21,8 @@ def randomkey(size, prefix = ""):
     '''
     randomlength = size - len(prefix)
     if randomlength <= 0: raise ValueError("Prefix longer than key.")
-    key = prefix + [random.choice(string.ascii_letters)
-                    for x in range(randomlength)]  # @UnusedVariable
+    key = prefix + "".join([random.choice(string.ascii_letters)
+                            for x in range(randomlength)])  # @UnusedVariable
     return key
 
 # -------------------------------------------------------------------------------- #
