@@ -32,7 +32,7 @@ Configuration = {
     "text_files": "./static/txt/",
     
     # Tested with sqlite, pymysql and mysql-connector. May work with more...
-    "sql_db_uri": "mysql+pymysql://theoden:king@localhost/eowyne",
+    "sql_db_uri": "sqlite:////tmp/database.db",
     
     # This is required for multithreaded/cluster usage. See doc on that.
     "native_msg": "./message/",

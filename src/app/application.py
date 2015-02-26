@@ -28,6 +28,7 @@ Log.information(__name__, "Initialising Flask...")
 app = Flask(__name__,
             static_folder = Configuration["static_dir"],
             template_folder = Configuration["template_dir"])
+app.debug=True
 app.wsgi_app = ProxyFix(app.wsgi_app)
 Bootstrap(app)
 app.secret_key = Configuration["secret_key"]
