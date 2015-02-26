@@ -22,9 +22,6 @@ Configuration = {
     "static_dir": "../../static",
     "template_dir": "../../template", # It doesn't sync. D:
     
-    # Salt for password encryption.
-    "crypt_salt": "pepper",
-    
     # All your ajax calls should be prefixed with this path.
     "noscopeurl": "/api/",
     

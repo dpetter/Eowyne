@@ -8,7 +8,7 @@
 # ================================================================================ #
 import random
 import string
-import hashlib
+import bcrypt
 
 
 # Random Key Generator
@@ -26,11 +26,13 @@ def randomkey(size, prefix = ""):
     return key
 
 # -------------------------------------------------------------------------------- #
-def encrypt(text):
+def hash_password(text):
     '''
-    Encrypts text with sha265.
+    Encrypts text with bcrypt.
     '''
-    global salt
     if not text: return None
-    t = salt + ":" + text
-    return hashlib.sha256(t.encode("ascii")).hexdigest()
+    return bcrypt.hashpw(text, bcrypt.gensalt(12))  # @UndefinedVariable
+
+# -------------------------------------------------------------------------------- #
+def match_password(text, pw_hash):
+    return bcrypt.hashpw(text, pw_hash) == pw_hash  # @UndefinedVariable
