@@ -23,6 +23,15 @@
 	color: whitesmoke;
 	font-size: 16px;
 	font-weight: bold;
+	max-height:25px;
+}
+
+.menuitem:hover, .menuitem:active,  .menuitem:focus {
+	margin: 15px;
+	font-style: normal;
+	text-decoration: none;
+	color: brown!important;
+	margin-top:14px!important;
 }
 
 #personalmenu{
