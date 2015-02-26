@@ -229,7 +229,6 @@ app = Flask(__name__,
             static_folder = "../../static",
             template_folder = "../../template")
 app.secret_key = Configuration["secret_key"]
-keyutility.salt = Configuration["crypt_salt"]
 
 Log.information(__name__, "Connecting to database...")
 app.config["SQLALCHEMY_DATABASE_URI"] = Configuration["sql_db_uri"]

@@ -19,7 +19,7 @@ from sqlalchemy.sql.sqltypes import Integer, DateTime, String
 from core.natives.role import Role
 from models import Model
 from natives import relation
-from utility.keyutility import encrypt
+from utility.keyutility import hash_password, match_password
 
 
 class User(Model):
@@ -43,13 +43,21 @@ class User(Model):
         self.role           = role
         self.email          = email
         self.name           = name
-        self.password       = encrypt(password)
+        self.password       = hash_password(password)
         self.generated      = generated
     
     # ---------------------------------------------------------------------------- #
     def __eq__(self, other):
         if not hasattr(other, "id"): return False
         return self.id == other.id
+    
+    # ---------------------------------------------------------------------------- #
+    def set_password(self, password):
+        self.password = hash_password(password)
+    
+    # ---------------------------------------------------------------------------- #
+    def match_password(self, password):
+        return match_password(password, self.password)
 
 
 class Editor(User):
