@@ -1,7 +1,8 @@
-Flask
-Flask-SQLAlchemy
-Flask-WTF
-Flask-Cache
-Flask-Bootstrap
-SQLAlchemy
 pymysql
+py-bcrypt
+sqlalchemy
+flask
+flask-sqlalchemy
+flask-wtf
+flask-bootstrap
+flask-cache
