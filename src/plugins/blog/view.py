@@ -1,6 +1,6 @@
 from flask.blueprints import Blueprint
 from flask.globals import g, request
-from wtforms.fields.simple import TextField
+from wtforms.fields.simple import TextField, TextAreaField
 from wtforms.validators import DataRequired
 
 from core.natives.menu import menubar, contextmenu
@@ -17,7 +17,7 @@ blueprint = Blueprint("Blog Controller", __name__)
 # -------------------------------------------------------------------------------- #
 class FormBlog(DefaultForm):
     title       = TextField("Title", validators = [DataRequired()])
-    description = TextField("Content", validators = [DataRequired()])
+    description = TextAreaField("Content", validators = [DataRequired()])
 
 
 # Default route: View the latest blog entry.
