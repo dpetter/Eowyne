@@ -9,7 +9,7 @@
 from sqlalchemy.sql.schema import Column, ForeignKey
 from sqlalchemy.sql.sqltypes import Integer, String
 
-from core.natives.rule import access
+from core.security.rule import access
 from natives import Native, relation
 
 

@@ -11,7 +11,7 @@ from utility.log import Log
 
 Configuration = {
     # Set this to Log.WARNING (fastest) or Log.INFORMATION in production.
-    "log_level": Log.WARNING,
+    "log_level": Log.DEBUG,
     
     # Flask settings. Set host = 0.0.0.0 to route into the internet.
     # Put your static files (js, css, etc) into static_dir.
@@ -29,7 +29,8 @@ Configuration = {
     "text_files": "./static/txt/",
     
     # Tested with sqlite, pymysql and mysql-connector. May work with more...
-    "sql_db_uri": "sqlite:////tmp/database.db",
+    "sql_db_uri": "mysql+pymysql://theoden:king@localhost:3306/eowyne",
+#    "sql_db_uri": "sqlite:////tmp/database.db",
     
     # This is required for multithreaded/cluster usage. See doc on that.
     "native_msg": "./message/",

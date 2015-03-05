@@ -119,6 +119,15 @@ class Native(db.Model):
     
     # ---------------------------------------------------------------------------- #
     @classmethod
+    def total(cls):
+        '''
+        Returns the number of columns in the table.
+        '''
+        if not cls.__list__: cls.load()
+        return len(cls.__list__)
+    
+    # ---------------------------------------------------------------------------- #
+    @classmethod
     def update(cls, item):
         '''
         Updates the item in the database.

@@ -16,7 +16,7 @@
 from sqlalchemy.sql.schema import Column, ForeignKey
 from sqlalchemy.sql.sqltypes import Integer, DateTime, String
 
-from core.natives.role import Role
+from core.security.role import Role
 from models import Model
 from natives import relation
 from utility.keyutility import hash_password, match_password

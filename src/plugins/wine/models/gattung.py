@@ -1,7 +1,7 @@
-from sqlalchemy.sql.schema import Column, ForeignKey
+from sqlalchemy.sql.schema import Column
 from sqlalchemy.sql.sqltypes import Integer, String
 
-from  models import Model
+from models import Model
 
 
 class Gattung(Model):

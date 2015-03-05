@@ -12,7 +12,7 @@ import re
 from sqlalchemy.sql.schema import Column, ForeignKey
 from sqlalchemy.sql.sqltypes import Integer, String, Enum
 
-from core.natives.role import Role
+from core.security.role import Role
 from natives import Native, relation
 from utility.log import Log
 

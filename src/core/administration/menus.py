@@ -12,7 +12,7 @@ from wtforms.fields.core import SelectField, IntegerField
 from wtforms.fields.simple import TextField
 from wtforms.validators import DataRequired, NumberRange
 
-from core.natives.menu import menubar, Menuitem, contextmenu, Menubar
+from core.navigation.menu import menubar, Menuitem, contextmenu, Menubar
 from core.rendering import DefaultForm, render, create_form, mismatch, delete_form, \
     update_form
 from utility.localization import localize

@@ -55,9 +55,13 @@ if "email_host" in Configuration:
 # Register blueprints
 # -------------------------------------------------------------------------------- #
 Log.information(__name__, "Registering core blueprints...")
-path = ["./src/core/blueprints"]
-prefix = "core.blueprints."
-for module_loader, name, ispkg in pkgutil.walk_packages(path, prefix):
+core_blueprints = ["core", "security.login", "administration.roles",
+                   "administration.rules", "administration.menus"]
+#path = ["./src/core/blueprints"]
+#prefix = "core.blueprints."
+#for module_loader, name, ispkg in pkgutil.walk_packages(path, prefix):
+for item in core_blueprints:
+    name = "core." + item
     module = importlib.import_module(name)
     if not hasattr(module, "blueprint"): continue
     Log.information(__name__, "Importing %s" % (name))

@@ -3,8 +3,8 @@ from flask.globals import g, request
 from wtforms.fields.simple import TextField, TextAreaField
 from wtforms.validators import DataRequired
 
-from core.natives.menu import menubar, contextmenu
-from core.natives.rule import access
+from core.navigation.menu import menubar, contextmenu
+from core.security.rule import access
 from core.rendering import DefaultForm, render, create_form, mismatch, forbidden, \
     delete_form, update_form
 from plugins.blog.blog import Blog

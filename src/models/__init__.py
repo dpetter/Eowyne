@@ -20,6 +20,7 @@
 from datetime import datetime
 
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.sql.functions import func
 from sqlalchemy.sql.schema import Column
 from sqlalchemy.sql.sqltypes import Integer
 
@@ -76,6 +77,14 @@ class Model(db.Model):
             Log.error(self.__class__.__name__, str(ex))
             db.session.rollback()  # @UndefinedVariable
             return False
+    
+    # ---------------------------------------------------------------------------- #
+    @classmethod
+    def total(cls):
+        '''
+        Returns the number of columns in the table.
+        '''
+        return db.session.query(func.count(cls.id)).scalar()  # @UndefinedVariable
     
     # ---------------------------------------------------------------------------- #
     @classmethod

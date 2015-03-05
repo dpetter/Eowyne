@@ -12,8 +12,8 @@ from wtforms.fields.core import SelectField
 from wtforms.fields.simple import TextField
 from wtforms.validators import DataRequired
 
-from core.natives.menu import menubar, contextmenu
-from core.natives.role import Role
+from core.navigation.menu import menubar, contextmenu
+from core.security.role import Role
 from core.rendering import DefaultForm, render, create_form, mismatch, delete_form, \
     update_form
 from utility.localization import localize
