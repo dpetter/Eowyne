@@ -20,8 +20,7 @@ menubars = [# name
 Menubar("wein")
 ]
 
-menuitems = [# menubar, weight, name, image, flags, address 
-Menuitem(1, 0,  "My Account",       "user",             0,  "/personal"),
+menuitems = [# menubar, weight, name, image, flags, address
 Menuitem(6, 3,  "Top Wines",        "",                 0,  "/wein/tops"),
 ]
 
