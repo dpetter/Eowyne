@@ -15,7 +15,7 @@ from werkzeug.contrib.fixers import ProxyFix
 
 from app.configuration import Configuration
 from core.shared import db, cache, mailservice
-from utility import localization
+from core.utility import localization
 from utility.log import Log
 from core import shared
 from natives import Native
@@ -28,7 +28,7 @@ Log.information(__name__, "Initialising Flask...")
 app = Flask(__name__,
             static_folder = Configuration["static_dir"],
             template_folder = Configuration["template_dir"])
-if Log.level == Log.DEBUG: app.debug = True
+app.debug = True
 app.wsgi_app = ProxyFix(app.wsgi_app)
 Bootstrap(app)
 app.secret_key = Configuration["secret_key"]

@@ -1,0 +1,37 @@
+{% extends "core/administration/base.html" %}
+{% block content %}
+	<h1>{{ headline }}</h1>
+	<form id="form" action="{{ action }}" method="post">
+		{{ form.csrf_token }}
+		<div class="container" style="width: 90%">
+			<div class="row">
+				<div class="col-sm-6">
+					{{ form.route.label }}<span>{{ form.route }}</span>
+				</div>
+				<div class="col-sm-6">
+					{{ form.role_id.label }}<span>{{ form.role_id }}</span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-6">
+					{{ form.insert.label }}<span>{{ form.insert }}</span>
+				</div>
+				<div class="col-sm-6">
+					{{ form.remove.label }}<span>{{ form.remove }}</span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-6">
+					{{ form.change.label }}<span>{{ form.change }}</span>
+				</div>
+				<div class="col-sm-6">
+					{{ form.view.label }}<span>{{ form.view }}</span>
+				</div>
+			</div>
+		</div>
+		<div class="buttons">
+			{{ form.confirm }}
+			{{ form.cancel }}
+		</div>
+	</form>
+{% endblock %}

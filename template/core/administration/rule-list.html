@@ -1,11 +1,11 @@
 {% extends "core/administration/base.html" %}
 {% import "base/table.html" as table %}
 {% block styles %}
-	<style type="text/css">
-		{{ table.column_width("50%", [2, 3]) }}
-		{{ table.column_style("font-size: 12px; color: #888;", [4, 5, 6, 7]) }}
-		{{ table.column_centered([4, 5, 6, 7]) }}
-	</style>
+<style type="text/css">
+	{{ table.align_columns([4, 5, 6, 7], "center") }}
+	{{ table.size_columns([2, 3], "50%") }}
+	{{ table.style_columns([4, 5, 6, 7], "font-size: 12px; color: #888;") }}
+</style>
 {% endblock %}
 {% block content %}
 <h1>Rule Administration</h1>
@@ -14,15 +14,15 @@
 		<th>{{ menu.build(actions) }}</th>
 		<th>Route</th>
 		<th>Role</th>
-		<th><span class="glyphicon glyphicon-plus"/></th>
-		<th><span class="glyphicon glyphicon-remove"/></th>
-		<th><span class="glyphicon glyphicon-pencil"/></th>
-		<th><span class="glyphicon glyphicon-eye-open"/></th>
+		<th>{{ icon.glyph("plus") }}</th>
+		<th>{{ icon.glyph("remove") }}</th>
+		<th>{{ icon.glyph("pencil") }}</th>
+		<th>{{ icon.glyph("eye-open") }}</th>
 	</thead>
 	<tbody>
 		<tr class="filters">
-			<td><span class="glyphicon glyphicon-filter"/></td>
-			<td>{{ table.filter_text("route_filter") }}</td>
+			<td>{{ icon.glyph("filter") }}</td>
+			<td>{{ table.filter_textfield("route_filter") }}</td>
 			<td>{{ table.filter_select("role_filter") }}</td>
 			<td></td>
 			<td></td>

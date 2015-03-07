@@ -9,7 +9,7 @@
 from flask_cache import Cache
 from flask_sqlalchemy import SQLAlchemy
 
-from utility.mail import MailService
+from core.utility.mail import MailService
 
 
 db                      = SQLAlchemy()

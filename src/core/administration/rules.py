@@ -17,10 +17,10 @@ from core.security.role import Role
 from core.security.rule import Rule
 from core.rendering import DefaultForm, render, create_form, mismatch, delete_form, \
     update_form
-from utility.localization import localize
+from core.utility.localization import localize
 
 
-blueprint = Blueprint("Rule Controller", __name__)
+blueprint = Blueprint("rule-controller", __name__)
 
 
 # Forms
@@ -48,7 +48,7 @@ def entries():
     items = Rule.all()
     actions = menubar("rule", g.role.id)
     for item in items: item.actions = contextmenu("rule", g.role.id)
-    return render("core/administration/rules.html", navigation = navigation,
+    return render("core/administration/rule-list.html", navigation = navigation,
                   items = items, actions = actions)
 
 # Create Rule
@@ -62,7 +62,7 @@ def create():
     headline = localize("core", "rules.create_headline")
     message = localize("core", "rules.create_success")
     return create_form(item, form, headline, message, "/rules",
-                       template = "core/administration/form.html",
+                       template = "core/administration/rule-form.html",
                        navigation = navigation)
 
 # Delete Rule
@@ -91,5 +91,5 @@ def update(identifier):
     headline = localize("core", "rules.update_headline")
     message = localize("core", "rules.update_success")
     return update_form(item, form, headline, message, "/rules",
-                       template = "core/administration/form.html",
+                       template = "core/administration/rule-form.html",
                        navigation = navigation)

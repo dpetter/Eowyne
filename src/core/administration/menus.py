@@ -15,10 +15,10 @@ from wtforms.validators import DataRequired, NumberRange
 from core.navigation.menu import menubar, Menuitem, contextmenu, Menubar
 from core.rendering import DefaultForm, render, create_form, mismatch, delete_form, \
     update_form
-from utility.localization import localize
+from core.utility.localization import localize
 
 
-blueprint = Blueprint("Menu Controller", __name__)
+blueprint = Blueprint("menu-controller", __name__)
 
 
 # Forms
@@ -46,7 +46,7 @@ def entries():
     items = Menuitem.all()
     actions = menubar("menu", g.role.id)
     for item in items: item.actions = contextmenu("menu", g.role.id)
-    return render("core/administration/menus.html", navigation = navigation,
+    return render("core/administration/menu-list.html", navigation = navigation,
                   items = items, actions = actions)
 
 # Create Menu
@@ -60,7 +60,7 @@ def create():
     headline = localize("core", "menus.create_headline")
     message = localize("core", "menus.create_success")
     return create_form(item, form, headline, message, "/menus",
-                       template = "core/administration/form.html",
+                       template = "core/administration/menu-form.html",
                        navigation = navigation)
 
 # Delete Menu
@@ -89,5 +89,5 @@ def update(identifier):
     headline = localize("core", "menus.update_headline")
     message = localize("core", "menus.update_success")
     return update_form(item, form, headline, message, "/menus",
-                       template = "core/administration/form.html",
+                       template = "core/administration/menu-form.html",
                        navigation = navigation)

@@ -1,39 +1,39 @@
 {% extends "core/administration/base.html" %}
 {% import "base/table.html" as table %}
 {% block styles %}
-	<style type="text/css">
-		{{ table.column_style("border-left: 1px solid #ddd;" +
-		"border-right: 1px solid #ddd;", [2]) }}
-		{{ table.column_width("25%", [3]) }}
-		{{ table.column_width("75%", [4]) }}
-		{{ table.column_style("font-size: 12px; color: #888;", [4, 5, 6]) }}
-		{{ table.column_centered([6]) }}
-	</style>
+<style type="text/css">
+	{{ table.style_columns([2], "border-left: 1px solid #ddd; border-right: 1px solid #ddd;") }}
+	{{ table.style_headers([2], "border-left: 1px solid #ddd; border-right: 1px solid #ddd;") }}
+	{{ table.size_columns([3], "25%") }}
+	{{ table.size_columns([4], "75%") }}
+	{{ table.style_columns([4, 5, 6], "font-size: 12px; color: #888;") }}
+	{{ table.align_columns([6], "center") }}
+</style>
 {% endblock %}
 {% block content %}
 <h1>Menu Administration</h1>
 <table>
 	<thead>
 		<th>{{ menu.build(actions) }}</th>
-		<th><span class="glyphicon glyphicon-picture"></span></th>
+		<th>{{ icon.glyph("picture") }}</th>
 		<th>Name</th>
 		<th>Address</th>
 		<th>Menu Bar</th>
-		<th><span class="glyphicon glyphicon-transfer"></span></th>
+		<th>{{ icon.glyph("transfer") }}</th>
 	</thead>
 	<tbody>
 		<tr class="filters">
-			<td><span class="glyphicon glyphicon-filter"/></td>
+			<td>{{ icon.glyph("filter") }}</td>
 			<td></td>
 			<td></td>
-			<td>{{ table.filter_text("address_filter") }}</td>
+			<td>{{ table.filter_textfield("address_filter") }}</td>
 			<td>{{ table.filter_select("menubar_filter") }}</td>
 			<td></td>
 		</tr>
 		{% for item in items %}
 		<tr class="{{ loop.cycle('odd', 'even') }}">
 			<td>{{ menu.context(item.actions, item.id) }}</td>
-			<td><span class="glyphicon glyphicon-{{ item.image }}"></span></td>
+			<td>{{ icon.glyph(item.image) }}</td>
 			<td>{{ item.name }}</td>
 			<td>{{ item.address }}</td>
 			<td>{{ item.menubar.name }}</td>

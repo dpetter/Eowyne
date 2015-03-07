@@ -12,16 +12,16 @@
 import time
 
 from flask.blueprints import Blueprint
-from flask.globals import request, g, session
+from flask.globals import request, g
 
 from core import shared
 from core.navigation.menu import menubar, Menubar, Menuitem
 from core.rendering import invalid, forbidden, render
 from core.security.role import Role
 from core.security.rule import access, Rule
-from core.security.session import Session
 from core.security.user import Client
 from utility.log import Log
+from core.security import acquire_session
 
 
 blueprint = Blueprint("Core Controller", __name__)
@@ -39,7 +39,7 @@ def beforerequest():
     heartbeat()
     if request.path.startswith(shared.noscope_url): return
     # Fill the global scope ...
-    g.session       = Session.acquire(session)
+    g.session       = acquire_session()
     g.user          = Client.get(g.session.user_id)
     g.role          = g.user.role
     g.main_menu     = menubar("main", g.role.id)
@@ -68,7 +68,7 @@ def is_authenticated():
     '''
     Returns True if this request comes from a logged in user.
     '''
-    g.session       = Session.acquire(session)
+    g.session       = acquire_session()
     g.user          = Client.get(g.session.user_id)
     return g.user >= 3
 

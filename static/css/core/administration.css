@@ -1,0 +1,233 @@
+html, body {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	font-family: arial,helvetica,clean,sans-serif;
+}
+
+/*
+ *	Areas
+*/
+#page-area {
+	position: relative;
+	min-height: 100%;
+}
+
+#header-area {
+	left: 0px;
+	top: 0xp;
+	width: 100%;
+	height: 100px;
+	border-bottom: 1px solid #ddd;
+	background-color: #eee;
+}
+
+#content-area {
+	width: 100%;
+	padding: 20px 0px 120px 0px;
+}
+
+#footer-area {
+	width: 100%;
+	height: 100px;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	border-top: 1px solid #ddd;
+	text-align: center;
+	background-color: #eee;
+}
+
+#message-area {
+	padding: 5px 10px;
+	border: 1px solid #ddd;
+	background-color: #ebebff;
+	list-style: none;
+}
+
+.wrapper {
+	max-width: 1000px;
+	margin: 0 auto;
+	padding: 0px 20px;
+}
+
+/*
+ *	Menus
+*/
+#personal-menu {
+	list-style: none;
+	text-align: right;
+}
+
+#personal-menu li {
+	display: inline-block;
+	padding: 5px 0px 0px 20px;
+}
+
+#main-menu ul {
+	padding: 0px;
+	list-style: none;
+	font-size: 24px;
+}
+
+#main-menu li {
+	display: inline-block;
+	padding: 0px 30px 0px 0px;
+}
+
+#personal-menu a, #main-menu a {
+	text-decoration: none;
+	color: #333;
+}
+
+#personal-menu a:hover, #main-menu a:hover {
+	text-decoration: none;
+	color: #4682B4;
+}
+
+/*
+ * Main administration page
+*/
+h1 {
+	width: 100%;
+	margin: 20px auto;
+	border-bottom: 1px solid #ddd;
+	font-size: 24px;
+}
+
+.frame {
+	display: table;
+	border-collapse: collapse;
+	width: 100%;
+	margin: 20px auto;
+	padding: 10px;
+	border: 1px solid #ddd;
+}
+
+.link {
+	display: table-row;
+	padding: 20px 10px;
+	border: 1px solid #ddd;
+	font-size: 18px;
+	color: #333;
+	text-decoration: none;
+}
+
+.link:hover {
+	background-color: #F5FAEA;
+	text-decoration: none;
+}
+
+.link .glyphicon {
+	width: 48px;
+	text-align: center;
+}
+
+.link span {
+	display: table-cell;
+	padding: 20px 10px;
+	vertical-align: middle;
+}
+
+/*
+ * Forms
+*/
+.buttons {
+	width: 90%;
+	margin: 10px auto 0px auto;
+	padding-top: 10px;
+	border-top: 1px solid #ddd;
+	text-align: center;
+}
+
+form {
+	width: 100%;
+	min-width: 350px;
+	margin: 20px auto;
+	padding: 20px;
+	border: 1px solid #ddd;
+}
+
+form label {
+	float: left;
+	width: 125px;
+	margin: 8px 0px 2px 0px;
+}
+
+form span {
+	display: block;
+	overflow: hidden;
+	padding-left: 10px;
+}
+
+form input[type="text"], select, textarea {
+	width: 100%;
+	margin: 5px 0px;
+	border: 1px solid #ddd;
+    background-color: #fff;
+    box-shadow: inset 0 0 2px rgba(50, 50, 50, 0.1);
+}
+
+form input[type="text"], textarea {
+	padding: 2px 8px;
+}
+
+form select {
+	padding: 3px 5px;
+	border: 1px solid #ddd;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+form input[type="submit"] {
+	width: 125px;
+	margin: 0px 15px;
+}
+
+/*
+ * Tables
+*/
+table {
+	width: 100%;
+	margin: 20px auto;
+	border: 1px solid #ddd;
+	border-collapse: collapse;
+}
+
+table tr:hover {
+	background-color: #F5FAEA;
+	text-decoration: none;
+}
+
+th {
+	padding: 15px 10px;
+	border-bottom: 1px solid #ddd;
+	background-color: #EBF5D6;
+}
+
+td {
+	padding: 10px;
+}
+
+td:first-child {
+	padding-right: 16px;
+	white-space: nowrap;
+}
+
+table .even {
+	background-color: #ffffff;
+}
+
+table .odd {
+	background-color: #fbfbfb;
+}
+
+table .filters {
+	border: 1px solid #ddd;
+}
+
+table a {
+	color: #000;
+}

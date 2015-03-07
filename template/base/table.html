@@ -1,29 +1,33 @@
-{% macro column_width(width, nums) -%}
-	{% for num in nums %}
-		table th:nth-child({{ num }}), table td:nth-child({{ num }}) {
+{% macro align_columns(columns, alignment) -%}
+	{% for column in columns %}
+		table th:nth-child({{ column }}), table td:nth-child({{ column }}) {
+			text-align: {{ alignment }};
+		}
+	{% endfor %}
+{%- endmacro %}
+
+{% macro size_columns(columns, width) -%}
+	{% for column in columns %}
+		table th:nth-child({{ column }}), table td:nth-child({{ column }}) {
 			width: {{ width }};
 		}
 	{% endfor %}
 {%- endmacro %}
 
-{% macro column_style(style, nums) -%}
-	{% for num in nums %}
-		table td:nth-child({{ num }}) {
-			{{ style }}
-		}
+{% macro style_columns(columns, style) -%}
+	{% for column in columns %}
+		table td:nth-child({{ column }}) { {{ style }} }
 	{% endfor %}
 {%- endmacro %}
 
-{% macro column_centered(nums) -%}
-	{% for num in nums %}
-		table th:nth-child({{ num }}), table td:nth-child({{ num }}) {
-			text-align: center;
-		}
+{% macro style_headers(columns, style) -%}
+	{% for column in columns %}
+		table th:nth-child({{ column }}) { {{ style }} }
 	{% endfor %}
 {%- endmacro %}
 
 
-{% macro filter_text(name) -%}
+{% macro filter_textfield(name) -%}
 	<script>
 	$(document).ready(function () {
 		var ${{ name }} = $('#{{ name }}');

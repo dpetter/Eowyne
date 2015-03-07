@@ -17,6 +17,7 @@ from core.security.rule import Rule
 from core.security.session import Session
 from core.security.user import User
 from core.shared import db
+from core.utility.keyutility import hash_password
 
 
 # Core data
@@ -125,14 +126,14 @@ if User.total() == 0:
     print("Creating anonymous account ...")
     username    = input("Anonymous username: ")
     print("Create admin account ...")
-    user = User(Role.get(2), "", username, "", "")
+    user = User(2, "", username, "", "")
     user.create()
     print("- - - - - - - - - - - - - - - - - - -")
     print("Creating administrator account ...")
     username    = input("Administrator username: ")
     email       = input("Administrator email:    ")
     password    = getpass.getpass("Administrator password: ")
-    user = User(Role.get(5), email, username, password, "")
+    user = User(5, email, username, hash_password(password), "")
     user.create()
     print("- - - - - - - - - - - - - - - - - - -")
 Session.total()

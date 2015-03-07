@@ -1,12 +1,12 @@
 {% extends "core/administration/base.html" %}
 {% import "base/table.html" as table %}
 {% block styles %}
-	<style type="text/css">
-		{{ table.column_width("25%", [2]) }}
-		{{ table.column_width("75%", [3]) }}
-		{{ table.column_style("font-size: 12px; color: #888;", [3, 4]) }}
-		{{ table.column_centered([4]) }}
-	</style>
+<style type="text/css">
+	{{ table.size_columns([2], "25%") }}
+	{{ table.size_columns([3], "75%") }}
+	{{ table.style_columns([3, 4], "font-size: 12px; color: #888;") }}
+	{{ table.align_columns([4], "center") }}
+</style>
 {% endblock %}
 {% block content %}
 <h1>Role Administration</h1>

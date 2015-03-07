@@ -7,22 +7,49 @@
 # Created by dp on 2015-02-02.
 # ================================================================================ #
 from flask.blueprints import Blueprint
-from flask.globals import request, g
+from flask.globals import request, g, session
 from flask.helpers import flash
 from werkzeug import redirect
 from wtforms.fields.simple import TextField, PasswordField
 from wtforms.validators import Email, DataRequired
 
 from core.rendering import DefaultForm, editor, render
-from core.security.role import Role
+from core.security.session import Session
 from core.security.user import User
 from core.shared import mailservice
-from utility.keyutility import randomkey
-from utility.localization import localize
+from core.utility.keyutility import randomkey, match_password, hash_password
+from core.utility.localization import localize
+from utility.log import Log
 
 
 blueprint = Blueprint("client-controller", __name__)
 
+
+def acquire_session():
+    '''
+    Acquires the current session over the remote client's cookie. The acquired
+    session always holds the user the client is signed on with or guest if he
+    is not signed on.
+    '''
+    result = None
+    if "sKey" in session:
+        result = Session.unique((Session.key == session["sKey"]) & \
+                                (Session.ip == request.remote_addr))
+    if not result: result = create_session()
+    Log.debug(__name__, "Session acquired (%s) ..." % (result.key))
+    session["sKey"] = result.key
+    return result
+
+def create_session():
+    '''
+    '''
+    Log.debug(__name__, "Creating new session ...")
+    result = Session()
+    result.key     = randomkey(24)
+    result.user_id = 1
+    result.ip      = request.remote_addr
+    result.create()
+    return result
 
 # Forms
 # -------------------------------------------------------------------------------- #
@@ -57,7 +84,7 @@ def signin():
     def confirm():
         email = form.email.data
         user = User.unique(User.email == email)
-        if not user or not user.match_password(form.password.data):
+        if not user or not match_password(form.password.data, user.password):
             flash(localize("core", "client.signin_failure"))
             return redirect(request.path)
         g.session.user_id = user.id
@@ -88,8 +115,8 @@ def register():
             flash(localize("core", "client.name_taken"))
             return redirect(request.path)
         key = randomkey(24, form.name.data)
-        user = User(Role.get(4), form.email.data, form.name.data,
-                    form.password.data, key)
+        user = User(4, form.email.data, form.name.data,
+                    hash_password(form.password.data), key)
         user.create()
         link = "http://localhost:5000/register/" + key
         text = render("mail/register.html", name = user.name, link = link)
@@ -105,7 +132,7 @@ def register_unlock(key):
     user = User.unique(User.generated == key)
     if not user: flash(localize("core", "client.no_account"))
     user.generated = ""
-    user.role = Role.get(3)
+    user.role_id = 3
     user.update()
     g.session.user_id = user.id
     g.session.update()
@@ -143,7 +170,7 @@ def reset_update(key):
             flash(localize("core", "client.no_account"))
             return redirect(request.path)
         user.generated = ""
-        user.set_password(form.password.data)
+        user.password = hash_password(form.password.data)
         user.update()
         flash(localize("core", "client.password_success"))
         return redirect("/")

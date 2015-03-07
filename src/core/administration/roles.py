@@ -9,17 +9,17 @@
 from flask.blueprints import Blueprint
 from flask.globals import g
 from wtforms.fields.core import SelectField
-from wtforms.fields.simple import TextField
+from wtforms.fields.simple import TextField, TextAreaField
 from wtforms.validators import DataRequired
 
 from core.navigation.menu import menubar, contextmenu
 from core.security.role import Role
 from core.rendering import DefaultForm, render, create_form, mismatch, delete_form, \
     update_form
-from utility.localization import localize
+from core.utility.localization import localize
 
 
-blueprint = Blueprint("Role Controller", __name__)
+blueprint = Blueprint("role-controller", __name__)
 
 
 # Forms
@@ -27,8 +27,8 @@ blueprint = Blueprint("Role Controller", __name__)
 class FormRole(DefaultForm):
     name        = TextField(localize("core", "roles.field_name"),
                             validators = [DataRequired()])
-    description = TextField(localize("core", "roles.field_description"),
-                            validators = [DataRequired()])
+    description = TextAreaField(localize("core", "roles.field_description"),
+                                validators = [DataRequired()])
     parent_id   = SelectField(localize("core", "roles.field_parent_id"),
                               coerce = int)
 
@@ -41,7 +41,7 @@ def entries():
     items = Role.all()
     actions = menubar("role", g.role.id)
     for item in items: item.actions = contextmenu("role", g.role.id)
-    return render("core/administration/roles.html", navigation = navigation,
+    return render("core/administration/role-list.html", navigation = navigation,
                   items = items, actions = actions)
 
 # Create Role
@@ -55,7 +55,7 @@ def create():
     headline = localize("core", "roles.create_headline")
     message = localize("core", "roles.create_success")
     return create_form(item, form, headline, message, "/roles",
-                       template = "core/administration/form.html",
+                       template = "core/administration/role-form.html",
                        navigation = navigation)
 
 # Delete Role
@@ -84,5 +84,5 @@ def update(identifier):
     headline = localize("core", "roles.update_headline")
     message = localize("core", "roles.update_success")
     return update_form(item, form, headline, message, "/roles",
-                       template = "core/administration/form.html",
+                       template = "core/administration/role-form.html",
                        navigation = navigation)

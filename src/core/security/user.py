@@ -19,7 +19,6 @@ from sqlalchemy.sql.sqltypes import Integer, DateTime, String
 from core.security.role import Role
 from models import Model
 from natives import relation
-from utility.keyutility import hash_password, match_password
 
 
 class User(Model):
@@ -30,34 +29,25 @@ class User(Model):
     createdOn           = Column(DateTime)
     changedOn           = Column(DateTime)
     role_id             = Column(Integer, ForeignKey("Roles.id"))
+    role                = relation(Role, "role_id")
     email               = Column(String(255), unique = True)
     name                = Column(String(255), unique = True)
     password            = Column(String(255))
     generated           = Column(String(32))
     
-    role = relation(Role, "role_id")
-    
     # ---------------------------------------------------------------------------- #
-    def __init__(self, role = None, email = None, name = None, password = None,
+    def __init__(self, role_id = 0, email = None, name = None, password = None,
                  generated = None):
-        self.role           = role
+        self.role_id        = role_id
         self.email          = email
         self.name           = name
-        self.password       = hash_password(password)
+        self.password       = password
         self.generated      = generated
     
     # ---------------------------------------------------------------------------- #
     def __eq__(self, other):
         if not hasattr(other, "id"): return False
         return self.id == other.id
-    
-    # ---------------------------------------------------------------------------- #
-    def set_password(self, password):
-        self.password = hash_password(password)
-    
-    # ---------------------------------------------------------------------------- #
-    def match_password(self, password):
-        return match_password(password, self.password)
 
 
 class Editor(User):

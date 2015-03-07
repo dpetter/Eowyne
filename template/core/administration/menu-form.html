@@ -1,0 +1,45 @@
+{% extends "core/administration/base.html" %}
+{% block content %}
+	<h1>{{ headline }}</h1>
+	<form id="form" action="{{ action }}" method="post">
+		{{ form.csrf_token }}
+		<div class="container" style="width: 90%">
+			<div class="row">
+				<div class="col-sm-6">
+					{{ form.menubar_id.label }}<span>{{ form.menubar_id }}</span>
+				</div>
+				<div class="col-sm-6">
+					Place for create menubar
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-6">
+					{{ form.name.label }}<span>{{ form.name }}</span>
+				</div>
+				<div class="col-sm-6">
+					{{ form.weight.label }}<span>{{ form.weight }}</span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-6">
+					{{ form.address.label }}<span>{{ form.address }}</span>
+				</div>
+				<div class="col-sm-6">
+					{{ form.flags.label }}<span>{{ form.flags }}</span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-6">
+					{{ form.image.label }}<span>{{ form.image }}</span>
+				</div>
+				<div class="col-sm-6">
+					Place for image preview
+				</div>
+			</div>
+		</div>
+		<div class="buttons">
+			{{ form.confirm }}
+			{{ form.cancel }}
+		</div>
+	</form>
+{% endblock %}
