@@ -7,21 +7,23 @@
 # Created on 2015-02-07.
 # ================================================================================ #
 import importlib
+import inspect
 import pkgutil
+import sys
 
 from flask.app import Flask
 from flask_bootstrap import Bootstrap
 from werkzeug.contrib.fixers import ProxyFix
 
 from app.configuration import Configuration
+from core import shared
 from core.shared import db, cache, mailservice
 from core.utility import localization
-from utility.log import Log
-from core import shared
 from natives import Native
+from utility.log import Log
 
 
-# Initialise application
+# Initialize application
 # -------------------------------------------------------------------------------- #
 Log.level(Configuration["log_level"])
 Log.information(__name__, "Initialising Flask...")
@@ -39,8 +41,6 @@ Log.information(__name__, "Connecting to database...")
 app.config["SQLALCHEMY_DATABASE_URI"] = Configuration["sql_db_uri"]
 db.app = app
 db.init_app(app)
-shared.heartbeat_time = 60.0 / Configuration["heartbeats"]
-Native.__message__ = Configuration["native_msg"]
 
 # TODO: Cache must be more configurable.
 Log.information(__name__, "Setting up cache...")
@@ -75,6 +75,27 @@ for module_loader, name, ispkg in pkgutil.walk_packages(path, prefix):
     if not hasattr(module, "blueprint"): continue
     Log.information(__name__, "Importing %s" % (name))
     app.register_blueprint(module.blueprint)
+
+# Initialize native heart beats
+# -------------------------------------------------------------------------------- #
+Log.information(__name__, "Making hearts beat...")
+heartbeat_functions = []
+p = lambda x, y: inspect.isclass(y) and y.__module__ == x and issubclass(y, Native)
+[path, prefix] = [["./src/core"], "core."]
+for module_loader, name, ispkg in pkgutil.walk_packages(path, prefix):
+    items = inspect.getmembers(sys.modules[name], lambda y: p(name, y))
+    for item in items:
+        item[1].load()
+        heartbeat_functions.append(item[1].heartbeat)
+[path, prefix] = [["./src/plugins"], "plugins."]
+for module_loader, name, ispkg in pkgutil.walk_packages(path, prefix):
+    items = inspect.getmembers(sys.modules[name], lambda y: p(name, y))
+    for item in items:
+        item[1].load()
+        heartbeat_functions.append(item[1].heartbeat)
+shared.beating_hearts = heartbeat_functions
+shared.heartbeat_time = 60.0 / Configuration["heartbeats"]
+Native.__message__ = Configuration["native_msg"]
 
 # Run application
 # -------------------------------------------------------------------------------- #

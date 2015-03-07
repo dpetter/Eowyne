@@ -55,4 +55,4 @@ class Editor(User):
 
 
 class Client(User):
-    __mapper_args__     = {"include_properties": ["id", "name", "role_id"]}
+    __mapper_args__     = {"include_properties": ["id", "name", "email", "role_id"]}

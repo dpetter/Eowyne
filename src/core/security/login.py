@@ -25,31 +25,44 @@ from utility.log import Log
 blueprint = Blueprint("client-controller", __name__)
 
 
+# Functions
+# -------------------------------------------------------------------------------- #
 def acquire_session():
     '''
     Acquires the current session over the remote client's cookie. The acquired
     session always holds the user the client is signed on with or guest if he
     is not signed on.
+    
+    @returns            The session.
     '''
     result = None
     if "sKey" in session:
         result = Session.unique((Session.key == session["sKey"]) & \
                                 (Session.ip == request.remote_addr))
     if not result: result = create_session()
-    Log.debug(__name__, "Session acquired (%s) ..." % (result.key))
+    Log.debug(__name__, "Session acquired (key = %s) ..." % (result.key))
     session["sKey"] = result.key
     return result
 
 def create_session():
     '''
+    @returns            A new guest session.
     '''
     Log.debug(__name__, "Creating new session ...")
-    result = Session()
-    result.key     = randomkey(24)
-    result.user_id = 1
-    result.ip      = request.remote_addr
+    result          = Session()
+    result.key      = randomkey(24)
+    result.user_id  = 1
+    result.ip       = request.remote_addr
     result.create()
     return result
+
+def is_authenticated():
+    '''
+    @returns            True if this request comes from a logged in user.
+    '''
+    g.session       = acquire_session()
+    return g.session.user_id >= 2
+
 
 # Forms
 # -------------------------------------------------------------------------------- #
@@ -91,7 +104,8 @@ def signin():
         g.session.update()
         flash(localize("core", "client.signin_success") % (user.name))
         return redirect("/")
-    return editor(form, "", confirm, lambda: redirect("/"), "core/security/signin_form.html")
+    return editor(form, "", confirm, lambda: redirect("/"),
+                  "core/security/signin_form.html")
 
 # Sign out
 # -------------------------------------------------------------------------------- #
@@ -123,7 +137,8 @@ def register():
         mailservice.send([form.email.data], "Activate your account", text)
         flash(localize("core", "client.register_success"))
         return redirect("/")
-    return editor(form, "", confirm, lambda: redirect("/"), "core/security/register_form.html")
+    return editor(form, "", confirm, lambda: redirect("/"),
+                  "core/security/register_form.html")
 
 # Unlock Account
 # -------------------------------------------------------------------------------- #
@@ -157,7 +172,8 @@ def reset():
         mailservice.send([form.email.data], "Reset your password", text)
         flash(localize("core", "client.reset_success"))
         return redirect("/")
-    return editor(form, "", confirm, lambda: redirect("/"), "core/security/email_form.html")
+    return editor(form, "", confirm, lambda: redirect("/"),
+                  "core/security/email_form.html")
 
 # Update Password
 # -------------------------------------------------------------------------------- #
@@ -174,4 +190,5 @@ def reset_update(key):
         user.update()
         flash(localize("core", "client.password_success"))
         return redirect("/")
-    return editor(form, "", confirm, lambda: redirect("/"), "core/security/password_form.html")
+    return editor(form, "", confirm, lambda: redirect("/"),
+                  "core/security/password_form.html")

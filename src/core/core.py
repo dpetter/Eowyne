@@ -15,18 +15,31 @@ from flask.blueprints import Blueprint
 from flask.globals import request, g
 
 from core import shared
-from core.navigation.menu import menubar, Menubar, Menuitem
+from core.navigation.menu import menubar
 from core.rendering import invalid, forbidden, render
-from core.security.role import Role
-from core.security.rule import access, Rule
+from core.security.rule import access
 from core.security.user import Client
 from utility.log import Log
 from core.security import acquire_session
 
 
-blueprint = Blueprint("Core Controller", __name__)
+blueprint = Blueprint("core-controller", __name__)
 
 
+# Functions
+# -------------------------------------------------------------------------------- #
+def heartbeat():
+    try:
+        now = time.time()
+        if now - shared.time_elapsed < shared.heartbeat_time: return
+        shared.time_elapsed = now
+        Log.information(__name__, "Heartbeat")
+        for function in shared.beating_hearts: function()
+    except Exception as e:
+        Log.error(__name__, "Heartbeat failed:" + str(e))
+
+
+# Runs before every request
 # -------------------------------------------------------------------------------- #
 @blueprint.before_app_request
 def beforerequest():
@@ -49,29 +62,6 @@ def beforerequest():
     if permitted == -1: return invalid()
     elif permitted == 0: return forbidden()
 
-# -------------------------------------------------------------------------------- #
-def heartbeat():
-    try:
-        now = time.time()
-        if now - shared.time_elapsed < shared.heartbeat_time: return
-        shared.time_elapsed = now
-        Log.information(__name__, "Heartbeat")
-        Role.heartbeat()
-        Rule.heartbeat()
-        Menubar.heartbeat()
-        Menuitem.heartbeat()
-    except Exception as e:
-        Log.error(__name__, "Heartbeat failed:" + str(e))
-
-# -------------------------------------------------------------------------------- #
-def is_authenticated():
-    '''
-    Returns True if this request comes from a logged in user.
-    '''
-    g.session       = acquire_session()
-    g.user          = Client.get(g.session.user_id)
-    return g.user >= 3
-
 # Show administration page
 # -------------------------------------------------------------------------------- #
 @blueprint.route("/administration", methods = ["GET"])
@@ -85,4 +75,3 @@ def administration():
 @blueprint.route("/pages/<identifier>", methods = ["GET"])
 def page(identifier):
     return render("pages/%s.html" % (identifier))
-
