@@ -16,11 +16,11 @@ from flask.globals import request, g
 
 from core import shared
 from core.navigation.menu import menubar
-from core.rendering import invalid, forbidden, render
+from core.rendering import render
+from core.security import acquire_session
 from core.security.rule import access
 from core.security.user import Client
 from utility.log import Log
-from core.security import acquire_session
 
 
 blueprint = Blueprint("core-controller", __name__)
@@ -37,6 +37,19 @@ def heartbeat():
         for function in shared.beating_hearts: function()
     except Exception as e:
         Log.error(__name__, "Heartbeat failed:" + str(e))
+
+
+def forbidden():
+    '''
+    Renders "Forbidden" Page
+    '''
+    return render("error/permissions.html")
+
+def invalid():
+    '''
+    Renders "Invalid route" page.
+    '''
+    return render("error/route.html")
 
 
 # Runs before every request
@@ -58,9 +71,12 @@ def beforerequest():
     g.main_menu     = menubar("main", g.role.id)
     g.personal_menu = menubar("personal", g.role.id)
     g.extended_menu = menubar("extended", g.role.id)
-    permitted       = access(request.path, g.role.id, True)
-    if permitted == -1: return invalid()
-    elif permitted == 0: return forbidden()
+    try:
+        if access(request.path, g.role.id, True) == 0:
+            return forbidden()
+    except Exception as e:
+        Log.error(__name__, str(e))
+        return invalid()
 
 # Show administration page
 # -------------------------------------------------------------------------------- #

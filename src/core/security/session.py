@@ -8,12 +8,17 @@
 #
 # Created by dp on 2015-01-02.
 # ================================================================================ #
+from flask.globals import session, request, g
 from sqlalchemy.sql.schema import Column, ForeignKey
 from sqlalchemy.sql.sqltypes import Integer, DateTime, String
 
+from core.utility.keyutility import randomkey
 from models import Model
+from utility.log import Log
 
 
+# Classes
+# -------------------------------------------------------------------------------- #
 class Session(Model):
     __mapper_args__     = {"concrete": True}
     __tablename__       = "Sessions"
@@ -24,3 +29,42 @@ class Session(Model):
     key                 = Column(String(32), unique = True)
     ip                  = Column(String(32))
     user_id             = Column(Integer, ForeignKey("Users.id"))
+
+
+# Functions
+# -------------------------------------------------------------------------------- #
+def acquire_session():
+    '''
+    Acquires the current session over the remote client's cookie. The acquired
+    session always holds the user the client is signed on with or guest if he
+    is not signed on.
+    
+    @returns            The session.
+    '''
+    result = None
+    if "sKey" in session:
+        result = Session.unique((Session.key == session["sKey"]) & \
+                                (Session.ip == request.remote_addr))
+    if not result: result = create_session()
+    Log.debug(__name__, "Session acquired (key = %s) ..." % (result.key))
+    session["sKey"] = result.key
+    return result
+
+def create_session():
+    '''
+    @returns            A new guest session.
+    '''
+    Log.debug(__name__, "Creating new session ...")
+    result          = Session()
+    result.key      = randomkey(24)
+    result.user_id  = 1
+    result.ip       = request.remote_addr
+    result.create()
+    return result
+
+def is_authenticated():
+    '''
+    @returns            True if this request comes from a logged in user.
+    '''
+    g.session       = acquire_session()
+    return g.session.user_id >= 2

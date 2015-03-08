@@ -12,11 +12,13 @@ import re
 from sqlalchemy.sql.schema import Column, ForeignKey
 from sqlalchemy.sql.sqltypes import Integer, String, Enum
 
-from core.security.role import Role
+from core.security.role import Role, match
 from natives import Native, relation
 from utility.log import Log
 
 
+# Classes
+# -------------------------------------------------------------------------------- #
 class Rule(Native):
     __mapper_args__     = {"concrete": True}
     __tablename__       = "Rules"
@@ -46,11 +48,18 @@ class Rule(Native):
 
 # Functions
 # -------------------------------------------------------------------------------- #
-def access(route, role_id, owner = None): #elevated = False):
+def is_authorized(route, role_id, owner = None):
+    try:
+        return access(route, role_id, owner)
+    except Exception as e:
+        Log.warning(__name__, str(e))
+        return False
+
+def access(route, role_id, owner = None):
     '''
-    @returns            -1 if the route is not in the Rules table.
-                        0 of the client is not allowed to perform this action.
-                        1 if the client is allowed to perform this action.
+    @returns            True if the given role is allowed to access this route.
+                        False if not.
+    @raises             ValueError if this route is not defined.
     @param route:       The address to check. Where the routes ...
                         /something/id
                         /something/id/create
@@ -62,31 +71,36 @@ def access(route, role_id, owner = None): #elevated = False):
                         "/something/" also matches "/something/" and uses view.
                         "/something/id/reply" matches only the explicitly
                         defined rule "/something/[^/]+/reply" and also uses view.
-    @param role_id:     Identifies the clients current role. If no rule for that role
-                        can be found the function tries to find one for the role's
-                        parent, grandparent, etc. If still none is found it is
-                        assumed the client has no rights to access the resource.
-    @param elevated:    Whether the client is especially privileged on that route.
-                        For example if he has written the associated entry.
+    @param role_id:     Identifies the role to perform this check for.
+    @param owner:       If None true is returned when permissions are not "None".
+                        If true true is returned when permissions are "Own".
+                        If false true is returned when permissions are "Foreign".
+                        If permissions are "All" true is always returned.
+                        In all other cases false is returned.
     '''
-    actions = {"/create$": lambda item: item.insert,
-               "/[^/]+/delete$": lambda item: item.remove,
-               "/[^/]+/update$": lambda item: item.change}
+    actions = {"/create$": lambda x: x.insert,
+               "/[^/]+/delete$": lambda x: x.remove,
+               "/[^/]+/update$": lambda x: x.change}
+    r = route
+    permission = lambda x: x.view
     for key in actions:
-        m = re.match("^(.+)" + key, route)
-        if not m: continue
-        rules = lookup(m.group(1))
-        if not rules: return -1
-        result = __match__(rules, role_id)
-        if not result: return 0
-        return __has_permissions__(actions[key](result), owner)
-    rules = lookup(route)
-    if not rules: return -1
-    result = __match__(rules, role_id)
-    if not result: return 0
-    return __has_permissions__(result.view, owner)
+        m = re.match("^(.+)" + key, r)
+        if m:
+            r = m.group(1)
+            break
+    rules = __lookup__(r)
+    if not rules: raise ValueError("No rule define for %s." % (route))
+    result = match(rules, role_id)
+    if not result: return False
+    if owner == True: return permission(result) in ("Own", "All")
+    elif owner == False: return permission(result) in ("Foreign", "All")
+    else: return permission(result) != "None"
 
-def lookup(route):
+def __lookup__(route):
+    '''
+    @returns            A list of all rules applying to the given route.
+    @param route        Route.
+    '''
     items = Rule.all()
     rules = [item for item in items if \
              re.match(re.sub("/$", "/?", item.route) + "$", route)]
@@ -94,16 +108,3 @@ def lookup(route):
     route = re.sub("(?<=.)/[^/]+$", "/", route)
     rules = [item for item in items if re.match(item.route + "$", route)]
     return rules
-
-def __match__(rules, role_id):
-    role = Role.get(role_id)
-    while(role):
-        for item in rules:
-            if Role.get(item.role_id) == role: return item
-        role = Role.get(role.parent_id)
-    return None
-
-def __has_permissions__(permissions, owner):
-    if owner == True: return 1 * (permissions in ("Own", "All"))
-    elif owner == False: return 1 * (permissions in ("Foreign", "All"))
-    else: return 1 * (permissions != "None")

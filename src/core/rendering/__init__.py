@@ -37,20 +37,6 @@ def render(template, **kwargs):
         return render_template("error/template.html", name = template)
 
 # -------------------------------------------------------------------------------- #
-def forbidden():
-    '''
-    Renders "Forbidden" Page
-    '''
-    return render("error/permissions.html")
-
-# -------------------------------------------------------------------------------- #
-def invalid():
-    '''
-    Renders "Invalid route" page.
-    '''
-    return render("error/route.html")
-
-# -------------------------------------------------------------------------------- #
 def mismatch():
     '''
     Renders "No matching item" page.

@@ -46,8 +46,11 @@ def routes():
     l = lambda x: x[0 : x.find(".")]
     data = [(l(str(x.endpoint)), str(x.rule)) for x in app.url_map.iter_rules()]
     names = set((x[0] for x in data))
-    is_ruled = lambda route: access(re.sub("<[^<>]+>", "1", route), 1, True) != -1
+#    is_ruled = lambda route: access(re.sub("<[^<>]+>", "1", route), 1, True) != -1
     result = [(name, [x[1] for x in data if x[0] == name], [is_ruled(x[1]) for x in data if x[0] == name]) for name in names]
     return render("core/administration/route-list.html", navigation = navigation,
                   items = result)
 
+def is_ruled(route):
+    try: return access(re.sub("<[^<>]+>", "1", route), g.role.id) or True
+    except Exception: return False

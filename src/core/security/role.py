@@ -12,6 +12,8 @@ from sqlalchemy.sql.sqltypes import Integer, String
 from natives import Native, recursion
 
 
+# Classes
+# -------------------------------------------------------------------------------- #
 class Role(Native):
     __mapper_args__     = {"concrete": True}
     __tablename__       = "Roles"
@@ -28,3 +30,22 @@ class Role(Native):
         self.parent_id      = parent_id
         self.name           = name
         self.description    = description
+
+
+# Functions
+# -------------------------------------------------------------------------------- #
+def match(rules, role_id):
+    '''
+    @returns            The rule that applies to the given role.
+    @param rules        A list of rules to check.
+    @param role_id      Determines which role to match against. If there's no
+                        matching rule found for this role, the function
+                        recursively tries to match against its parent,
+                        grandparent and so on.
+    '''
+    role = Role.get(role_id)
+    while(role):
+        for item in rules:
+            if Role.get(item.role_id) == role: return item
+        role = Role.get(role.parent_id)
+    return None

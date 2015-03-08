@@ -7,61 +7,20 @@
 # Created by dp on 2015-02-02.
 # ================================================================================ #
 from flask.blueprints import Blueprint
-from flask.globals import request, g, session
+from flask.globals import request, g
 from flask.helpers import flash
 from werkzeug import redirect
 from wtforms.fields.simple import TextField, PasswordField
 from wtforms.validators import Email, DataRequired
 
 from core.rendering import DefaultForm, editor, render
-from core.security.session import Session
 from core.security.user import User
 from core.shared import mailservice
-from core.utility.keyutility import randomkey, match_password, hash_password
+from core.utility.keyutility import match_password, randomkey, hash_password
 from core.utility.localization import localize
-from utility.log import Log
 
 
 blueprint = Blueprint("client-controller", __name__)
-
-
-# Functions
-# -------------------------------------------------------------------------------- #
-def acquire_session():
-    '''
-    Acquires the current session over the remote client's cookie. The acquired
-    session always holds the user the client is signed on with or guest if he
-    is not signed on.
-    
-    @returns            The session.
-    '''
-    result = None
-    if "sKey" in session:
-        result = Session.unique((Session.key == session["sKey"]) & \
-                                (Session.ip == request.remote_addr))
-    if not result: result = create_session()
-    Log.debug(__name__, "Session acquired (key = %s) ..." % (result.key))
-    session["sKey"] = result.key
-    return result
-
-def create_session():
-    '''
-    @returns            A new guest session.
-    '''
-    Log.debug(__name__, "Creating new session ...")
-    result          = Session()
-    result.key      = randomkey(24)
-    result.user_id  = 1
-    result.ip       = request.remote_addr
-    result.create()
-    return result
-
-def is_authenticated():
-    '''
-    @returns            True if this request comes from a logged in user.
-    '''
-    g.session       = acquire_session()
-    return g.session.user_id >= 2
 
 
 # Forms
