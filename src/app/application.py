@@ -56,7 +56,8 @@ if "email_host" in Configuration:
 # -------------------------------------------------------------------------------- #
 Log.information(__name__, "Registering core blueprints...")
 core_blueprints = ["core", "security.login", "administration.roles",
-                   "administration.rules", "administration.menus"]
+                   "administration.rules", "administration.menus",
+                   "administration.plugins"]
 #path = ["./src/core/blueprints"]
 #prefix = "core.blueprints."
 #for module_loader, name, ispkg in pkgutil.walk_packages(path, prefix):
@@ -68,8 +69,7 @@ for item in core_blueprints:
     app.register_blueprint(module.blueprint)
 
 Log.information(__name__, "Registering plugin blueprints...")
-path = ["./src/plugins"]
-prefix = "plugins."
+[path, prefix] = [["./src/plugins"], "plugins."]
 for module_loader, name, ispkg in pkgutil.walk_packages(path, prefix):
     module = importlib.import_module(name)
     if not hasattr(module, "blueprint"): continue

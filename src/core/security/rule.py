@@ -44,6 +44,13 @@ class Rule(Native):
         self.view       = view
 
 
+
+# FIXME: There's a bug here. If rule is say /menus/5/delete and access is called
+#        for a role that doesnt have a rule -> convert to /menus/ ->
+#        call lookup("/menus/", role_id) -> lookup returns None
+#        but when lookup = None then there rule is tried again without converting
+#        call lookup("/menus/5/delete") -> Exception as /menus/5/delete has indeed
+#        no entry ...
 # -------------------------------------------------------------------------------- #
 def access(route, role_id, elevated = False):
     '''
