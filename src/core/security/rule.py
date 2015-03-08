@@ -44,15 +44,9 @@ class Rule(Native):
         self.view       = view
 
 
-
-# FIXME: There's a bug here. If rule is say /menus/5/delete and access is called
-#        for a role that doesnt have a rule -> convert to /menus/ ->
-#        call lookup("/menus/", role_id) -> lookup returns None
-#        but when lookup = None then there rule is tried again without converting
-#        call lookup("/menus/5/delete") -> Exception as /menus/5/delete has indeed
-#        no entry ...
+# Functions
 # -------------------------------------------------------------------------------- #
-def access(route, role_id, elevated = False):
+def access(route, role_id, owner = None): #elevated = False):
     '''
     @returns            -1 if the route is not in the Rules table.
                         0 of the client is not allowed to perform this action.
@@ -75,49 +69,33 @@ def access(route, role_id, elevated = False):
     @param elevated:    Whether the client is especially privileged on that route.
                         For example if he has written the associated entry.
     '''
-    try:
-        # This here is trying to figure out if this is a standard action (create,
-        # delete, update) and use the appropriate permission field.
-        actions = {"/create$": lambda item: item.insert,
-                   "/[^/]+/delete$": lambda item: item.remove,
-                   "/[^/]+/update$": lambda item: item.change}
-        for key, value in actions.items():
-            if re.match("^.+" + key, route):
-                item = lookup(re.sub(key, "/", route), role_id)
-                if item: return __has_permissions__(value(item), elevated)
-        # If it is not a standard action use view.
-        item = lookup(route, role_id)
-        if item: return __has_permissions__(item.view, elevated)
-        return 0
-    except ValueError:
-        Log.warning(__name__, "Invalid route accessed (%s)." % (route))
-        return -1
+    actions = {"/create$": lambda item: item.insert,
+               "/[^/]+/delete$": lambda item: item.remove,
+               "/[^/]+/update$": lambda item: item.change}
+    for key in actions:
+        m = re.match("^(.+)" + key, route)
+        if not m: continue
+        rules = lookup(m.group(1))
+        if not rules: return -1
+        result = __match__(rules, role_id)
+        if not result: return 0
+        return __has_permissions__(actions[key](result), owner)
+    rules = lookup(route)
+    if not rules: return -1
+    result = __match__(rules, role_id)
+    if not result: return 0
+    return __has_permissions__(result.view, owner)
 
-# -------------------------------------------------------------------------------- #
-def lookup(route, role_id):
-    '''
-    @returns            The item in the route table that matches route and applies
-                        to the role identified by role_id. If there's no rule for
-                        that role None is returned.
-                        If there's no matching route a ValueError is raised.
-    @param route:       The address to check.
-    @param role_id:     The clients current role_id.
-    '''
-    Log.debug(__name__, route)
+def lookup(route):
     items = Rule.all()
-    # Try to match the route directly. This will collect the correct results for
-    # all actions that are explicitly defined (f.i. /mailbox/[^/]+/reply) and for
-    # the create, delete, update and find actions of an object folder.
     rules = [item for item in items if \
              re.match(re.sub("/$", "/?", item.route) + "$", route)]
-    # If there was no rule found assume this is an object view action.
-    # Try to remove the object identifier (f.i. /mailbox/mail123 becomes
-    # /mailbox/) and to match again.
-    if not rules:
-        route = re.sub("(?<=.)/[^/]+$", "/", route)
-        rules = [item for item in items if re.match(item.route + "$", route)]
-    # If there still was no matching rule found raise a ValueError.
-    if not rules: raise ValueError()
+    if rules: return rules
+    route = re.sub("(?<=.)/[^/]+$", "/", route)
+    rules = [item for item in items if re.match(item.route + "$", route)]
+    return rules
+
+def __match__(rules, role_id):
     role = Role.get(role_id)
     while(role):
         for item in rules:
@@ -125,11 +103,7 @@ def lookup(route, role_id):
         role = Role.get(role.parent_id)
     return None
 
-# -------------------------------------------------------------------------------- #
-def __has_permissions__(permissions, elevated):
-    '''
-    Iternal only.
-    '''
-    if permissions == "None": return 0
-    if elevated: return 1 * (permissions == "Own" or permissions == "All")
-    else: return 1 * (permissions == "Foreign" or permissions == "All")
+def __has_permissions__(permissions, owner):
+    if owner == True: return 1 * (permissions in ("Own", "All"))
+    elif owner == False: return 1 * (permissions in ("Foreign", "All"))
+    else: return 1 * (permissions != "None")
