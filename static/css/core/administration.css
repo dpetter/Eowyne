@@ -6,9 +6,9 @@ html, body {
 	font-family: arial,helvetica,clean,sans-serif;
 }
 
-/*
- *	Areas
-*/
+
+/* Areas.
+***********************************************************************************/
 #page-area {
 	position: relative;
 	min-height: 100%;
@@ -52,9 +52,9 @@ html, body {
 	padding: 0px 20px;
 }
 
-/*
- *	Menus
-*/
+
+/* Menus.
+***********************************************************************************/
 #personal-menu {
 	list-style: none;
 	text-align: right;
@@ -85,6 +85,163 @@ html, body {
 	text-decoration: none;
 	color: #4682B4;
 }
+
+/* Forms.
+***********************************************************************************/
+.buttons {
+	width: 90%;
+	margin: 10px auto 0px auto;
+	padding-top: 10px;
+	border-top: 1px solid #ddd;
+	text-align: center;
+}
+
+form {
+	width: 100%;
+	min-width: 350px;
+	margin: 20px auto;
+	padding: 20px;
+	border: 1px solid #ddd;
+}
+
+label {
+	float: left;
+	width: 125px;
+	margin: 8px 0px 2px 0px;
+}
+
+form span {
+	display: block;
+	overflow: hidden;
+	padding-left: 10px;
+}
+
+input[type="text"], select, textarea {
+	width: 100%;
+	margin: 5px 0px;
+	border: 1px solid #ddd;
+    background-color: #fff;
+    box-shadow: inset 0 0 2px rgba(50, 50, 50, 0.1);
+}
+
+input[type="text"], textarea {
+	padding: 2px 8px;
+}
+
+select {
+	padding: 3px 5px;
+	border: 1px solid #ddd;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+input[type="submit"], button {
+	width: 125px;
+	margin: 0px 15px;
+}
+
+
+/* Tables.
+***********************************************************************************/
+table {
+	width: 100%;
+	margin: 20px auto;
+	border: 1px solid #ddd;
+	border-collapse: collapse;
+}
+
+table tr:hover {
+	background-color: #F5FAEA;
+	text-decoration: none;
+}
+
+th {
+	padding: 15px 10px;
+	border-bottom: 1px solid #ddd;
+	background-color: #EBF5D6;
+}
+
+td {
+	padding: 10px;
+}
+
+td:first-child {
+	padding-right: 16px;
+	white-space: nowrap;
+}
+
+table .even {
+	background-color: #ffffff;
+}
+
+table .odd {
+	background-color: #fbfbfb;
+}
+
+table .filters {
+	border: 1px solid #ddd;
+}
+
+table a {
+	color: #000;
+}
+
+table input[type="text"], table select {
+	width: auto;
+}
+
+
+/* Pop up forms.
+***********************************************************************************/
+.popup {
+	border: 1px solid #aaa;
+	background-color: #fff;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	-webkit-box-shadow: 5px 5px 10px 0px rgba(0,0,0,0.5);
+	-moz-box-shadow: 5px 5px 10px 0px rgba(0,0,0,0.5);
+	box-shadow: 5px 5px 10px 0px rgba(0,0,0,0.5);
+}
+
+.popup h2 {
+	width: 100%;
+	margin: 0px 0px 10px 0px;
+	padding: 10px 15px;
+	border-bottom: 1px solid #ddd;
+	font-size: 18px;
+	background: #c1ccac;
+	background: -moz-linear-gradient(-45deg, #c1ccac 0%, #ebf5d6 100%);
+	background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#c1ccac), color-stop(100%,#ebf5d6));
+	background: -webkit-linear-gradient(-45deg, #c1ccac 0%,#ebf5d6 100%);
+	background: -o-linear-gradient(-45deg, #c1ccac 0%,#ebf5d6 100%);
+	background: -ms-linear-gradient(-45deg, #c1ccac 0%,#ebf5d6 100%);
+	background: linear-gradient(135deg, #c1ccac 0%,#ebf5d6 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c1ccac', endColorstr='#ebf5d6',GradientType=1 );
+}
+
+.popup .error {
+	padding: 5px 25px;
+	color: #800000;
+}
+
+.popup .buttons {
+	padding: 10px 10px 15px 10px;
+	text-align: right;
+}
+
+.popup span {
+	display: block;
+	overflow: hidden;
+	padding-left: 10px;
+}
+
+.popup button {
+	width: 75px;
+	margin: 0px 5px;
+}
+
 
 /*
  * Main administration page
@@ -130,122 +287,3 @@ h1 {
 	vertical-align: middle;
 }
 
-/*
- * Forms
-*/
-.buttons {
-	width: 90%;
-	margin: 10px auto 0px auto;
-	padding-top: 10px;
-	border-top: 1px solid #ddd;
-	text-align: center;
-}
-
-form {
-	width: 100%;
-	min-width: 350px;
-	margin: 20px auto;
-	padding: 20px;
-	border: 1px solid #ddd;
-}
-
-form label {
-	float: left;
-	width: 125px;
-	margin: 8px 0px 2px 0px;
-}
-
-form span {
-	display: block;
-	overflow: hidden;
-	padding-left: 10px;
-}
-
-form input[type="text"], select, textarea {
-	width: 100%;
-	margin: 5px 0px;
-	border: 1px solid #ddd;
-    background-color: #fff;
-    box-shadow: inset 0 0 2px rgba(50, 50, 50, 0.1);
-}
-
-form input[type="text"], textarea {
-	padding: 2px 8px;
-}
-
-form select {
-	padding: 3px 5px;
-	border: 1px solid #ddd;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-}
-
-form input[type="submit"] {
-	width: 125px;
-	margin: 0px 15px;
-}
-
-/*
- * Tables
-*/
-table {
-	width: 100%;
-	margin: 20px auto;
-	border: 1px solid #ddd;
-	border-collapse: collapse;
-}
-
-table tr:hover {
-	background-color: #F5FAEA;
-	text-decoration: none;
-}
-
-th {
-	padding: 15px 10px;
-	border-bottom: 1px solid #ddd;
-	background-color: #EBF5D6;
-}
-
-td {
-	padding: 10px;
-}
-
-td:first-child {
-	padding-right: 16px;
-	white-space: nowrap;
-}
-
-table .even {
-	background-color: #ffffff;
-}
-
-table .odd {
-	background-color: #fbfbfb;
-}
-
-table .filters {
-	border: 1px solid #ddd;
-}
-
-table a {
-	color: #000;
-}
-
-.popup {
-	border: 1px solid #ddd;
-	background-color: #fff;
-}
-
-.popup h2 {
-	width: 100%;
-	margin: 0px;
-	padding: 5px;
-	border-bottom: 1px solid #ddd;
-	font-size: 18px;
-	background-color: #EBF5D6;
-}
-
-.popup > div {
-	padding: 10px 15px 5px 15px;
-}

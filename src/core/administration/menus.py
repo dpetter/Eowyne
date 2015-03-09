@@ -95,8 +95,10 @@ def update(identifier):
 
 # Create menu bar (API)
 # -------------------------------------------------------------------------------- #
+@blueprint.route("/api/menubar/create/", defaults = {"name": ""}, methods = ["GET"])
 @blueprint.route("/api/menubar/create/<name>", methods = ["GET"])
 def create_menubar(name):
+    if not name: return "error"
     if not is_authorized(request.path): return "unauthorized"
     item = Menubar(name)
     try:
@@ -104,3 +106,12 @@ def create_menubar(name):
         return str(item.id)
     except Exception:
         return "error"
+
+# Delete menu bar (API)
+# -------------------------------------------------------------------------------- #
+@blueprint.route("/api/menubar/delete/", defaults = {"name": ""}, methods = ["GET"])
+@blueprint.route("/api/menubar/delete/<name>", methods = ["GET"])
+def delete_menubar(name):
+    if not name: return "error"
+    if not is_authorized(request.path): return "unauthorized"
+    return "error"
