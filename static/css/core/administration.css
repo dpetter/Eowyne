@@ -231,3 +231,21 @@ table .filters {
 table a {
 	color: #000;
 }
+
+.popup {
+	border: 1px solid #ddd;
+	background-color: #fff;
+}
+
+.popup h2 {
+	width: 100%;
+	margin: 0px;
+	padding: 5px;
+	border-bottom: 1px solid #ddd;
+	font-size: 18px;
+	background-color: #EBF5D6;
+}
+
+.popup > div {
+	padding: 10px 15px 5px 15px;
+}

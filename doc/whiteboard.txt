@@ -3,18 +3,21 @@ TODO:
 High priority:
 -	implementierung und design für weine ...
 -	generelles form template stylen
--	utility.log mit einer richtigen Log-Library kurzschließen ...
-	struktur erhalten sonst zerbricht vieles
--	Add menu bar implementieren
--	Optimize Design for Admin a little.
 -	Newsbox auf der Startseite mit den neusten Weinen
 
 
 Low priority:
--	utility.generator.randomkey sollte dahingehend verbessert werden, das nur
-	unique keys rauskommen
 -	tests ...
 
 
-Maybe ...
--	natives von sql-alchemy abkoppeln
+The EOWYNE whiteboard ...
+-	Api paths for core functions -> what if user changes api_path ... :(
+-	Log durch logger ersetzen
+-	table filters sollten per AND zusammenwirken...
+-	Durch alle reflections gehen und verbessern
+-	administration.plugins soll besser werden
+-	utility.generator.randomkey sollte dahingehend verbessert werden, das nur
+	unique keys rauskommen
+-	vielleicht natives von sql-alchemy abkoppeln oder besser integrieren?
+-	vielleicht sso standard rein?
+-	ldap auth?

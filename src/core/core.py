@@ -72,8 +72,7 @@ def beforerequest():
     g.personal_menu = menubar("personal", g.role.id)
     g.extended_menu = menubar("extended", g.role.id)
     try:
-        if access(request.path, g.role.id, True) == 0:
-            return forbidden()
+        if access(request.path, g.role.id, True) == 0: return forbidden()
     except Exception as e:
         Log.error(__name__, str(e))
         return invalid()

@@ -1,4 +1,22 @@
 {% extends "core/administration/base.html" %}
+{%block scripts %}
+<script type="text/javascript">
+	$(document).ready(function() { $('#create_menubar').popup(); });
+	function create_menubar() {
+		text = $('#create_menubar_name').val();
+		url = '/api/menubar/create/' + text;
+		$.get(url, function(data) {
+			if (data != "error" && data != "unauthorized") {
+				$('#menubar_id').append($('<option></option>').
+					val(data).html(text));
+				$('.create_menubar_close').click();
+			} else {
+				$('#create_menubar_error').html('Could not create new menubar.');
+			}
+		});
+	}
+</script>
+{% endblock %}
 {% block content %}
 	<h1>{{ headline }}</h1>
 	<form id="form" action="{{ action }}" method="post">
@@ -9,7 +27,7 @@
 					{{ form.menubar_id.label }}<span>{{ form.menubar_id }}</span>
 				</div>
 				<div class="col-sm-6">
-					Place for create menubar
+					<a href="#" class="create_menubar_open">Create new menubar</a>
 				</div>
 			</div>
 			<div class="row">
@@ -42,4 +60,15 @@
 			{{ form.cancel }}
 		</div>
 	</form>
+	<div id="create_menubar" class="popup">
+		<h2>Create new menubar</h2>
+		<div>
+			<input id="create_menubar_name" type="text"/>
+		</div>
+		<div id="create_menubar_error"></div>
+		<div>
+			<button onclick="create_menubar()">Create</button>
+			<button class="create_menubar_close">Cancel</button>
+		</div>
+	</div>
 {% endblock %}

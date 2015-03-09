@@ -44,6 +44,8 @@ Rule(5, "/administration",  "All",  "All",  "All",  "All"),
 Rule(5, "/roles/",          "All",  "All",  "All",  "All"),
 Rule(5, "/rules/",          "All",  "All",  "All",  "All"),
 Rule(5, "/menus/",          "All",  "All",  "All",  "All"),
+Rule(5, "/api/menubar/create/[^/]+",
+                            "None", "None", "None", "All"),
 Rule(5, "/routes",          "None", "None", "None", "All"),
 Rule(5, "/plugins",         "None", "None", "None", "All"),
 Rule(3, "/personal/",       "None", "None", "None", "All")

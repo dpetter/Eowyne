@@ -7,7 +7,7 @@
 # Created by dp on 2014-12-25.
 # ================================================================================ #
 from flask.blueprints import Blueprint
-from flask.globals import g
+from flask.globals import g, request
 from wtforms.fields.core import SelectField, IntegerField
 from wtforms.fields.simple import TextField
 from wtforms.validators import DataRequired, NumberRange
@@ -16,6 +16,7 @@ from core.navigation.menu import menubar, Menuitem, contextmenu, Menubar
 from core.rendering import DefaultForm, render, create_form, mismatch, delete_form, \
     update_form
 from core.utility.localization import localize
+from core.security import is_authorized
 
 
 blueprint = Blueprint("menu-controller", __name__)
@@ -91,3 +92,15 @@ def update(identifier):
     return update_form(item, form, headline, message, "/menus",
                        template = "core/administration/menu-form.html",
                        navigation = navigation)
+
+# Create menu bar (API)
+# -------------------------------------------------------------------------------- #
+@blueprint.route("/api/menubar/create/<name>", methods = ["GET"])
+def create_menubar(name):
+    if not is_authorized(request.path): return "unauthorized"
+    item = Menubar(name)
+    try:
+        item.create()
+        return str(item.id)
+    except Exception:
+        return "error"

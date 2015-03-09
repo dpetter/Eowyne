@@ -48,7 +48,7 @@ class Rule(Native):
 
 # Functions
 # -------------------------------------------------------------------------------- #
-def is_authorized(route, role_id, owner = None):
+def can_access(route, role_id, owner = None):
     try:
         return access(route, role_id, owner)
     except Exception as e:

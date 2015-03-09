@@ -18,17 +18,16 @@ class MailService():
         self.port = port
         self.username = username
         self.password = password
-        if username: self.tls = True
+        if password: self.tls = True
         else: self.tls = False
     
     # ---------------------------------------------------------------------------- #
     def init_app(self, host, port, username = None, password = None):
         self.host = host
         self.port = port
-        if username:
-            self.username = username
-            self.password = password
-            self.tls = True
+        self.username = username
+        self.password = password
+        if password: self.tls = True
         else: self.tls = False
     
     # ---------------------------------------------------------------------------- #
