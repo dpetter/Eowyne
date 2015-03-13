@@ -7,7 +7,7 @@
 # Created by dp on 2014-12-25.
 # ================================================================================ #
 from flask.blueprints import Blueprint
-from flask.globals import g, request
+from flask.globals import g
 from wtforms.fields.core import SelectField, IntegerField
 from wtforms.fields.simple import TextField
 from wtforms.validators import DataRequired, NumberRange
@@ -16,7 +16,6 @@ from core.navigation.menu import menubar, Menuitem, contextmenu, Menubar
 from core.rendering import DefaultForm, render, create_form, mismatch, delete_form, \
     update_form
 from core.utility.localization import localize
-from core.security import is_authorized
 
 
 blueprint = Blueprint("menu-controller", __name__)
@@ -27,8 +26,6 @@ blueprint = Blueprint("menu-controller", __name__)
 class FormMenu(DefaultForm):
     menubar_id  = SelectField(localize("core", "menus.field_menubar"),
                               coerce = int)
-#    menubar     = TextField(localize("core", "menus.field_menubar"),
-#                            validators = [DataRequired()])
     address     = TextField(localize("core", "menus.field_address"),
                             validators = [DataRequired()])
     name        = TextField(localize("core", "menus.field_name"))
@@ -37,6 +34,10 @@ class FormMenu(DefaultForm):
     flags       = IntegerField(localize("core", "menus.field_flags"),
                                validators = [NumberRange(0, 16)])
     image       = TextField(localize("core", "menus.field_image"))
+
+class FormMenubar(DefaultForm):
+    name        = TextField(localize("core", "menus.field_menubar"),
+                            validators = [DataRequired()])
 
 
 # Default route: View a list of all menus
@@ -93,25 +94,29 @@ def update(identifier):
                        template = "core/administration/menu-form.html",
                        navigation = navigation)
 
-# Create menu bar (API)
+# Create menu bar
 # -------------------------------------------------------------------------------- #
-@blueprint.route("/api/menubar/create/", defaults = {"name": ""}, methods = ["GET"])
-@blueprint.route("/api/menubar/create/<name>", methods = ["GET"])
-def create_menubar(name):
-    if not name: return "error"
-    if not is_authorized(request.path): return "unauthorized"
-    item = Menubar(name)
-    try:
-        item.create()
-        return str(item.id)
-    except Exception:
-        return "error"
+@blueprint.route("/menubar/create", methods = ["GET", "POST"])
+def menubar_create():
+    navigation = menubar("administration", g.role.id)
+    item = Menubar()
+    form = FormMenubar()
+    headline = localize("core", "menubars.create_headline")
+    message = localize("core", "menubars.create_success")
+    return create_form(item, form, headline, message, "/menus",
+                       template = "core/administration/menubar-form.html",
+                       navigation = navigation)
 
-# Delete menu bar (API)
+# Delete menu bar
 # -------------------------------------------------------------------------------- #
-@blueprint.route("/api/menubar/delete/", defaults = {"name": ""}, methods = ["GET"])
-@blueprint.route("/api/menubar/delete/<name>", methods = ["GET"])
-def delete_menubar(name):
-    if not name: return "error"
-    if not is_authorized(request.path): return "unauthorized"
-    return "error"
+@blueprint.route("/menubar/<identifier>/delete", methods = ["GET", "POST"])
+def menubar_delete(identifier):
+    navigation = menubar("administration", g.role.id)
+    item = Menubar.get(int(identifier))
+    if not item: return mismatch()
+    headline = localize("core", "menubars.delete_headline")
+    text = localize("core", "menubars.delete_description") % (item.name)
+    message = localize("core", "menus.delete_success")
+    return delete_form(item, headline, text, message, "/menus",
+                       template = "core/administration/confirm.html",
+                       navigation = navigation)

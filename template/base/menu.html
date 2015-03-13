@@ -14,13 +14,18 @@
 
 {% macro context(list, id, class) -%}
 	{% for item in list %}
+		{% if item.flags == 2 %}
+		<a class="{{ class }}" href="#"
+		onclick="ajax_popup('#popup', '{{ item.address|replace('<id>', id) }}')">
+		{% else %}
 		<a class="{{ class }}" href="{{ item.address|replace('<id>', id) }}">
+		{% endif %}
 			{% if item.image and item.flags == 0 %}
-				<span class="glyphicon glyphicon-{{ item.image }}"></span>
+			<span class="glyphicon glyphicon-{{ item.image }}"></span>
 			{% endif %}
 			<span>{{ item.name }}</span>
-			{% if item.image and item.flags == 1 %}
-				<span class="glyphicon glyphicon-{{ item.image }}"></span>
+			{% if item.image and item.flags >= 1 %}
+			<span class="glyphicon glyphicon-{{ item.image }}"></span>
 			{% endif %}
 		</a>
 	{% endfor %}
@@ -76,3 +81,4 @@
 		{% endfor %}
 	</ul>
 {%- endmacro %}
+

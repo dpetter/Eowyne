@@ -1,48 +1,37 @@
 {% extends "core/administration/base.html" %}
 {% block content %}
-	<h1>{{ headline }}</h1>
-	<form id="form" action="{{ action }}" method="post">
-		{{ form.csrf_token }}
-		<div class="container" style="width: 90%">
-			<div class="row">
-				<div class="col-sm-6">
-					{{ form.menubar_id.label }}<span>{{ form.menubar_id }}</span>
-				</div>
-				<div class="col-sm-6">
-					<a href="#" class="create_menubar_open">
-						{{ icon.glyph("plus") }} Create new menubar
-					</a>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-6">
-					{{ form.name.label }}<span>{{ form.name }}</span>
-				</div>
-				<div class="col-sm-6">
-					{{ form.weight.label }}<span>{{ form.weight }}</span>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-6">
-					{{ form.address.label }}<span>{{ form.address }}</span>
-				</div>
-				<div class="col-sm-6">
-					{{ form.flags.label }}<span>{{ form.flags }}</span>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-6">
-					{{ form.image.label }}<span>{{ form.image }}</span>
-				</div>
-				<div class="col-sm-6">
-					Place for image preview
-				</div>
-			</div>
+<form id="form" action="{{ action }}" method="post">
+	<h2>{{ headline }}</h2>
+	{{ form.csrf_token }}
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-2 col-xs-4">{{ form.menubar_id.label }}</div>
+			<div class="col-sm-4 col-xs-8">{{ form.menubar_id }}</div>
+			<div class="col-sm-2 col-xs-4">...</div>
+			<div class="col-sm-4 col-xs-8">...</div>
 		</div>
-		<div class="buttons">
-			{{ form.confirm }}
-			{{ form.cancel }}
+		<div class="row">
+			<div class="col-sm-2 col-xs-4">{{ form.name.label }}</div>
+			<div class="col-sm-4 col-xs-8">{{ form.name }}</div>
+			<div class="col-sm-2 col-xs-4">{{ form.weight.label }}</div>
+			<div class="col-sm-4 col-xs-8">{{ form.weight }}</div>
 		</div>
-	</form>
-	{% include "core/administration/menubar-form.html" %}
+		<div class="row">
+			<div class="col-sm-2 col-xs-4">{{ form.address.label }}</div>
+			<div class="col-sm-4 col-xs-8">{{ form.address }}</div>
+			<div class="col-sm-2 col-xs-4">{{ form.flags.label }}</div>
+			<div class="col-sm-4 col-xs-8">{{ form.flags }}</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-2 col-xs-4">{{ form.image.label }}</div>
+			<div class="col-sm-4 col-xs-8">{{ form.image }}</div>
+			<div class="col-sm-2 col-xs-4">...</div>
+			<div class="col-sm-4 col-xs-8">...</div>
+		</div>
+	</div>
+	<div class="buttons">
+		{{ form.confirm }}
+		{{ form.cancel }}
+	</div>
+</form>
 {% endblock %}

@@ -1,9 +1,7 @@
-{% if get_flashed_messages() %}
-	<ul id="infofield">
-	{% with messages = get_flashed_messages() %}
-		{% for message in messages %}
-			<li>{{ message }}</li>
-		{% endfor %}
-	{% endwith %}
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+	<ul id="message-area">
+		{% for message in messages %}<li>{{ message }}</li>{% endfor %}
 	</ul>
 {% endif %}
+{% endwith %}

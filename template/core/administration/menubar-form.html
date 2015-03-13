@@ -1,45 +1,19 @@
-{%block scripts %}
-<script type="text/javascript">
-	$(document).ready(function() { $('#create_menubar').popup({
-		transition: 'all 0.3s',
-		beforeopen: function() {
-			$('#create_menubar_name').val('');
-			$('#create_menubar_error').html('');
-		}});
-	});
-	function create_menubar() {
-		text = $('#create_menubar_name').val();
-		url = '/api/menubar/create/' + text;
-		$.get(url, function(data) {
-			if (data != "error" && data != "unauthorized") {
-				$('#menubar_id').append($('<option></option>').
-					val(data).html(text));
-				$('.create_menubar_close').click();
-			} else {
-				$('#create_menubar_error').
-					html('Could not create new menubar. Try a different name.');
-			}
-		});
-	}
-</script>
-{% endblock %}
+{% extends "core/administration/base.html" %}
 {% block content %}
-<div id="create_menubar" class="popup">
-	<h2>Create new menu bar</h2>
-	<div class="container" style="width: 90%">
+<form id="form" action="{{ action }}" method="post">
+	<h2>{{ headline }}</h2>
+	{{ form.csrf_token }}
+	<div class="container">
 		<div class="row">
-			<div class="col-sm-6">
-				<label>Name</label>
-			</div>
-			<div class="col-sm-6">
-				<span><input id="create_menubar_name" type="text"/></span>
-			</div>
+			<div class="col-sm-2 col-xs-4">{{ form.name.label }}</div>
+			<div class="col-sm-4 col-xs-8">{{ form.name }}</div>
+			<div class="col-sm-2 col-xs-4">...</div>
+			<div class="col-sm-4 col-xs-8">...</div>
 		</div>
 	</div>
-	<div id="create_menubar_error" class="error"></div>
 	<div class="buttons">
-		<button onclick="create_menubar()">Create</button>
-		<button class="create_menubar_close">Cancel</button>
+		{{ form.confirm }}
+		{{ form.cancel }}
 	</div>
-</div>
+</form>
 {% endblock %}

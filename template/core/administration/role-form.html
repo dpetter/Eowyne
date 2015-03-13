@@ -1,26 +1,21 @@
 {% extends "core/administration/base.html" %}
 {% block content %}
-	<h1>{{ headline }}</h1>
-	<form id="form" action="{{ action }}" method="post">
-		{{ form.csrf_token }}
-		<div class="container" style="width: 90%">
-			<div class="row">
-				<div class="col-sm-6">
-					{{ form.name.label }}<span>{{ form.name }}</span>
-				</div>
-				<div class="col-sm-6">
-					{{ form.parent_id.label }}<span>{{ form.parent_id }}</span>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-12">
-					{{ form.description.label }}<span>{{ form.description }}</span>
-				</div>
-			</div>
+<form id="form" action="{{ action }}" method="post">
+	<h2>{{ headline }}</h2>
+	{{ form.csrf_token }}
+	<div class="container" style="width: 90%">
+		<div class="row">
+			<div class="col-sm-2 col-xs-4">{{ form.name.label }}</div>
+			<div class="col-sm-4 col-xs-8">{{ form.name }}</div>
+			<div class="col-sm-2 col-xs-4">{{ form.parent_id.label }}</div>
+			<div class="col-sm-4 col-xs-8">{{ form.parent_id }}</div>
+			<div class="col-sm-2 col-xs-4">{{ form.description.label }}</div>
+			<div class="col-sm-10 col-xs-8">{{ form.description }}</div>
 		</div>
-		<div class="buttons">
-			{{ form.confirm }}
-			{{ form.cancel }}
-		</div>
-	</form>
+	</div>
+	<div class="buttons">
+		{{ form.confirm }}
+		{{ form.cancel }}
+	</div>
+</form>
 {% endblock %}

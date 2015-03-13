@@ -44,10 +44,7 @@ Rule(5, "/administration",  "All",  "All",  "All",  "All"),
 Rule(5, "/roles/",          "All",  "All",  "All",  "All"),
 Rule(5, "/rules/",          "All",  "All",  "All",  "All"),
 Rule(5, "/menus/",          "All",  "All",  "All",  "All"),
-Rule(5, "/api/menubar/create/[^/]+",
-                            "None", "None", "None", "All"),
-Rule(5, "/api/menubar/delete/[^/]+",
-                            "None", "None", "None", "All"),
+Rule(5, "/menubars/",       "All",  "All",  "All",  "All"),
 Rule(5, "/routes",          "None", "None", "None", "All"),
 Rule(5, "/plugins",         "None", "None", "None", "All"),
 Rule(3, "/personal/",       "None", "None", "None", "All")
@@ -58,6 +55,7 @@ Menubar("personal"),
 Menubar("administration"),
 Menubar("rule"),
 Menubar("role"),
+Menubar("menubar"),
 Menubar("menu"),
 Menubar("main"),
 Menubar("extended")
@@ -79,13 +77,13 @@ Menuitem(3, 2,  "",                 "pencil",           0,  "/rules/<id>/update"
 Menuitem(4, 0,  "",                 "plus",             0,  "/roles/create"),
 Menuitem(4, 1,  "",                 "remove",           0,  "/roles/<id>/delete"),
 Menuitem(4, 2,  "",                 "pencil",           0,  "/roles/<id>/update"),
-Menuitem(5, 0,  "",                 "plus",             0,  "/menus/create"),
-Menuitem(5, 1,  "",                 "remove",           0,  "/menus/<id>/delete"),
-Menuitem(5, 2,  "",                 "pencil",           0,  "/menus/<id>/update"),
-Menuitem(6, 0,  "",                 "home",             0,  "/"),
-Menuitem(6, 1,  "About us",         "",                 0,  "/pages/about"),
-Menuitem(7, 0,  "Contact",          "",                 0,  "/pages/contact"),
-Menuitem(7, 1,  "Legal",            "",                 0,  "/pages/legal")
+Menuitem(5, 0,  "",                 "plus",             0,  "/menubars/create"),
+Menuitem(5, 1,  "",                 "remove",           0,  "/menubars/<id>/delete"),
+Menuitem(5, 2,  "",                 "pencil",           0,  "/menubars/<id>/update"),
+Menuitem(6, 0,  "",                 "plus",             0,  "/menus/create"),
+Menuitem(6, 1,  "",                 "remove",           0,  "/menus/<id>/delete"),
+Menuitem(6, 2,  "",                 "pencil",           0,  "/menus/<id>/update"),
+Menuitem(7, 0,  "",                 "home",             0,  "/")
 ]
 
 
@@ -115,6 +113,7 @@ for module_loader, name, ispkg in pkgutil.walk_packages(path, prefix):
 # Install application
 # -------------------------------------------------------------------------------- #
 print("Installing core data ...")
+print("----------------------------------------------------------------")
 db.create_all()
 if Role.total() == 0:
     print("Installing roles ...")
@@ -129,21 +128,17 @@ if Menuitem.total() == 0:
     print("Installing menuitems ...")
     for item in menuitems: item.create()
 if User.total() == 0:
+    print("Creating first users ...")
+    anonymous   = input("Anonymous account username:\n>>> ")
+    username    = input("Administrator account username:\n>>> ")
+    email       = input("Administrator account email:\n>>> ")
+    password    = getpass.getpass("Administrator account password:\n>>> ")
     print("Installing users ...")
-    print("- - - - - - - - - - - - - - - - - - -")
-    print("Creating anonymous account ...")
-    username    = input("Anonymous username: ")
-    print("Create admin account ...")
-    user = User(2, "", username, "", "")
+    user = User(2, "", anonymous, "", "")
     user.create()
-    print("- - - - - - - - - - - - - - - - - - -")
-    print("Creating administrator account ...")
-    username    = input("Administrator username: ")
-    email       = input("Administrator email:    ")
-    password    = getpass.getpass("Administrator password: ")
     user = User(5, email, username, hash_password(password), "")
     user.create()
-    print("- - - - - - - - - - - - - - - - - - -")
 Session.total()
-print("Installing plugin data ...")
+print("\n\nInstalling plugin data ...")
+print("----------------------------------------------------------------")
 for module in modules: module.install()
