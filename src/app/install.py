@@ -6,6 +6,7 @@
 # ================================================================================ #
 import getpass
 import importlib
+import os
 import pkgutil
 
 from flask.app import Flask
@@ -87,9 +88,13 @@ Menuitem(7, 0,  "",                 "home",             0,  "/")
 ]
 
 
-# Initialise application
+# Initialize application
 # -------------------------------------------------------------------------------- #
 print("Initializing installer ...")
+if not os.path.exists(Configuration["native_msg"]):
+    os.makedirs(Configuration["native_msg"])
+if not os.path.exists(Configuration["cache_path"]):
+    os.makedirs(Configuration["cache_path"])
 app = Flask(__name__,
             static_folder = Configuration["static_dir"],
             template_folder = Configuration["template_dir"])

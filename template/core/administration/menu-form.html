@@ -4,30 +4,25 @@
 	<h2>{{ headline }}</h2>
 	{{ form.csrf_token }}
 	<div class="container">
+		{% for (first, second) in [(form.menubar_id, None),
+		(form.name, form.weight), (form.address, form.flags),
+		(form.image, None)] %}
 		<div class="row">
-			<div class="col-sm-2 col-xs-4">{{ form.menubar_id.label }}</div>
-			<div class="col-sm-4 col-xs-8">{{ form.menubar_id }}</div>
-			<div class="col-sm-2 col-xs-4">...</div>
-			<div class="col-sm-4 col-xs-8">...</div>
+			{% for field in (first, second) %}
+			<div class="col-sm-2 col-xs-4">{{ field.label }}</div>
+			<div class="col-sm-4 col-xs-8">
+				{{ field }}
+				{% if field.errors %}
+				<ul>
+					{% for error in field.errors %}
+					<li>{{ error }}</li>
+					{% endfor %}
+				</ul>
+				{% endif %}
+			</div>
+			{% endfor %}
 		</div>
-		<div class="row">
-			<div class="col-sm-2 col-xs-4">{{ form.name.label }}</div>
-			<div class="col-sm-4 col-xs-8">{{ form.name }}</div>
-			<div class="col-sm-2 col-xs-4">{{ form.weight.label }}</div>
-			<div class="col-sm-4 col-xs-8">{{ form.weight }}</div>
-		</div>
-		<div class="row">
-			<div class="col-sm-2 col-xs-4">{{ form.address.label }}</div>
-			<div class="col-sm-4 col-xs-8">{{ form.address }}</div>
-			<div class="col-sm-2 col-xs-4">{{ form.flags.label }}</div>
-			<div class="col-sm-4 col-xs-8">{{ form.flags }}</div>
-		</div>
-		<div class="row">
-			<div class="col-sm-2 col-xs-4">{{ form.image.label }}</div>
-			<div class="col-sm-4 col-xs-8">{{ form.image }}</div>
-			<div class="col-sm-2 col-xs-4">...</div>
-			<div class="col-sm-4 col-xs-8">...</div>
-		</div>
+		{% endfor %}
 	</div>
 	<div class="buttons">
 		{{ form.confirm }}

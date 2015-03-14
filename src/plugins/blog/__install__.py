@@ -21,11 +21,11 @@ Menubar("blog")
 ]
 
 menuitems = [# menubar, weight, name, image, flags, address
-Menuitem(6, 2,  "Blog",             "",                 0,  "/blog"),
-Menuitem(8, 0,  "",                 "plus",             0,  "/blog/create"),
-Menuitem(8, 1,  "",                 "remove",           0,  "/blog/<id>/delete"),
-Menuitem(8, 2,  "",                 "pencil",           0,  "/blog/<id>/update"),
-Menuitem(8, 3,  "Leave a comment",  "comment",          0,  "/blog/<id>/comment")
+Menuitem(7, 2,  "Blog",             "",                 0,  "/blog"),
+Menuitem(9, 0,  "",                 "plus",             0,  "/blog/create"),
+Menuitem(9, 1,  "",                 "remove",           0,  "/blog/<id>/delete"),
+Menuitem(9, 2,  "",                 "pencil",           0,  "/blog/<id>/update"),
+Menuitem(9, 3,  "Leave a comment",  "comment",          0,  "/blog/<id>/comment")
 ]
 
 # Install

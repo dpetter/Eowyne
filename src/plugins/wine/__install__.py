@@ -21,7 +21,7 @@ Menubar("wein")
 ]
 
 menuitems = [# menubar, weight, name, image, flags, address
-Menuitem(6, 3,  "Top Wines",        "",                 0,  "/wein/tops"),
+Menuitem(7, 3,  "Top Wines",        "",                 0,  "/wein/tops"),
 ]
 
 # -------------------------------------------------------------------------------- #
