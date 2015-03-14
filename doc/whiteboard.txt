@@ -13,7 +13,6 @@ Low priority:
 The EOWYNE whiteboard ...
 -	Api paths for core functions -> what if user changes api_path ... :(
 -	Log durch logger ersetzen
--	table filters sollten per AND zusammenwirken...
 -	Durch alle reflections gehen und verbessern
 -	administration.plugins soll besser werden
 -	utility.generator.randomkey sollte dahingehend verbessert werden, das nur
