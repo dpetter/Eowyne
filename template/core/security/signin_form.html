@@ -1,33 +1,27 @@
-{% extends "base/main.html" %}
-{% block content %}
-
-			<form id="form" action="{{ action }}" method="post">
-				<div class="fields ">
-					{{ form.csrf_token }}
-					{% for field in form if field.type != "SubmitField" and
-					field.type != "CSRFTokenField" %}
-					<div>
-						{{ field.label }}<br/>
-						{{ field }}<br/>
-						{% if field.errors %}
-			    			<ul class=errors>
-			    			{% for error in field.errors %}<li>{{ error }}</li>{% endfor %}
-			    			</ul>
-						{% endif %}
-					</div>
+<form id="form" action="{{ action }}" method="post">
+	<h2>{{ headline }}</h2>
+	{{ form.csrf_token }}
+	<div class="container">
+		<div class="row">
+			{% for field in (form.email, form.password) %}
+			<div class="col-sm-2 col-xs-4">{{ field.label }}</div>
+			<div class="col-sm-4 col-xs-8">
+				{{ field }}
+				{% if field.errors %}
+				<ul>
+					{% for error in field.errors %}
+					<li>{{ error }}</li>
 					{% endfor %}
-				</div>
-				<div class="buttons">
-					<br/>
-					{{ form.confirm }}
-					{{ form.cancel }}
-				</div>
-				<div class="bar">
-					<br/>
-					<p><a href="/reset">I have <strong>forgotten</strong> my
-					<strong>password</strong>!</a><br/>
-					<a href="/register">I'd like to <strong>register</strong>.</a></p>
-				</div>
-			</form>
-
-{% endblock %}
+				</ul>
+				{% endif %}
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+	<div class="buttons">
+		{{ form.confirm }}
+		<button class="popup_close">
+		{{ form.cancel.label.text }}
+		</button>
+	</div>
+</form>

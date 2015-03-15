@@ -34,3 +34,54 @@ function filter_table() {
 		}
 	});
 }
+
+
+function ajax_popup(container, url) {
+	$.get(url, function(data) {
+		$(container).html(data);
+		$(container).popup("show");
+		initialize_ajax_popup(container);
+	});
+}
+
+
+function initialize_ajax_popup(container) {
+	$(container + " #form").submit(function(event) {
+		event.preventDefault();
+		var $form = $(this);
+		var url = $form.attr("action");
+		var fieldData = {};
+		$form.find("input").each(function() {
+			var name = $(this).attr("name");
+			var value = $(this).val();
+			if (name == "cancel") value = false;
+			fieldData[name] = value;
+		});
+		$form.find("select").each(function() {
+			var name = $(this).attr("name");
+			var value = $(this).val();
+			fieldData[name] = value;
+		});
+		$form.find("textarea").each(function() {
+			var name = $(this).attr("name");
+			var value = $(this).val();
+			fieldData[name] = value;
+		});
+		$.post( url, fieldData ).done(ajax_popup_result);
+	});
+	$(container + " #form #cancel").click(function(event) {
+		event.preventDefault();
+		$(container).popup("hide");
+	});
+}
+
+function ajax_popup_result(data) {
+	if (data.indexOf("</html>") > -1) {
+		document.open("text/html");
+		document.write(data);
+		document.close();
+	} else {
+		$("#popup").html(data);
+		initialize_ajax_popup("#popup");
+	}
+}

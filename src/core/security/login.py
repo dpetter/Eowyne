@@ -53,6 +53,13 @@ class FormPassword(DefaultForm):
 @blueprint.route("/signin", methods = ["GET", "POST"])
 def signin():
     form = FormSignin()
+    print("-----------------<>---------------")
+    print(form.email.data)
+    print(form.password.data)
+    print(form.confirm.data)
+    print(form.cancel.data)
+    print(form.csrf_token.data)
+    print("-----------------<>---------------")
     def confirm():
         email = form.email.data
         user = User.unique(User.email == email)

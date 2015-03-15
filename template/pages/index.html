@@ -35,6 +35,11 @@
 	{{ static.css("css/base/main.css") }}
 	{{ static.css("css/base/menu.css") }}
 	{% block styles %}{% endblock %}
+	{{ static.js("js/jquery.js") }}
+	{{ static.js("js/jquery.popupoverlay.js") }}
+	{{ static.js("js/bootstrap.min.js") }}
+	{{ static.js("js/scripts.js") }}
+	{{ static.js("js/eowyne.js") }}
 </head>
 <body>
 <div id="personalmenu">{{ menu.build(g.personal_menu, "menuitem") }}</div>
@@ -203,22 +208,11 @@
             </div>
         </div>
     </footer>
-    {{ static.js("static/js/jquery.js") }}
-    {{ static.js("static/js/bootstrap.min.js") }}
-    {{ static.js("static/js/scripts.js") }}
-    <!-- jQuery -->
-    <script src="./static/js/jquery.js"></script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="./static/js/bootstrap.min.js"></script>
-    <script src="./static/js/scripts.js"></script>
-
-    <!-- Script to Activate the Carousel -->
     <script>
     $('.carousel').carousel({
         interval: 5000 //changes the speed
     })
     </script>
-
+	<div id="popup"></div>
 </body>
 </html>

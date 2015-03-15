@@ -1,5 +1,3 @@
-{% extends "core/administration/base.html" %}
-{% block content %}
 <form id="form" action="{{ action }}" method="post">
 	<h2>{{ headline }}</h2>
 	{{ form.csrf_token }}
@@ -29,4 +27,3 @@
 		{{ form.cancel }}
 	</div>
 </form>
-{% endblock %}
