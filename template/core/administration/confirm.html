@@ -1,14 +1,14 @@
-{% extends "core/administration/base.html" %}
-{% block content %}
-	<h1>{{ headline }}</h1>
-	<form id="form" action="{{ action }}" method="post">
-		<div class="text">
-			{{ form.csrf_token }}
-			{{ text }}
+{% import "base/forms.html" as forms %}
+<form id="form" action="{{ action }}" method="post">
+	<h2>{{ headline }}</h2>
+	{{ form.csrf_token }}
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12 col-xs-12">{{ text }}</div>
 		</div>
-		<div class="buttons">
-			{{ form.confirm }}
-			{{ form.cancel }}
-		</div>
-	</form>
-{% endblock %}
+	</div>
+	<div class="buttons">
+		{{ form.confirm }}
+		{{ form.cancel }}
+	</div>
+</form>
