@@ -1,27 +1,26 @@
 {% extends "core/administration/base.html" %}
-{% import "base/table.html" as table %}
 {% block styles %}
 <style type="text/css">
-	{{ table.align_columns([4, 5, 6, 7], "center") }}
-	{{ table.size_columns([2, 3], "50%") }}
-	{{ table.style_columns([4, 5, 6, 7], "font-size: 12px; color: #888;") }}
+	{{ tables.align_columns([4, 5, 6, 7], "center") }}
+	{{ tables.size_columns([2, 3], "50%") }}
+	{{ tables.style_columns([4, 5, 6, 7], "font-size: 12px; color: #888;") }}
 </style>
 {% endblock %}
 {% block content %}
 <h1>Rule Administration</h1>
 <table>
 	<thead>
-		<th>{{ menu.build(actions) }}</th>
+		<th>{{ menus.build(actions) }}</th>
 		<th>Route</th>
 		<th>Role</th>
-		<th>{{ icon.glyph("plus") }}</th>
-		<th>{{ icon.glyph("remove") }}</th>
-		<th>{{ icon.glyph("pencil") }}</th>
-		<th>{{ icon.glyph("eye-open") }}</th>
+		<th>{{ icons.glyph("plus") }}</th>
+		<th>{{ icons.glyph("remove") }}</th>
+		<th>{{ icons.glyph("pencil") }}</th>
+		<th>{{ icons.glyph("eye-open") }}</th>
 	</thead>
 	<tbody>
 		<tr class="filters">
-			<td>{{ icon.glyph("filter") }}</td>
+			<td>{{ icons.glyph("filter") }}</td>
 			<td><input type="text" class="eowyne-table-filter"/></td>
 			<td><select class="eowyne-table-filter"/></td>
 			<td></td>
@@ -31,7 +30,7 @@
 		</tr>
 		{% for item in items %}
 		<tr class="{{ loop.cycle('odd', 'even') }}">
-			<td>{{ menu.context(item.actions, item.id) }}</td>
+			<td>{{ menus.context(item.actions, item.id) }}</td>
 			<td>{{ item.route }}</td>
 			<td>{{ item.role.name }}</td>
 			<td>{% if item.insert != "None" %}{{ item.insert }}{% endif %}</td>

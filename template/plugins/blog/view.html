@@ -1,8 +1,8 @@
 {% extends "base/main.html" %}
 {% block content %}
 	<div class="toolbar">
-		{{ menu.build(actions, "menuitem") }}
-		{{ menu.context(item.actions, item.id, "menuitem") }}
+		{{ menus.build(actions, "menuitem") }}
+		{{ menus.context(item.actions, item.id, "menuitem") }}
 	</div>
 	<div></div>
 	<h2>{{ item.title }}</h2>

@@ -1,8 +1,7 @@
 {% extends "core/administration/base.html" %}
-{% import "base/table.html" as table %}
 {% block styles %}
 <style type="text/css">
-	{{ table.style_columns([1, 2, 3], "vertical-align: top;") }}
+	{{ tables.style_columns([1, 2, 3], "vertical-align: top;") }}
 </style>
 {% endblock %}
 {% block content %}

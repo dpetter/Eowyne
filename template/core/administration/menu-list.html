@@ -1,29 +1,28 @@
 {% extends "core/administration/base.html" %}
-{% import "base/table.html" as table %}
 {% block styles %}
 <style type="text/css">
-	{{ table.style_columns([2], "border-left: 1px solid #ddd; border-right: 1px solid #ddd;") }}
-	{{ table.style_headers([2], "border-left: 1px solid #ddd; border-right: 1px solid #ddd;") }}
-	{{ table.size_columns([3], "25%") }}
-	{{ table.size_columns([4], "75%") }}
-	{{ table.style_columns([4, 5, 6], "font-size: 12px; color: #888;") }}
-	{{ table.align_columns([6], "center") }}
+	{{ tables.style_columns([2], "border-left: 1px solid #ddd; border-right: 1px solid #ddd;") }}
+	{{ tables.style_headers([2], "border-left: 1px solid #ddd; border-right: 1px solid #ddd;") }}
+	{{ tables.size_columns([3], "25%") }}
+	{{ tables.size_columns([4], "75%") }}
+	{{ tables.style_columns([4, 5, 6], "font-size: 12px; color: #888;") }}
+	{{ tables.align_columns([6], "center") }}
 </style>
 {% endblock %}
 {% block content %}
 <h1>Menu Administration</h1>
 <table>
 	<thead>
-		<th>{{ menu.build(actions) }}</th>
-		<th>{{ icon.glyph("picture") }}</th>
+		<th>{{ menus.build(actions) }}</th>
+		<th>{{ icons.glyph("picture") }}</th>
 		<th>Name</th>
 		<th>Address</th>
 		<th>Menu Bar</th>
-		<th>{{ icon.glyph("transfer") }}</th>
+		<th>{{ icons.glyph("transfer") }}</th>
 	</thead>
 	<tbody>
 		<tr class="filters">
-			<td>{{ icon.glyph("filter") }}</td>
+			<td>{{ icons.glyph("filter") }}</td>
 			<td></td>
 			<td></td>
 			<td><input type="text" class="eowyne-table-filter"/></td>
@@ -32,8 +31,8 @@
 		</tr>
 		{% for item in items %}
 		<tr class="{{ loop.cycle('odd', 'even') }}">
-			<td>{{ menu.context(item.actions, item.id) }}</td>
-			<td>{{ icon.glyph(item.image) }}</td>
+			<td>{{ menus.context(item.actions, item.id) }}</td>
+			<td>{{ icons.glyph(item.image) }}</td>
 			<td>{{ item.name }}</td>
 			<td>{{ item.address }}</td>
 			<td>{{ item.menubar.name }}</td>

@@ -1,25 +1,26 @@
+{% import "base/forms.html" as forms %}
 <form id="form" action="{{ action }}" method="post">
 	<h2>{{ headline }}</h2>
 	{{ form.csrf_token }}
 	<div class="container">
-		{% for (first, second) in [(form.route, form.role_id),
-		(form.insert, form.remove), (form.change, form.view)] %}
 		<div class="row">
-			{% for field in (first, second) %}
-			<div class="col-sm-2 col-xs-4">{{ field.label }}</div>
-			<div class="col-sm-4 col-xs-8">
-				{{ field }}
-				{% if field.errors %}
-				<ul>
-					{% for error in field.errors %}
-					<li>{{ error }}</li>
-					{% endfor %}
-				</ul>
-				{% endif %}
-			</div>
-			{% endfor %}
+			<div class="col-sm-2 col-xs-4">{{ form.route.label }}</div>
+			<div class="col-sm-4 col-xs-8">{{ forms.field(form.route) }}</div>
+			<div class="col-sm-2 col-xs-4">{{ form.role_id.label }}</div>
+			<div class="col-sm-4 col-xs-8">{{ forms.field(form.role_id) }}</div>
 		</div>
-		{% endfor %}
+		<div class="row">
+			<div class="col-sm-2 col-xs-4">{{ form.insert.label }}</div>
+			<div class="col-sm-4 col-xs-8">{{ forms.field(form.insert) }}</div>
+			<div class="col-sm-2 col-xs-4">{{ form.remove.label }}</div>
+			<div class="col-sm-4 col-xs-8">{{ forms.field(form.remove) }}</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-2 col-xs-4">{{ form.change.label }}</div>
+			<div class="col-sm-4 col-xs-8">{{ forms.field(form.change) }}</div>
+			<div class="col-sm-2 col-xs-4">{{ form.view.label }}</div>
+			<div class="col-sm-4 col-xs-8">{{ forms.field(form.view) }}</div>
+		</div>
 	</div>
 	<div class="buttons">
 		{{ form.confirm }}

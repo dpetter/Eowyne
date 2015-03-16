@@ -1,7 +1,8 @@
 <html>
-{% import "base/icon.html" as icon %}
-{% import "base/menu.html" as menu %}
+{% import "base/icons.html" as icons %}
+{% import "base/menus.html" as menus %}
 {% import "base/static.html" as static %}
+{% import "base/tables.html" as tables %}
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -26,10 +27,10 @@
 		<div id="header-area">
 			<div class="wrapper">
 				<ul id="personal-menu">
-					{{ menu.navigation(g.personal_menu) }}
+					{{ menus.navigation(g.personal_menu) }}
 				</ul>
 				<nav role="navigation" id="main-menu"><ul>
-					{{ menu.navigation(navigation) }}
+					{{ menus.navigation(navigation) }}
 				</ul></nav>
 			</div>
 		</div>

@@ -1,27 +1,27 @@
-<form id="form" action="{{ action }}" method="post">
-	<h2>{{ headline }}</h2>
+{% import "base/forms.html" as forms %}
+<form id="form" action="{{ action }}" method="post" class="signin-form">
+	<h2>Sign in</h2>
 	{{ form.csrf_token }}
 	<div class="container">
 		<div class="row">
-			{% for field in (form.email, form.password) %}
-			<div class="col-sm-2 col-xs-4">{{ field.label }}</div>
-			<div class="col-sm-4 col-xs-8">
-				{{ field }}
-				{% if field.errors %}
-				<ul>
-					{% for error in field.errors %}
-					<li>{{ error }}</li>
-					{% endfor %}
-				</ul>
-				{% endif %}
-			</div>
-			{% endfor %}
+			<div class="col-sm-4 col-xs-4">{{ form.email.label }}</div>
+			<div class="col-sm-8 col-xs-8">{{ forms.field(form.email) }}</div>
 		</div>
+		<div class="row">
+			<div class="col-sm-4 col-xs-4">{{ form.password.label }}</div>
+			<div class="col-sm-8 col-xs-8">{{ forms.field(form.password) }}</div>
+		</div>
+	</div>
+	<div>
+		<a href="#" onclick="ajax_popup('#popup', '/register')">
+			I'd like to <b>register</b>.
+		</a>
+		<a href="#" onclick="ajax_popup('#popup', '/reset')">
+			I've <strong>forgotten my password</strong>.
+		</a>
 	</div>
 	<div class="buttons">
 		{{ form.confirm }}
-		<button class="popup_close">
-		{{ form.cancel.label.text }}
-		</button>
+		{{ form.cancel }}
 	</div>
 </form>

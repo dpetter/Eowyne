@@ -101,4 +101,60 @@ html, body {
 html {
     font-size: 10px;
 }
+
+.signin-form {
+	width: 100%;
+	min-width: 350px;
+	margin: 20px auto;
+	padding: 0px;
+	border: 1px solid #ddd;
+	background-color: #f8f8f8;
+}
+
+.signin-form h2 {
+	font-size: 18px;
+	margin: 0px;
+	padding: 10px 30px;
+	border-bottom: 1px solid #ddd;
+}
+
+.signin-form .container {
+	width: 100%;
+	padding: 10px 30px;
+}
+
+.signin-form .buttons {
+	width: 100%;
+	padding: 10px 30px;
+	border-top: 1px solid #ddd;
+	text-align: center;
+}
+
+.signin-form label {
+	margin: 4px 0px;
+	padding: 3px;
+}
+
+.signin-form input[type="text"], .signin-form select, .signin-form textarea, .signin-form input[type="password"] {
+	width: 100%;
+	margin: 4px 0px;
+	border: 1px solid #ddd;
+    background-color: #fff;
+    box-shadow: inset 0px 0px 3px rgba(50, 50, 50, 0.2);
+}
+
+.signin-form input[type="text"], .signin-form textarea, .signin-form input[type="password"] {
+	padding: 2px 8px;
+}
+
+.signin-form select {
+	padding: 3px 5px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.signin-form input[type="submit"], .signin-form button {
+	width: 100px;
+	margin: 0px 15px;
 }

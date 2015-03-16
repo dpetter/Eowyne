@@ -1,18 +1,17 @@
 {% extends "core/administration/base.html" %}
-{% import "base/table.html" as table %}
 {% block styles %}
 <style type="text/css">
-	{{ table.size_columns([2], "25%") }}
-	{{ table.size_columns([3], "75%") }}
-	{{ table.style_columns([3, 4], "font-size: 12px; color: #888;") }}
-	{{ table.align_columns([4], "center") }}
+	{{ tables.size_columns([2], "25%") }}
+	{{ tables.size_columns([3], "75%") }}
+	{{ tables.style_columns([3, 4], "font-size: 12px; color: #888;") }}
+	{{ tables.align_columns([4], "center") }}
 </style>
 {% endblock %}
 {% block content %}
 <h1>Role Administration</h1>
 <table>
 	<thead>
-		<th>{{ menu.build(actions) }}</th>
+		<th>{{ menus.build(actions) }}</th>
 		<th>Name</th>
 		<th>Description</th>
 		<th>Extends</th>
@@ -20,7 +19,7 @@
 	<tbody>
 		{% for item in items %}
 		<tr class="{{ loop.cycle('odd', 'even') }}">
-			<td>{{ menu.context(item.actions, item.id) }}</td>
+			<td>{{ menus.context(item.actions, item.id) }}</td>
 			<td>{{ item.name }}</td>
 			<td>{{ item.description }}</td>
 			<td>{{ item.parent.name }}</td>

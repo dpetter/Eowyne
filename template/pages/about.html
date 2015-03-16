@@ -1,5 +1,5 @@
 <html>
-{% import "base/menu.html" as menu %}
+{% import "base/menus.html" as menus %}
 {% import "base/static.html" as static %}
 <head>
 
@@ -35,7 +35,7 @@
 	{% block styles %}{% endblock %}
 </head>
 <body>
-<div id="personalmenu">{{ menu.build(g.personal_menu, "menuitem") }}</div>
+<div id="personalmenu">{{ menus.build(g.personal_menu, "menuitem") }}</div>
 <div class="brand new_brand"><a href="/">La Bodega</a></div>
     <div class="address-bar new_brand"><a href="/">Wein | Geschmack | Genuss</a></div>
 
@@ -55,7 +55,7 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                	{{ menu.navigation(g.main_menu, "menuitem") }}
+                	{{ menus.navigation(g.main_menu, "menuitem") }}
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
