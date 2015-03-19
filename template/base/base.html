@@ -1,0 +1,23 @@
+<html>
+{% import "base/icons.html" as icons %}
+{% import "base/menus.html" as menus %}
+{% import "base/static.html" as static %}
+{% import "base/tables.html" as tables %}
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	{{ static.js("js/jquery.js") }}
+	{{ static.js("js/jquery.popupoverlay.js") }}
+	{{ static.js("js/bootstrap.min.js") }}
+	{{ static.js("js/scripts.js") }}
+	{{ static.js("js/eowyne.js") }}
+	{{ static.css("css/bootstrap.min.css") }}
+	{% block meta %}{% endblock %}
+	{% block scripts %}{% endblock %}
+	{% block styles %}{% endblock %}
+</head>
+<body>
+	<div id="eowyne-menu-popup"></div>
+	{% block body %}{% endblock %}
+</html>

@@ -1,28 +1,12 @@
-<html>
-{% import "base/icons.html" as icons %}
-{% import "base/menus.html" as menus %}
-{% import "base/static.html" as static %}
-{% import "base/tables.html" as tables %}
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+{% extends "base/base.html" %}
+{% block meta %}
 	<meta name="description" content="Eowyne Administration">
 	<meta name="author" content="The Eowyne Team">
 	<title>Eowyne Administration</title>
 	<link rel="shortcut icon" href="./static/img/faviconab.png" type="image/png"/>
-	{{ static.js("js/jquery.js") }}
-	{{ static.js("js/jquery.popupoverlay.js") }}
-	{{ static.js("js/bootstrap.min.js") }}
-	{{ static.js("js/scripts.js") }}
-	{{ static.js("js/eowyne.js") }}
-	{% block scripts %}{% endblock %}
-	{{ static.css("css/bootstrap.min.css") }}
 	{{ static.css("css/core/administration.css") }}
-	{% block styles %}{% endblock %}
-</head>
-<body>
-	<div id="popup"></div>
+{% endblock %}
+{% block body %}
 	<div id="page-area">
 		<div id="header-area">
 			<div class="wrapper">
@@ -30,7 +14,7 @@
 					{{ menus.navigation(g.personal_menu) }}
 				</ul>
 				<nav role="navigation" id="main-menu"><ul>
-					{{ menus.navigation(navigation) }}
+					{{ menus.navigation(navigation, "no-image") }}
 				</ul></nav>
 			</div>
 		</div>
@@ -47,5 +31,4 @@
 			<br/>
 		</div>
 	</div>
-</body>
-</html>
+{% endblock %}

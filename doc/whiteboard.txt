@@ -11,7 +11,8 @@ Low priority:
 
 
 The EOWYNE whiteboard ...
--	Api paths for core functions -> what if user changes api_path ... :(
+-	Find out if its possible to append to jinja blocks and if => base.html
+-	Naming Converntions ...
 -	Log durch logger ersetzen
 -	Durch alle reflections gehen und verbessern
 -	administration.plugins soll besser werden

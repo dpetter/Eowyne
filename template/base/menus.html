@@ -2,7 +2,7 @@
 	{% for item in list %}
 		{% if item.flags == 2 %}
 		<a class="{{ class }}" href="#"
-		onclick="ajax_popup('#popup', '{{ item.address }}')">
+		onclick="ajax_popup('#eowyne-menu-popup', '{{ item.address }}')">
 		{% else %}
 		<a class="{{ class }}" href="{{ item.address }}">
 		{% endif %}
@@ -21,7 +21,7 @@
 	{% for item in list %}
 		{% if item.flags == 2 %}
 		<a class="{{ class }}" href="#"
-		onclick="ajax_popup('#popup', '{{ item.address|replace('<id>', id) }}')">
+		onclick="ajax_popup('#eowyne-menu-popup', '{{ item.address|replace('<id>', id) }}')">
 		{% else %}
 		<a class="{{ class }}" href="{{ item.address|replace('<id>', id) }}">
 		{% endif %}
@@ -39,15 +39,20 @@
 {% macro navigation(list, class) -%}
 	{% for item in list %}
 		<li>
-			<a class="{{ class }}" href="{{ item.address }}">
+		{% if item.flags == 2 %}
+		<a class="{{ class }}" href="#"
+		onclick="ajax_popup('#eowyne-menu-popup', '{{ item.address }}')">
+		{% else %}
+		<a class="{{ class }}" href="{{ item.address }}">
+		{% endif %}
 			{% if item.image and item.flags == 0 %}
-				<span class="glyphicon glyphicon-{{ item.image }}"></span>
+			<span class="glyphicon glyphicon-{{ item.image }}"></span>
 			{% endif %}
-			{{ item.name }}
-			{% if item.image and item.flags == 1 %}
-				<span class="glyphicon glyphicon-{{ item.image }}"></span>
+			<span>{{ item.name }}</span>
+			{% if item.image and item.flags >= 1 %}
+			<span class="glyphicon glyphicon-{{ item.image }}"></span>
 			{% endif %}
-			</a>
+		</a>
 		</li>
 	{% endfor %}
 {%- endmacro %}

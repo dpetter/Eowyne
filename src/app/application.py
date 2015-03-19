@@ -6,10 +6,7 @@
 #
 # Created on 2015-02-07.
 # ================================================================================ #
-import importlib
-import inspect
-import pkgutil
-import sys
+from datetime import datetime
 
 from flask.app import Flask
 from flask_bootstrap import Bootstrap
@@ -19,6 +16,7 @@ from app.configuration import Configuration
 from core import shared
 from core.shared import db, cache, mailservice
 from core.utility import localization
+from core.utility.introspection import import_blueprints, localize_natives
 from natives import Native
 from utility.log import Log
 
@@ -26,7 +24,7 @@ from utility.log import Log
 # Initialize application
 # -------------------------------------------------------------------------------- #
 Log.level(Configuration["log_level"])
-Log.information(__name__, "Initialising Flask...")
+Log.information(__name__, "Initialising Flask ...")
 app = Flask(__name__,
             static_folder = Configuration["static_dir"],
             template_folder = Configuration["template_dir"])
@@ -37,62 +35,38 @@ app.secret_key = Configuration["secret_key"]
 localization.text_path = Configuration["text_files"]
 shared.noscope_url = Configuration["noscopeurl"]
 
-Log.information(__name__, "Connecting to database...")
+Log.information(__name__, "Connecting to database ...")
 app.config["SQLALCHEMY_DATABASE_URI"] = Configuration["sql_db_uri"]
 db.app = app
 db.init_app(app)
 
 # TODO: Cache must be more configurable.
-Log.information(__name__, "Setting up cache...")
+Log.information(__name__, "Setting up cache ...")
 cache.init_app(app, config={"CACHE_TYPE": Configuration["cache_type"],
                             "CACHE_DIR": Configuration["cache_path"]})
 
-Log.information(__name__, "Setting up mailservice...")
+Log.information(__name__, "Setting up mailservice ...")
 if "email_host" in Configuration:
     mailservice.init_app(Configuration["email_host"], Configuration["email_host"],
                          Configuration["email_user"], Configuration["email_pass"])
 
 # Register blueprints
 # -------------------------------------------------------------------------------- #
-Log.information(__name__, "Registering core blueprints...")
-core_blueprints = ["core", "security.login", "administration.roles",
-                   "administration.rules", "administration.menus",
-                   "administration.plugins"]
-#path = ["./src/core/blueprints"]
-#prefix = "core.blueprints."
-#for module_loader, name, ispkg in pkgutil.walk_packages(path, prefix):
-for item in core_blueprints:
-    name = "core." + item
-    module = importlib.import_module(name)
+Log.information(__name__, "Registering blueprints ...")
+modules = import_blueprints("core") + import_blueprints("plugins")
+for module in modules:
     if not hasattr(module, "blueprint"): continue
-    Log.information(__name__, "Importing %s" % (name))
-    app.register_blueprint(module.blueprint)
-
-Log.information(__name__, "Registering plugin blueprints...")
-[path, prefix] = [["./src/plugins"], "plugins."]
-for module_loader, name, ispkg in pkgutil.walk_packages(path, prefix):
-    module = importlib.import_module(name)
-    if not hasattr(module, "blueprint"): continue
-    Log.information(__name__, "Importing %s" % (name))
+    Log.information(__name__, "Importing %s ..." % (module.__name__))
     app.register_blueprint(module.blueprint)
 
 # Initialize native heart beats
 # -------------------------------------------------------------------------------- #
-Log.information(__name__, "Making hearts beat...")
+Log.information(__name__, "Making hearts beat ...")
 heartbeat_functions = []
-p = lambda x, y: inspect.isclass(y) and y.__module__ == x and issubclass(y, Native)
-[path, prefix] = [["./src/core"], "core."]
-for module_loader, name, ispkg in pkgutil.walk_packages(path, prefix):
-    items = inspect.getmembers(sys.modules[name], lambda y: p(name, y))
-    for item in items:
-        item[1].load()
-        heartbeat_functions.append(item[1].heartbeat)
-[path, prefix] = [["./src/plugins"], "plugins."]
-for module_loader, name, ispkg in pkgutil.walk_packages(path, prefix):
-    items = inspect.getmembers(sys.modules[name], lambda y: p(name, y))
-    for item in items:
-        item[1].load()
-        heartbeat_functions.append(item[1].heartbeat)
+natives = localize_natives("core") + localize_natives("plugins")
+for native in natives:
+    native.load()
+    heartbeat_functions.append(native.heartbeat)
 shared.beating_hearts = heartbeat_functions
 shared.heartbeat_time = 60.0 / Configuration["heartbeats"]
 Native.__message__ = Configuration["native_msg"]
@@ -100,4 +74,5 @@ Native.__message__ = Configuration["native_msg"]
 # Run application
 # -------------------------------------------------------------------------------- #
 if (__name__ == "__main__"):
+    shared.time_start = datetime.now()
     app.run(host = Configuration["flask_host"], port = Configuration["flask_port"])

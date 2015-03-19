@@ -67,11 +67,11 @@ Menuitem(1, 0,  "My Account",       "user",             0,  "/personal"),
 Menuitem(1, 10, "Sign in",          "log-in",           2,  "/signin"),
 Menuitem(1, 10, "Sign out",         "log-out",          0,  "/signout"),
 Menuitem(1, 1,  "Administration",   "cog",              0,  "/administration"),
-Menuitem(2, 0,  "Rules",            "",                 0,  "/rules"),
-Menuitem(2, 1,  "Roles",            "",                 0,  "/roles"),
-Menuitem(2, 2,  "Menus",            "",                 0,  "/menus"),
-Menuitem(2, 3,  "Routes",           "",                 0,  "/routes"),
-Menuitem(2, 4,  "Plugins",          "",                 0,  "/plugins"),
+Menuitem(2, 0,  "Rules",            "ok",               0,  "/rules"),
+Menuitem(2, 1,  "Roles",            "user",             0,  "/roles"),
+Menuitem(2, 2,  "Menus",            "menu-hamburger",   0,  "/menus"),
+Menuitem(2, 3,  "Routes",           "road",             0,  "/routes"),
+Menuitem(2, 4,  "Plugins",          "cog",              0,  "/plugins"),
 Menuitem(3, 0,  "",                 "plus",             2,  "/rules/create"),
 Menuitem(3, 1,  "",                 "remove",           2,  "/rules/<id>/delete"),
 Menuitem(3, 2,  "",                 "pencil",           2,  "/rules/<id>/update"),
@@ -106,10 +106,10 @@ db.init_app(app)
 
 # Load plugin installers
 # -------------------------------------------------------------------------------- #
-path = ["./src/plugins"]
-prefix = "plugins."
+[path, prefix] = [["./src/plugins"], "plugins."]
 modules = []
 for module_loader, name, ispkg in pkgutil.walk_packages(path, prefix):
+    if ispkg: continue
     if not name.endswith("__install__"): continue
     module = importlib.import_module(name)
     if not hasattr(module, "install"): continue

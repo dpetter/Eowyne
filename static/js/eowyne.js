@@ -81,7 +81,7 @@ function ajax_popup_result(data) {
 		document.write(data);
 		document.close();
 	} else {
-		$("#popup").html(data);
-		initialize_ajax_popup("#popup");
+		$("#eowyne-menu-popup").html(data);
+		initialize_ajax_popup("#eowyne-menu-popup");
 	}
 }

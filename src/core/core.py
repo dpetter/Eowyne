@@ -34,6 +34,7 @@ def heartbeat():
         if now - shared.time_elapsed < shared.heartbeat_time: return
         shared.time_elapsed = now
         Log.information(__name__, "Heartbeat")
+        shared.heartbeat_count += 1
         for function in shared.beating_hearts: function()
     except Exception as e:
         Log.error(__name__, "Heartbeat failed:" + str(e))
@@ -63,6 +64,7 @@ def beforerequest():
     # but urls don't it simply checks whether the path contains a full stop.
     if "." in request.path: return
     heartbeat()
+    shared.request_count += 1
     if request.path.startswith(shared.noscope_url): return
     # Fill the global scope ...
     g.session       = acquire_session()
@@ -82,7 +84,10 @@ def beforerequest():
 @blueprint.route("/administration", methods = ["GET"])
 def administration():
     links = menubar("administration", g.role.id)
-    return render("core/administration/main.html", navigation = links)
+    information = (shared.time_start, shared.heartbeat_count,
+                   shared.request_count)
+    return render("core/administration/dashboard.html", navigation = links,
+                  information = information)
 
 # Show static page
 # -------------------------------------------------------------------------------- #

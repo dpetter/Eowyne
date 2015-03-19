@@ -59,6 +59,34 @@ h1 {
 	font-size: 24px;
 }
 
+h2 {
+	font-size: 18px;
+}
+
+
+/* Dashboard.
+***********************************************************************************/
+.dashboard-frame {
+	width: 100%;
+	border: 1px solid #ddd;
+}
+
+.dashboard-link {
+	display: inline-block;
+	margin: 15px 0px;
+	font-size: 16px;
+}
+
+.dashboard-link span {
+	display: block;
+	text-align: center;
+}
+
+.dashboard-link .glyphicon {
+	padding: 5px;
+	font-size: 48px;
+}
+
 
 /* Menus.
 ***********************************************************************************/
@@ -93,6 +121,11 @@ h1 {
 	color: #4682B4;
 }
 
+.no-image img, .no-image .glyphicon {
+	display: none;
+}
+
+
 
 /* Forms.
 ***********************************************************************************/
@@ -106,7 +139,6 @@ form {
 }
 
 form h2 {
-	font-size: 18px;
 	margin: 0px;
 	padding: 10px 30px;
 	border-bottom: 1px solid #ddd;
