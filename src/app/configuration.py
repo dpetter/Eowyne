@@ -6,13 +6,7 @@
 #
 # Created on 2015-02-05.
 # ================================================================================ #
-from utility.log import Log
-
-
 Configuration = {
-    # Set this to Log.WARNING (fastest) or Log.INFORMATION in production.
-    "log_level": Log.DEBUG,
-    
     # Flask settings. Set host = 0.0.0.0 to route into the internet.
     # Put your static files (js, css, etc) into static_dir.
     # Put your templates into template.

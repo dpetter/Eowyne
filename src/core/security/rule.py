@@ -13,8 +13,8 @@ from sqlalchemy.sql.schema import Column, ForeignKey
 from sqlalchemy.sql.sqltypes import Integer, String, Enum
 
 from core.security.role import Role, match
+from core.shared import log
 from natives import Native, relation
-from utility.log import Log
 
 
 # Classes
@@ -52,7 +52,7 @@ def can_access(route, role_id, owner = None):
     try:
         return access(route, role_id, owner)
     except Exception as e:
-        Log.warning(__name__, str(e))
+        log.warning(str(e))
         return False
 
 def access(route, role_id, owner = None):

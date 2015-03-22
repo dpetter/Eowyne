@@ -7,7 +7,8 @@
 # Created on 2015-02-22.
 # ================================================================================ #
 from configparser import RawConfigParser
-from utility.log import Log
+
+from core.shared import log
 
 
 # -------------------------------------------------------------------------------- #
@@ -25,5 +26,5 @@ def localize(mod, key):
         [section, option] = key.split(".", 1)
         return p.get(section, option)
     except Exception as e:
-        Log.error(__name__, str(e))
+        log.error(str(e))
         return "No Localisation Entry"

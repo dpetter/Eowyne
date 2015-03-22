@@ -24,8 +24,7 @@ from sqlalchemy.sql.functions import func
 from sqlalchemy.sql.schema import Column
 from sqlalchemy.sql.sqltypes import Integer
 
-from core.shared import db
-from utility.log import Log
+from core.shared import db, log
 
 
 class Model(db.Model):
@@ -46,7 +45,7 @@ class Model(db.Model):
             if not self.__batch__: db.session.commit()  # @UndefinedVariable
             return True
         except IntegrityError as ex:
-            Log.error(self.__class__.__name__, str(ex))
+            log.error(str(ex))
             db.session.rollback()  # @UndefinedVariable
             return False
     
@@ -60,7 +59,7 @@ class Model(db.Model):
             if not self.__batch__: db.session.commit()  # @UndefinedVariable
             return True
         except IntegrityError as ex:
-            Log.error(self.__class__.__name__, str(ex))
+            log.error(self.__class__.__name__, str(ex))
             db.session.rollback()  # @UndefinedVariable
             return False
     
@@ -74,7 +73,7 @@ class Model(db.Model):
             if not self.__batch__: db.session.commit()  # @UndefinedVariable
             return True
         except IntegrityError as ex:
-            Log.error(self.__class__.__name__, str(ex))
+            log.error(str(ex))
             db.session.rollback()  # @UndefinedVariable
             return False
     
@@ -97,7 +96,7 @@ class Model(db.Model):
         try:
             return cls.query.get(identifier)
         except IntegrityError as ex:
-            Log.error(cls.__name__, str(ex))
+            log.error(str(ex))
             return None
     
     # ---------------------------------------------------------------------------- #
@@ -109,7 +108,7 @@ class Model(db.Model):
         try:
             return cls.query.all()
         except IntegrityError as ex:
-            Log.error(cls.__name__, str(ex))
+            log.error(str(ex))
             return []
     
     # ---------------------------------------------------------------------------- #
@@ -121,7 +120,7 @@ class Model(db.Model):
         try:
             return cls.query.filter(*criteria).all()
         except IntegrityError as ex:
-            Log.error(cls.__name__, str(ex))
+            log.error(str(ex))
             return []
     
     # ---------------------------------------------------------------------------- #
@@ -136,7 +135,7 @@ class Model(db.Model):
             if (not items) or (len(items) != 1): return None
             return items[0]
         except IntegrityError as ex:
-            Log.error(cls.__name__, str(ex))
+            log.error(str(ex))
             return None
     
     # ---------------------------------------------------------------------------- #
@@ -153,4 +152,4 @@ class Model(db.Model):
         try:
             db.session.commit()  # @UndefinedVariable
         except IntegrityError as ex:
-            Log.error(cls.__name__, str(ex))
+            log.error(str(ex))

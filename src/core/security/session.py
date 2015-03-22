@@ -12,9 +12,9 @@ from flask.globals import session, request, g
 from sqlalchemy.sql.schema import Column, ForeignKey
 from sqlalchemy.sql.sqltypes import Integer, DateTime, String
 
+from core.shared import log
 from core.utility.keyutility import randomkey
 from models import Model
-from utility.log import Log
 
 
 # Classes
@@ -46,7 +46,7 @@ def acquire_session():
         result = Session.unique((Session.key == session["sKey"]) & \
                                 (Session.ip == request.remote_addr))
     if not result: result = create_session()
-    Log.debug(__name__, "Session acquired (key = %s) ..." % (result.key))
+    log.debug("Session acquired (key = %s)." % (result.key))
     session["sKey"] = result.key
     return result
 
@@ -54,7 +54,7 @@ def create_session():
     '''
     @returns            A new guest session.
     '''
-    Log.debug(__name__, "Creating new session ...")
+    log.debug("Creating new session ...")
     result          = Session()
     result.key      = randomkey(24)
     result.user_id  = 1

@@ -8,8 +8,7 @@ from sqlalchemy.sql.elements import BinaryExpression, BooleanClauseList, Groupin
 from sqlalchemy.sql.schema import Column
 from sqlalchemy.sql.sqltypes import Integer
 
-from core.shared import db
-from utility.log import Log
+from core.shared import db, log
 
 
 class Native(db.Model):
@@ -72,10 +71,10 @@ class Native(db.Model):
         if cls.__batch__: return True
         if not cls.__fields__: cls.__fields__ = fields(cls)
         if not cls.__store__: cls.__store__ = storage(cls)
-        Log.debug(cls.__name__, "Loading cache...")
+        log.debug("Loading cache...")
         items = cls.query.order_by(cls.id).all()
         cls.__list__ = store(cls, items)
-        Log.debug(cls.__name__, "Cache loaded...")
+        log.debug("Cache loaded...")
         return True
     
     # ---------------------------------------------------------------------------- #

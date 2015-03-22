@@ -14,7 +14,7 @@ from jinja2.exceptions import TemplateNotFound
 from werkzeug.utils import redirect
 from wtforms.fields.simple import SubmitField
 
-from utility.log import Log
+from core.shared import log
 
 
 # Forms
@@ -33,7 +33,7 @@ def render(template, **kwargs):
     try:
         return render_template(template, **kwargs)
     except TemplateNotFound:
-        Log.error(__name__, "Template not found: %s." % (template))
+        log.error("Template not found: %s." % (template))
         return render_template("error/template.html", name = template)
 
 # -------------------------------------------------------------------------------- #

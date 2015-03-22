@@ -20,7 +20,7 @@ from core.rendering import render
 from core.security import acquire_session
 from core.security.rule import access
 from core.security.user import Client
-from utility.log import Log
+from core.shared import log
 
 
 blueprint = Blueprint("core-controller", __name__)
@@ -33,11 +33,11 @@ def heartbeat():
         now = time.time()
         if now - shared.time_elapsed < shared.heartbeat_time: return
         shared.time_elapsed = now
-        Log.information(__name__, "Heartbeat")
+        log.info("Heartbeat.")
         shared.heartbeat_count += 1
         for function in shared.beating_hearts: function()
     except Exception as e:
-        Log.error(__name__, "Heartbeat failed:" + str(e))
+        log.error("Heartbeat failed: " + str(e))
 
 
 def forbidden():
@@ -57,8 +57,8 @@ def invalid():
 # -------------------------------------------------------------------------------- #
 @blueprint.before_app_request
 def beforerequest():
-    Log.debug(__name__, "Incoming request")
-    Log.debug(__name__, request.path)
+    log.debug("Incoming request")
+    log.debug(request.path)
     # The next line is to prevent the acquisition of globals when a static file
     # (style sheet, image, etc.) is requested. Since all files have an extension
     # but urls don't it simply checks whether the path contains a full stop.
@@ -76,7 +76,7 @@ def beforerequest():
     try:
         if access(request.path, g.role.id, True) == 0: return forbidden()
     except Exception as e:
-        Log.error(__name__, str(e))
+        log.error(str(e))
         return invalid()
 
 # Show administration page

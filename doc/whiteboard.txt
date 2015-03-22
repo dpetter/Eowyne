@@ -3,7 +3,6 @@ TODO:
 The EOWYNE whiteboard ...
 -	Find out if its possible to append to jinja blocks and if => base.html
 -	Naming Converntions ...
--	Log durch logger ersetzen
 -	utility.generator.randomkey sollte dahingehend verbessert werden, das nur
 	unique keys rauskommen
 -	vielleicht natives von sql-alchemy abkoppeln oder besser integrieren?

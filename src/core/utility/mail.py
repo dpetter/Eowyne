@@ -6,9 +6,8 @@
 #
 # Created by dp on 2015-02-02.
 # ================================================================================ #
+import logging
 import smtplib
-
-from utility.log import Log
 
 
 class MailService():
@@ -51,5 +50,6 @@ class MailService():
             smtp.sendmail(sender, recipients, header + message)
             return True
         except Exception as e:
-            Log.error(self.__class__, "Could not send mail." + str(e))
+            log = logging.getLogger("eowyne-logger")
+            log.error("Could not send mail. " + str(e))
             return False
