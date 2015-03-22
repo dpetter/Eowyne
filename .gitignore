@@ -3,7 +3,7 @@ __pycache__/
 *.py[cod]
 
 static/img
-.DS_Store/
+.DS_Store
 cache/*
 message/*
 .settings/*
