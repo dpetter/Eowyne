@@ -13,6 +13,7 @@ import time
 
 from flask.blueprints import Blueprint
 from flask.globals import request, g
+from werkzeug.wrappers import Response
 
 from core import shared
 from core.navigation.menu import menubar
@@ -68,6 +69,7 @@ def beforerequest():
     if request.path.startswith(shared.noscope_url): return
     # Fill the global scope ...
     g.session       = acquire_session()
+    if isinstance(g.session, Response): return g.session
     g.user          = Client.get(g.session.user_id)
     g.role          = g.user.role
     g.main_menu     = menubar("main", g.role.id)
