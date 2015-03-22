@@ -36,7 +36,7 @@ class Menuitem(Native):
     weight              = Column(Integer)
     name                = Column(String(255))
     image               = Column(String(255))
-    flags               = Column(Integer)
+    flags               = Column(String(255))
     address             = Column(String(255))
     
     menubar             = relation(Menubar, "menubar_id")

@@ -11,7 +11,7 @@
 <h1>Role Administration</h1>
 <table>
 	<thead>
-		<th>{{ menus.build(actions) }}</th>
+		<th>{{ menus.build(actions, "eo-popup-window") }}</th>
 		<th>Name</th>
 		<th>Description</th>
 		<th>Extends</th>
@@ -19,7 +19,7 @@
 	<tbody>
 		{% for item in items %}
 		<tr class="{{ loop.cycle('odd', 'even') }}">
-			<td>{{ menus.context(item.actions, item.id) }}</td>
+			<td>{{ menus.context(item.actions, item.id, "eo-popup-window") }}</td>
 			<td>{{ item.name }}</td>
 			<td>{{ item.description }}</td>
 			<td>{{ item.parent.name }}</td>

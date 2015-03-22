@@ -31,8 +31,8 @@ class FormMenu(DefaultForm):
     name        = TextField(localize("core", "menus.field_name"))
     weight      = IntegerField(localize("core", "menus.field_weight"),
                                validators = [NumberRange(0, 25)])
-    flags       = IntegerField(localize("core", "menus.field_flags"),
-                               validators = [NumberRange(0, 16)])
+    flags       = TextField(localize("core", "menus.field_flags"),
+                            validators = [NumberRange(0, 16)])
     image       = TextField(localize("core", "menus.field_image"))
 
 class FormMenubar(DefaultForm):
