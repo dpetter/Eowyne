@@ -11,7 +11,8 @@
 
 {% macro context(list, id, class) -%}
 	{% for item in list %}
-	<a class="{{ class }}{{ item.flags }}" href="{{ item.address }}">
+	<a class="{{ class }}{{ item.flags }}"
+	href="{{ item.address|replace('<id>', id) }}">
 		{% if item.image %}
 		<span class="glyphicon glyphicon-{{ item.image }}"></span>
 		{% endif %}

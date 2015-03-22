@@ -1,42 +1,42 @@
 {% extends "core/administration/base.html" %}
 {% block content %}
-	<h1>Administration</h1>
-	<div class="<container dashboard-frame">
-		<h2>System Information</h2>
-		<div class="row">
-			<div class="col-sm-6 col-xs-12">
-				<div>
-					<label>Active since</label>
-					<span>{{ information[0] }}</span>
-				</div>
-				<div>
-					<label>Heartbeats</label>
-					<span>{{ information[1] }}</span>
-				</div>
-				<div>
-					<label>Requests</label>
-					<span>{{ information[2] }}</span>
-				</div>
-				<div>
-					<label>Errors</label>
-					<span>{{ 0 }}</span>
-				</div>
+<h1>Administration</h1>
+<div class="<container dashboard-frame">
+	<h2>System Information</h2>
+	<div class="row">
+		<div class="col-sm-6 col-xs-12">
+			<div>
+				<label>Active since</label>
+				<span>{{ information[0] }}</span>
 			</div>
-			<div class="col-sm-6 col-xs-12">
-				<div style="font-size: 96px; vertical-align: middle; text-align: center;">
-					{{ icons.glyph("tasks") }}
-				</div>
-				<div style="vertical-align: middle; text-align: center;">
-				Here be a chart
-				</div>
+			<div>
+				<label>Heartbeats</label>
+				<span>{{ information[1] }}</span>
+			</div>
+			<div>
+				<label>Requests</label>
+				<span>{{ information[2] }}</span>
+			</div>
+			<div>
+				<label>Errors</label>
+				<span>{{ 0 }}</span>
+			</div>
+		</div>
+		<div class="col-sm-6 col-xs-12">
+			<div style="font-size: 96px; vertical-align: middle; text-align: center;">
+				{{ icons.glyph("tasks") }}
+			</div>
+			<div style="vertical-align: middle; text-align: center;">
+			Here be a chart
 			</div>
 		</div>
 	</div>
-	<br/>
-	<br/>
-	<div class="container dashboard-frame">
-		<div class="row">
-			{{ menus.build(navigation, "col-sm-4 col-xs-6 dashboard-link") }}
-		</div>
+</div>
+<br/>
+<br/>
+<div class="container dashboard-frame">
+	<div class="row">
+		{{ menus.build(navigation, "col-sm-4 col-xs-6 dashboard-link") }}
 	</div>
+</div>
 {% endblock %}

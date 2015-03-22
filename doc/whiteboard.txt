@@ -1,7 +1,6 @@
 TODO:
 
 The EOWYNE whiteboard ...
--	Find out if its possible to append to jinja blocks and if => base.html
 -	Naming Converntions ...
 -	utility.generator.randomkey sollte dahingehend verbessert werden, das nur
 	unique keys rauskommen

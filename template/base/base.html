@@ -7,14 +7,14 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	{% block meta %}{% endblock %}
 	{{ static.js("js/jquery.js") }}
 	{{ static.js("js/jquery.popupoverlay.js") }}
 	{{ static.js("js/bootstrap.min.js") }}
 	{{ static.js("js/eowyne.js") }}
 	{{ static.js("js/scripts.js") }}
-	{{ static.css("css/bootstrap.min.css") }}
-	{% block meta %}{% endblock %}
 	{% block scripts %}{% endblock %}
+	{{ static.css("css/bootstrap.min.css") }}
 	{% block styles %}{% endblock %}
 </head>
 <body>

@@ -1,34 +1,37 @@
 {% extends "base/base.html" %}
 {% block meta %}
-	<meta name="description" content="Eowyne Administration">
-	<meta name="author" content="The Eowyne Team">
-	<title>Eowyne Administration</title>
-	<link rel="shortcut icon" href="./static/img/faviconab.png" type="image/png"/>
-	{{ static.css("css/core/administration.css") }}
+<meta name="description" content="Eowyne Administration">
+<meta name="author" content="The Eowyne Team">
+<title>Eowyne Administration</title>
+<link rel="shortcut icon" href="./static/img/faviconab.png" type="image/png"/>
+{% endblock %}
+{% block styles %}
+{{ super() }}
+{{ static.css("css/core/administration.css") }}
 {% endblock %}
 {% block body %}
-	<div id="page-area">
-		<div id="header-area">
-			<div class="wrapper">
-				<ul id="personal-menu">
-					{{ menus.navigation(g.personal_menu) }}
-				</ul>
-				<nav role="navigation" id="main-menu"><ul>
-					{{ menus.navigation(navigation, "no-image") }}
-				</ul></nav>
-			</div>
-		</div>
-		<div id="content-area">
-			<div class="wrapper">
-				{% include "base/messages.html" %}
-				{% block content %}{% endblock %}
-			</div>
-		</div>
-		<div id="footer-area">
-			<br/>
-			Powered by <a>Eowyne</a><br/><br/>
-			<a>Documentation</a> | <a>Get latest version</a> | <a>Contribute</a>
-			<br/>
+<div id="page-area">
+	<div id="header-area">
+		<div class="wrapper">
+			<ul id="personal-menu">
+				{{ menus.navigation(g.personal_menu) }}
+			</ul>
+			<nav role="navigation" id="main-menu"><ul>
+				{{ menus.navigation(navigation, "no-image") }}
+			</ul></nav>
 		</div>
 	</div>
+	<div id="content-area">
+		<div class="wrapper">
+			{% include "base/messages.html" %}
+			{% block content %}{% endblock %}
+		</div>
+	</div>
+	<div id="footer-area">
+		<br/>
+		Powered by <a>Eowyne</a><br/><br/>
+		<a>Documentation</a> | <a>Get latest version</a> | <a>Contribute</a>
+		<br/>
+	</div>
+</div>
 {% endblock %}
