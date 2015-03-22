@@ -18,7 +18,7 @@ from core.rendering import DefaultForm, render, create_form, mismatch, delete_fo
 from core.utility.localization import localize
 
 
-blueprint = Blueprint("menu-controller", __name__)
+blueprint = Blueprint("core-menu-controller", __name__)
 
 
 # Forms
@@ -94,9 +94,20 @@ def update(identifier):
                        template = "core/administration/menu-form.html",
                        navigation = navigation)
 
+# View a list of all menu bars
+# -------------------------------------------------------------------------------- #
+@blueprint.route("/menubars", methods = ["GET"])
+def menubar_list():
+    navigation = menubar("administration", g.role.id)
+    items = Menubar.all()
+    actions = menubar("menu", g.role.id)
+    for item in items: item.actions = contextmenu("menubar", g.role.id)
+    return render("core/administration/menubar-list.html", navigation = navigation,
+                  items = items, actions = actions)
+
 # Create menu bar
 # -------------------------------------------------------------------------------- #
-@blueprint.route("/menubar/create", methods = ["GET", "POST"])
+@blueprint.route("/menubars/create", methods = ["GET", "POST"])
 def menubar_create():
     navigation = menubar("administration", g.role.id)
     item = Menubar()
@@ -109,7 +120,7 @@ def menubar_create():
 
 # Delete menu bar
 # -------------------------------------------------------------------------------- #
-@blueprint.route("/menubar/<identifier>/delete", methods = ["GET", "POST"])
+@blueprint.route("/menubars/<identifier>/delete", methods = ["GET", "POST"])
 def menubar_delete(identifier):
     navigation = menubar("administration", g.role.id)
     item = Menubar.get(int(identifier))
@@ -119,4 +130,18 @@ def menubar_delete(identifier):
     message = localize("core", "menus.delete_success")
     return delete_form(item, headline, text, message, "/menus",
                        template = "core/administration/confirm.html",
+                       navigation = navigation)
+
+# Delete menu bar
+# -------------------------------------------------------------------------------- #
+@blueprint.route("/menubars/<identifier>/update", methods = ["GET", "POST"])
+def menubar_update(identifier):
+    navigation = menubar("administration", g.role.id)
+    item = Menubar.get(int(identifier))
+    if not item: return mismatch()
+    form = FormMenubar(obj = item)
+    headline = localize("core", "menubars.update_headline")
+    message = localize("core", "menubars.update_success")
+    return update_form(item, form, headline, message, "/menus",
+                       template = "core/administration/menubar-form.html",
                        navigation = navigation)

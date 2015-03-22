@@ -19,7 +19,7 @@ from core.rendering import DefaultForm, render, create_form, mismatch, delete_fo
 from core.utility.localization import localize
 
 
-blueprint = Blueprint("role-controller", __name__)
+blueprint = Blueprint("core-role-controller", __name__)
 
 
 # Forms

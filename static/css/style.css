@@ -1,108 +1,135 @@
-.page{
-	font-family: Calibri;
-}
-.new_brand{
-    font-family: 'Fascinate Inline', cursive!important;
-}
-.cali{
-	font-family: Calibri;
-}
-
-.box {
-    background-color: rgba(255, 230, 230, 0.7)!important;
-
-}
-
-footer{
-    background-color: rgba(255, 230, 230, 0.8)!important;
-    margin-top: 100px;
-}
-
-.navbar-default{
-	background-color: rgba(255, 230, 230, 0.8)!important;
-}
-.steckbrief{
-position: relative;
-top:-50px;
-background: #E9BC8B;
-box-shadow: 5px 5px 5px #1A0700;
-max-width: 350px;
-left: -100px;
-padding: 20px 20px 60px 20px;
-
-}
-.gobutt{
-    left: 10px;
-    margin-bottom: 150px;
-    top: 83px;
-}
-.rating{
-	margin-bottom: 50px;
-}
-.left{
-	text-align: left;
-}
-.right{
-	text-align: left;
-}
-.sbhead{
-    background-clip: border-box;
-    background-color: #1a0700;
-    background-image: none;
-    background-position: 0 0;
-    background-repeat: repeat;
-    background-size: auto auto;
-    color: #e9bc8b;
-    height: 50px;
-    left: -20px;
-    padding-top: 0;
-    position: relative;
-    text-align: center;
-    top: -40px;
-    width: 350px;
-}
-.sbhead>h3{
-	padding-top: 10px;
-}
-
-.nobullet{
-    line-height: 35px;
-    list-style-image: none !important;
-    list-style-type: none;
-    position: relative;
-    top: 10px;
-    font-weight: normal;
-}
-.left ul li {
-    list-style-image: url("/static/img/bullet.png");
-    font-weight: bold;
-}
-* {
-    box-sizing: border-box;
-}
-.right {
-    text-align: left;
-}
 html, body {
-    font-family: arial,helvetica,clean,sans-serif;
-}
-body {
-    font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
-}
-body {
-    color: #333;
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-    font-size: 14px;
-    line-height: 1.42857;
-}
-html, body {
-    font-family: arial,helvetica,clean,sans-serif;
-}
-html {
-    font-size: 10px;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	font-family: arial,helvetica,clean,sans-serif;
 }
 
-.signin-form {
+
+/* Areas.
+***********************************************************************************/
+#page-area {
+	position: relative;
+	min-height: 100%;
+}
+
+#header-area {
+	left: 0px;
+	top: 0xp;
+	width: 100%;
+	height: 100px;
+	border-bottom: 1px solid #ddd;
+	background-color: #eee;
+}
+
+#content-area {
+	width: 100%;
+	padding: 20px 0px 120px 0px;
+}
+
+#footer-area {
+	width: 100%;
+	height: 100px;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	border-top: 1px solid #ddd;
+	text-align: center;
+	background-color: #eee;
+}
+
+#message-area {
+	padding: 5px 10px;
+	border: 1px solid #ddd;
+	background-color: #ebebff;
+	list-style: none;
+}
+
+.wrapper {
+	max-width: 1000px;
+	margin: 0 auto;
+	padding: 0px 20px;
+}
+
+h1 {
+	width: 100%;
+	margin: 20px auto;
+	border-bottom: 1px solid #ddd;
+	font-size: 24px;
+}
+
+h2 {
+	font-size: 18px;
+}
+
+
+/* Dashboard.
+***********************************************************************************/
+.dashboard-frame {
+	width: 100%;
+	border: 1px solid #ddd;
+}
+
+.dashboard-link {
+	display: inline-block;
+	margin: 15px 0px;
+	font-size: 16px;
+}
+
+.dashboard-link span {
+	display: block;
+	text-align: center;
+}
+
+.dashboard-link .glyphicon {
+	padding: 5px;
+	font-size: 48px;
+}
+
+
+/* Menus.
+***********************************************************************************/
+#personal-menu {
+	list-style: none;
+	text-align: right;
+}
+
+#personal-menu li {
+	display: inline-block;
+	padding: 5px 0px 0px 20px;
+}
+
+#main-menu ul {
+	padding: 0px;
+	list-style: none;
+	font-size: 24px;
+}
+
+#main-menu li {
+	display: inline-block;
+	padding: 0px 30px 0px 0px;
+}
+
+#personal-menu a, #main-menu a {
+	text-decoration: none;
+	color: #333;
+}
+
+#personal-menu a:hover, #main-menu a:hover {
+	text-decoration: none;
+	color: #4682B4;
+}
+
+.no-image img, .no-image .glyphicon {
+	display: none;
+}
+
+
+
+/* Forms.
+***********************************************************************************/
+form {
 	width: 100%;
 	min-width: 350px;
 	margin: 20px auto;
@@ -111,31 +138,30 @@ html {
 	background-color: #f8f8f8;
 }
 
-.signin-form h2 {
-	font-size: 18px;
+form h2 {
 	margin: 0px;
 	padding: 10px 30px;
 	border-bottom: 1px solid #ddd;
 }
 
-.signin-form .container {
+form .container {
 	width: 100%;
 	padding: 10px 30px;
 }
 
-.signin-form .buttons {
+form .buttons {
 	width: 100%;
 	padding: 10px 30px;
 	border-top: 1px solid #ddd;
 	text-align: center;
 }
 
-.signin-form label {
+label {
 	margin: 4px 0px;
 	padding: 3px;
 }
 
-.signin-form input[type="text"], .signin-form select, .signin-form textarea, .signin-form input[type="password"] {
+input[type="text"], select, textarea {
 	width: 100%;
 	margin: 4px 0px;
 	border: 1px solid #ddd;
@@ -143,18 +169,68 @@ html {
     box-shadow: inset 0px 0px 3px rgba(50, 50, 50, 0.2);
 }
 
-.signin-form input[type="text"], .signin-form textarea, .signin-form input[type="password"] {
+input[type="text"], textarea {
 	padding: 2px 8px;
 }
 
-.signin-form select {
+select {
 	padding: 3px 5px;
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
 }
 
-.signin-form input[type="submit"], .signin-form button {
+input[type="submit"], button {
 	width: 100px;
 	margin: 0px 15px;
+}
+
+
+/* Tables.
+***********************************************************************************/
+table {
+	width: 100%;
+	margin: 20px auto;
+	border: 1px solid #ddd;
+	border-collapse: collapse;
+}
+
+table tr:hover {
+	background-color: #F5FAEA;
+	text-decoration: none;
+}
+
+th {
+	padding: 15px 10px;
+	border-bottom: 1px solid #ddd;
+	background-color: #EBF5D6;
+}
+
+td {
+	padding: 10px;
+}
+
+td:first-child {
+	padding-right: 16px;
+	white-space: nowrap;
+}
+
+table .even {
+	background-color: #ffffff;
+}
+
+table .odd {
+	background-color: #fbfbfb;
+}
+
+table .filters {
+	border: 1px solid #ddd;
+}
+
+table a {
+	color: #000;
+}
+
+table input[type="text"], table select {
+	width: auto;
 }

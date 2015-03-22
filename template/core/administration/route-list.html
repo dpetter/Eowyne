@@ -1,7 +1,12 @@
 {% extends "core/administration/base.html" %}
 {% block styles %}
 <style type="text/css">
+	{{ tables.style_columns([1, 2, 3], "border-left: 1px solid #ddd; border-right: 1px solid #ddd;") }}
+	{{ tables.style_headers([1, 2, 3], "border-left: 1px solid #ddd; border-right: 1px solid #ddd;") }}
 	{{ tables.style_columns([1, 2, 3], "vertical-align: top;") }}
+	{{ tables.style_columns([2, 3], "font-size: 12px; color: #888;") }}
+	{{ tables.size_columns([1, 2], "50%") }}
+	{{ tables.align_columns([3], "center") }}
 </style>
 {% endblock %}
 {% block content %}
@@ -10,14 +15,18 @@
 	<thead>
 		<th>Blueprint</th>
 		<th>Routes</th>
-		<th></th>
+		<th>Secured</th>
 	</thead>
 	<tbody>
-		{% for item in items %}
+		{% for endpoint, routes in items %}
 		<tr class="{{ loop.cycle('odd', 'even') }}">
-			<td>{{ item[0] }}</td>
-			<td>{% for x in item[1] %}{{ x }}<br/>{% endfor %}</td>
-			<td>{% for x in item[2] %}{{ x }}<br/>{% endfor %}</td>
+			<td>{{ endpoint }}</td>
+			<td>{% for route, _ in routes %}{{ route }}<br/>{% endfor %}</td>
+			<td>
+				{% for _, secured in routes %}
+				{% if secured %}{{ icons.glyph("ok") }}{% endif %}<br/>
+				{% endfor %}
+			</td>
 		</tr>
 		{% endfor %}
 	</tbody>

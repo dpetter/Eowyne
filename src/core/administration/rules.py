@@ -20,7 +20,7 @@ from core.rendering import DefaultForm, render, create_form, mismatch, delete_fo
 from core.utility.localization import localize
 
 
-blueprint = Blueprint("rule-controller", __name__)
+blueprint = Blueprint("core-rule-controller", __name__)
 
 
 # Forms

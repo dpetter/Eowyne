@@ -1,3 +1,0 @@
-
-\(<\(script\|img\|link\).*\(src\|href\)="\)\([^:"{]*\)"/\1{{ url_for('static', filename='\4') }}"
-

@@ -1,3 +1,7 @@
+$(document).ready(function() {
+	$("#message-area").delay( 3000 ).slideUp("slow");
+});
+
 $(document).ready(function() { initialize_filters(); });
 
 function initialize_filters() {

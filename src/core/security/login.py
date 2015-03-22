@@ -20,7 +20,7 @@ from core.utility.keyutility import match_password, randomkey, hash_password
 from core.utility.localization import localize
 
 
-blueprint = Blueprint("client-controller", __name__)
+blueprint = Blueprint("core-login-controller", __name__)
 
 
 # Forms

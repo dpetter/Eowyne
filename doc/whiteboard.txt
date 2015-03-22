@@ -1,20 +1,9 @@
 TODO:
 
-High priority:
--	implementierung und design für weine ...
--	generelles form template stylen
--	Newsbox auf der Startseite mit den neusten Weinen
-
-
-Low priority:
--	tests ...
-
-
 The EOWYNE whiteboard ...
 -	Find out if its possible to append to jinja blocks and if => base.html
 -	Naming Converntions ...
 -	Log durch logger ersetzen
--	administration.plugins soll besser werden
 -	utility.generator.randomkey sollte dahingehend verbessert werden, das nur
 	unique keys rauskommen
 -	vielleicht natives von sql-alchemy abkoppeln oder besser integrieren?
