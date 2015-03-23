@@ -13,7 +13,6 @@ import sys
 from flask.blueprints import Blueprint
 from flask.globals import g
 
-#from app.application import app
 from core.navigation.menu import menubar
 from core.rendering import render
 from core.security.rule import access
@@ -50,9 +49,7 @@ def plugin_overview():
 @blueprint.route("/routes", methods = ["GET"])
 def route_overview():
     navigation = menubar("administration", g.role.id)
-    # FIXME: Some way to import app ...
-#    rules = app.url_map.iter_rules()
-    rules = []
+    rules = sys.modules["__main__"].app.url_map.iter_rules()
     controller = lambda endpoint: endpoint[0 : endpoint.find(".")]
     data = [(controller(str(rule.endpoint)), str(rule.rule)) for rule in rules]
     data.append((blueprint.name, "/plugins"))

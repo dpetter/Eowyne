@@ -40,12 +40,67 @@ function filter_table() {
 }
 
 $(document).ready(function() {
+	$(".eo-component").each(function(event) {
+		var url = $(this).attr("href");
+		ajax_component($(this), url);
+	});
 	$(".eo-popup-window").click(function(event) {
 		event.preventDefault();
-		var url = $(this).attr("href")
+		var url = $(this).attr("href");
 		ajax_popup("#eo-popup-window", url);
 	});
 });
+
+function ajax_post(url, container, fieldData, o) {
+	$.post(url, fieldData).done(function(data) {
+		if (data.indexOf("</html>") > -1) {
+			document.open("text/html");
+			document.write(data);
+			document.close();
+		} else {
+			$(container).html(data);
+			o(container);
+		}
+	});
+}
+
+function ajax_get_fields(form) {
+	var fieldData = {};
+	form.find("input").each(function() {
+		var name = $(this).attr("name");
+		var value = $(this).val();
+		if (name == "cancel") value = false;
+		fieldData[name] = value;
+	});
+	form.find("select").each(function() {
+		var name = $(this).attr("name");
+		var value = $(this).val();
+		fieldData[name] = value;
+	});
+	form.find("textarea").each(function() {
+		var name = $(this).attr("name");
+		var value = $(this).val();
+		fieldData[name] = value;
+	});
+	return fieldData;
+}
+
+function ajax_component(container, url) {
+	$.get(url, function(data) {
+		$(container).replaceWith("<div class='eo-component'>" + data + "</div>");
+		ajax_component_actions("div.eo-component");
+	});
+}
+
+function ajax_component_actions(container) {
+	$(container + " #form").submit(function(event) {
+		event.preventDefault();
+		var form = $(this);
+		var url = form.attr("action");
+		var fieldData = ajax_get_fields(form);
+		ajax_post(url, container, fieldData, ajax_component_actions);
+	});
+}
 
 function ajax_popup(container, url) {
 	$.get(url, function(data) {
@@ -58,35 +113,10 @@ function ajax_popup(container, url) {
 function ajax_popup_actions(container) {
 	$(container + " #form").submit(function(event) {
 		event.preventDefault();
-		var $form = $(this);
-		var url = $form.attr("action");
-		var fieldData = {};
-		$form.find("input").each(function() {
-			var name = $(this).attr("name");
-			var value = $(this).val();
-			if (name == "cancel") value = false;
-			fieldData[name] = value;
-		});
-		$form.find("select").each(function() {
-			var name = $(this).attr("name");
-			var value = $(this).val();
-			fieldData[name] = value;
-		});
-		$form.find("textarea").each(function() {
-			var name = $(this).attr("name");
-			var value = $(this).val();
-			fieldData[name] = value;
-		});
-		$.post( url, fieldData ).done(function(data) {
-			if (data.indexOf("</html>") > -1) {
-				document.open("text/html");
-				document.write(data);
-				document.close();
-			} else {
-				$(container).html(data);
-				ajax_popup_actions(container);
-			}
-		});
+		var form = $(this);
+		var url = form.attr("action");
+		var fieldData = ajax_get_fields(form);
+		ajax_post(url, container, fieldData, ajax_popup_actions);
 	});
 	$(container + " #form #cancel").click(function(event) {
 		event.preventDefault();
