@@ -43,7 +43,7 @@ class Menuitem(Native):
     
     # ---------------------------------------------------------------------------- #
     def __init__(self, menubar_id = 0, weight = 0, name = "", image = "",
-                 flags = 0, address = ""):
+                 flags = "", address = ""):
         self.address    = address
         self.name       = name
         self.menubar_id = menubar_id

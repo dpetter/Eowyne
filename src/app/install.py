@@ -63,7 +63,6 @@ Menubar("extended")
 ]
 
 menuitems = [# menubar, weight, name, image, flags, address
-Menuitem(1, 0,  "My Account",       "user",             "", "/personal"),
 Menuitem(1, 10, "Sign in",          "log-in",           "eo-popup-window","/signin"),
 Menuitem(1, 10, "Sign out",         "log-out",          "", "/signout"),
 Menuitem(1, 1,  "Administration",   "cog",              "", "/administration"),
@@ -84,7 +83,6 @@ Menuitem(5, 2,  "",                 "pencil",           "", "/menubars/<id>/upda
 Menuitem(6, 0,  "",                 "plus",             "", "/menus/create"),
 Menuitem(6, 1,  "",                 "remove",           "", "/menus/<id>/delete"),
 Menuitem(6, 2,  "",                 "pencil",           "", "/menus/<id>/update"),
-Menuitem(7, 0,  "",                 "home",             "", "/")
 ]
 
 

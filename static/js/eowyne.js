@@ -3,6 +3,8 @@ $(document).ready(function() {
 });
 
 $(document).ready(function() { initialize_filters(); });
+$(document).ready(function() { ajax_initialize() });
+
 
 function initialize_filters() {
 	$("input.eowyne-table-filter").each(function() {
@@ -39,7 +41,8 @@ function filter_table() {
 	});
 }
 
-$(document).ready(function() {
+
+function ajax_initialize() {
 	$(".eo-component").each(function(event) {
 		var url = $(this).attr("href");
 		ajax_component($(this), url);
@@ -48,19 +51,22 @@ $(document).ready(function() {
 		event.preventDefault();
 		var url = $(this).attr("href");
 		ajax_popup("#eo-popup-window", url);
-	});
-});
+	});	
+}
 
-function ajax_post(url, container, fieldData, o) {
+function ajax_post(url, container, fieldData, f) {
 	$.post(url, fieldData).done(function(data) {
 		if (data.indexOf("</html>") > -1) {
 			document.open("text/html");
 			document.write(data);
 			document.close();
+//			history.pushState("a", "b", location.href);
+//			location.href = url;
 		} else {
 			$(container).html(data);
-			o(container);
+			f(container);
 		}
+		ajax_initialize();
 	});
 }
 
@@ -87,8 +93,12 @@ function ajax_get_fields(form) {
 
 function ajax_component(container, url) {
 	$.get(url, function(data) {
-		$(container).replaceWith("<div class='eo-component'>" + data + "</div>");
-		ajax_component_actions("div.eo-component");
+		if (data.indexOf("</html>") > -1) {
+		} else {
+			$(container).replaceWith("<div class='eo-component'>" + data + "</div>");
+			ajax_component_actions("div.eo-component");
+			ajax_initialize();
+		}
 	});
 }
 
@@ -104,9 +114,16 @@ function ajax_component_actions(container) {
 
 function ajax_popup(container, url) {
 	$.get(url, function(data) {
-		$(container).html(data);
-		$(container).popup("show");
-		ajax_popup_actions(container);
+		if (data.indexOf("</html>") > -1) {
+			document.open("text/html");
+			document.write(data);
+			document.close();
+		} else {
+			$(container).html(data);
+			$(container).popup("show");
+			ajax_popup_actions(container);
+		}
+		ajax_initialize();
 	});
 }
 

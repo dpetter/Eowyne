@@ -126,50 +126,75 @@ h2 {
 }
 
 
+/* Popup Windows.
+***********************************************************************************/
+.popup-window {
+    max-width: 500px;
+    margin: 20px;
+    border: 2px solid #3b3b3b;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 2px 2px 4px rgba(50, 50, 50, 0.5);
+}
+
+.popup-header {
+    padding: 10px;
+	border-bottom: 2px solid #3B3B3B;
+    border-radius: 1px 1px 0px 0px;
+    overflow: hidden;
+    font-size: 14px;
+    font-weight: bold;
+    background-image: -moz-linear-gradient(center bottom , #3B3B3B 25%, #575757 75%);
+    color: #FFF;
+}
+
+.popup-content {
+    margin: 0px 10px;
+    padding: 10px 0px;
+    overflow: hidden;
+}
+
+.popup-panel {
+	margin-top: 5px;
+	padding: 5px;
+	border-top: 1px dotted #ddd;
+}
+
+.popup-messages {
+}
+
+.popup-footer {
+    margin: 0px 10px;
+    padding: 10px 0px;
+    border-top: 1px solid #ddd;
+    overflow: hidden;
+    text-align: right;
+}
+
+.popup-content .container {
+	width: 100%;
+	padding: 5px;
+}
+
 
 /* Forms.
 ***********************************************************************************/
-form {
-	width: 100%;
-	min-width: 350px;
-	margin: 20px auto;
-	padding: 0px;
-	border: 1px solid #ddd;
-	background-color: #f8f8f8;
-}
-
-form h2 {
-	margin: 0px;
-	padding: 10px 30px;
-	border-bottom: 1px solid #ddd;
-}
-
-form .container {
-	width: 100%;
-	padding: 10px 30px;
-}
-
-form .buttons {
-	width: 100%;
-	padding: 10px 30px;
-	border-top: 1px solid #ddd;
-	text-align: center;
-}
-
 label {
 	margin: 4px 0px;
 	padding: 3px;
+	font-weight: normal;
 }
 
-input[type="text"], select, textarea {
+input[type="text"], input[type="password"], select, textarea {
 	width: 100%;
 	margin: 4px 0px;
 	border: 1px solid #ddd;
+	border-radius: 4px;
     background-color: #fff;
-    box-shadow: inset 0px 0px 3px rgba(50, 50, 50, 0.2);
+    box-shadow: inset 0px 0px 1px rgba(50, 50, 50, 0.2);
 }
 
-input[type="text"], textarea {
+input[type="text"], input[type="password"], textarea {
 	padding: 2px 8px;
 }
 
@@ -181,8 +206,13 @@ select {
 }
 
 input[type="submit"], button {
-	width: 100px;
-	margin: 0px 15px;
+	margin: 0px;
+}
+
+input[type="text"]:disabled, input[type="password"]:disabled,
+select:disabled, textarea:disabled {
+	background-color: #f8f8f8;
+	color: #666;
 }
 
 
@@ -234,3 +264,14 @@ table a {
 table input[type="text"], table select {
 	width: auto;
 }
+
+
+/* Miscellaneous elements.
+***********************************************************************************/
+.float-left { float: left; }
+.float-right { float: right; }
+.align-left { text-align: left; }
+.align-center { text-align: center; }
+.align-right { text-align: right; }
+.no-icon img, .no-icon .glyphicon { display: none; }
+.block { display: block; }

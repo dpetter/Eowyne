@@ -1,27 +1,26 @@
 {% import "base/forms.html" as forms %}
-<form id="form" action="{{ action }}" method="post" class="signin-form">
-	<h2>Sign in</h2>
-	{{ form.csrf_token }}
-	<div class="container">
+<form class="popup-window" id="form" action="{{ action }}" method="post">
+	<div class="popup-header">Sign in</div>
+	<div class="popup-content"><div class="container">
+		<div class="popup-messages">{% include "base/messages.html" %}</div>
 		<div class="row">
-			<div class="col-sm-4 col-xs-4">{{ form.email.label }}</div>
-			<div class="col-sm-8 col-xs-8">{{ forms.field(form.email) }}</div>
-		</div>
-		<div class="row">
-			<div class="col-sm-4 col-xs-4">{{ form.password.label }}</div>
-			<div class="col-sm-8 col-xs-8">{{ forms.field(form.password) }}</div>
-		</div>
-	</div>
-	<div>
-		<a href="#" onclick="ajax_popup('#popup', '/register')">
-			I'd like to <b>register</b>.
-		</a>
-		<a href="#" onclick="ajax_popup('#popup', '/reset')">
+			<div class="col-xs-4 col-sm-4">{{ form.email.label }}</div>
+			<div class="col-xs-8 col-sm-8">{{ forms.field(form.email) }}</div>
+			<div class="col-xs-4 col-sm-4">{{ form.password.label }}</div>
+			<div class="col-xs-8 col-sm-8">{{ forms.field(form.password) }}</div>
+		</div></div>
+		<div class="popup-panel">
+			<a class="eo-popup-window float-left" href="/register">
+			I'd like to <strong>register</strong>.
+			</a>
+			<a class="eo-popup-window float-right" href="/reset">
 			I've <strong>forgotten my password</strong>.
-		</a>
+			</a>
+		</div>
+		{{ form.csrf_token }}
 	</div>
-	<div class="buttons">
-		{{ form.confirm }}
-		{{ form.cancel }}
-	</div>
+	<div class="popup-footer"><div class="btn-group" role="group">
+		{{ form.confirm(class_="btn btn-default") }}
+		{{ form.cancel(class_="btn btn-default") }}
+	</div></div>
 </form>
