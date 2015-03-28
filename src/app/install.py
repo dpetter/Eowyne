@@ -63,7 +63,7 @@ Menubar("extended")
 ]
 
 menuitems = [# menubar, weight, name, image, flags, address
-Menuitem(1, 10, "Sign in",          "log-in",           "eo-popup-window","/signin"),
+Menuitem(1, 10, "Sign in",          "log-in",           "eo-ap","/signin"),
 Menuitem(1, 10, "Sign out",         "log-out",          "", "/signout"),
 Menuitem(1, 1,  "Administration",   "cog",              "", "/administration"),
 Menuitem(2, 0,  "Rules",            "ok",               "", "/rule/"),

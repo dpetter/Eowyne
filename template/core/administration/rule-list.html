@@ -11,7 +11,7 @@
 <h1>Rule Administration</h1>
 <table>
 	<thead>
-		<th>{{ menus.build(actions, "eo-popup-window") }}</th>
+		<th>{{ menus.build(actions, "eo-ap") }}</th>
 		<th>Route</th>
 		<th>Role</th>
 		<th>{{ icons.glyph("plus") }}</th>
@@ -31,7 +31,7 @@
 		</tr>
 		{% for item in items %}
 		<tr class="{{ loop.cycle('odd', 'even') }}">
-			<td>{{ menus.context(item.actions, item.id, "eo-popup-window") }}</td>
+			<td>{{ menus.context(item.actions, item.id, "eo-ap") }}</td>
 			<td>{{ item.route }}</td>
 			<td>{{ item.role.name }}</td>
 			<td>{% if item.insert != "None" %}{{ item.insert }}{% endif %}</td>

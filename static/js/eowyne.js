@@ -43,14 +43,14 @@ function filter_table() {
 
 
 function ajax_initialize() {
-	$(".eo-component").each(function(event) {
+	$(".eo-ac").each(function(event) {
 		var url = $(this).attr("href");
 		ajax_component($(this), url);
 	});
-	$(".eo-popup-window").click(function(event) {
+	$(".eo-ap").click(function(event) {
 		event.preventDefault();
 		var url = $(this).attr("href");
-		ajax_popup("#eo-popup-window", url);
+		ajax_popup("#eo-ap", url);
 	});	
 }
 

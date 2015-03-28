@@ -14,7 +14,7 @@
 <h1>Menu Administration</h1>
 <table>
 	<thead>
-		<th>{{ menus.build(actions, "eo-popup-window") }}</th>
+		<th>{{ menus.build(actions, "eo-ap") }}</th>
 		<th>{{ icons.glyph("picture") }}</th>
 		<th>Name</th>
 		<th>Address</th>
@@ -32,7 +32,7 @@
 		</tr>
 		{% for item in items %}
 		<tr class="{{ loop.cycle('odd', 'even') }}">
-			<td>{{ menus.context(item.actions, item.id, "eo-popup-window") }}</td>
+			<td>{{ menus.context(item.actions, item.id, "eo-ap") }}</td>
 			<td>{{ icons.glyph(item.image) }}</td>
 			<td>{{ item.name }}</td>
 			<td>{{ item.address }}</td>
