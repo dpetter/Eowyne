@@ -72,7 +72,7 @@ def editor(form, headline, on_confirm, on_cancel, template = "base/form.html",
 
 # -------------------------------------------------------------------------------- #
 def create_form(item, form, headline, message, on_confirm, on_cancel = None,
-                template = "base/form.html", **args):
+                template = "core/form.html", **args):
     '''
     Renders a default create form. If the user confirms the item is filled
     with data from the form and saved. Then message is flashed and the user is
@@ -105,7 +105,7 @@ def delete_form(item, headline, text, message, on_confirm, on_cancel = None,
 
 # -------------------------------------------------------------------------------- #
 def update_form(item, form, headline, message, on_confirm, on_cancel = None,
-                template = "base/form.html", **args):
+                template = "core/form.html", **args):
     '''
     Renders a default update form. If the user confirms the item is filled
     with data from the form and saved. Then message is flashed and the user is

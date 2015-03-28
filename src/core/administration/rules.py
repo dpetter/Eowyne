@@ -20,10 +20,10 @@ from core.rendering import DefaultForm, render, create_form, mismatch, delete_fo
 from core.utility.localization import localize
 
 
-blueprint = Blueprint("core-rule-controller", __name__)
+blueprint = Blueprint("eowyne-core-rules", __name__)
 
 
-# Forms
+# Forms.
 # -------------------------------------------------------------------------------- #
 class FormRule(DefaultForm):
     route       = TextField(localize("core", "rules.field_route"),
@@ -40,10 +40,10 @@ class FormRule(DefaultForm):
                               choices = [(item, item) for item in Rule.permissions])
 
 
-# Default route: View a list of all rules
+# Default route: View a list of all rules.
 # -------------------------------------------------------------------------------- #
-@blueprint.route("/rules", methods = ["GET"])
-def entries():
+@blueprint.route("/rule/", methods = ["GET"])
+def list_rules():
     navigation = menubar("administration", g.role.id)
     items = Rule.all()
     actions = menubar("rule", g.role.id)
@@ -51,45 +51,37 @@ def entries():
     return render("core/administration/rule-list.html", navigation = navigation,
                   items = items, actions = actions)
 
-# Create Rule
+# Handler: Create Rule.
 # -------------------------------------------------------------------------------- #
-@blueprint.route("/rules/create", methods = ["GET", "POST"])
-def create():
-    navigation = menubar("administration", g.role.id)
+@blueprint.route("/rule/create", methods = ["GET", "POST"])
+def create_rule():
     item = Rule()
     form = FormRule()
     form.role_id.choices = [(role.id, role.name) for role in Role.all()]
     headline = localize("core", "rules.create_headline")
     message = localize("core", "rules.create_success")
-    return create_form(item, form, headline, message, "/rules",
-                       template = "core/administration/rule-form.html",
-                       navigation = navigation)
+    return create_form(item, form, headline, message, "/rules")
 
-# Delete Rule
+# Handler: Delete Rule.
 # -------------------------------------------------------------------------------- #
-@blueprint.route("/rules/<identifier>/delete", methods = ["GET", "POST"])
-def delete(identifier):
-    navigation = menubar("administration", g.role.id)
+@blueprint.route("/rule/<identifier>/delete", methods = ["GET", "POST"])
+def delete_rule(identifier):
     item = Rule.get(int(identifier))
     if not item: return mismatch()
     headline = localize("core", "rules.delete_headline")
     text = localize("core", "rules.delete_description") % (item.route)
     message = localize("core", "rules.delete_success")
     return delete_form(item, headline, text, message, "/rules",
-                       template = "core/administration/confirm.html",
-                       navigation = navigation)
+                       template = "core/administration/confirm.html")
 
-# Edit Rule
+# Handler: Edit Rule.
 # -------------------------------------------------------------------------------- #
-@blueprint.route("/rules/<identifier>/update", methods = ["GET", "POST"])
-def update(identifier):
-    navigation = menubar("administration", g.role.id)
+@blueprint.route("/rule/<identifier>/update", methods = ["GET", "POST"])
+def update_rule(identifier):
     item = Rule.get(int(identifier))
     if not item: return mismatch()
     form = FormRule(obj = item)
     form.role_id.choices = [(role.id, role.name) for role in Role.all()]
     headline = localize("core", "rules.update_headline")
     message = localize("core", "rules.update_success")
-    return update_form(item, form, headline, message, "/rules",
-                       template = "core/administration/rule-form.html",
-                       navigation = navigation)
+    return update_form(item, form, headline, message, "/rules")

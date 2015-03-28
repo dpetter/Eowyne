@@ -1,0 +1,22 @@
+{% import "base/forms.html" as forms %}
+<form class="popup-window" id="form" action="{{ action }}" method="post">
+	<div class="popup-header">{{ headline }}</div>
+	<div class="popup-content">
+		<div class="popup-messages">{% include "base/messages.html" %}</div>
+		<div class="container"><div class="row">
+			{% block fields %}
+			{% for field in form %}
+			{% if field.type != "SubmitField" and field.type != "CSRFTokenField" %}
+			<div class="col-xs-4 col-sm-4">{{ field.label }}</div>
+			<div class="col-xs-8 col-sm-8">{{ forms.field(field) }}</div>
+			{% endif %}
+			{% endfor %}
+			{% endblock %}
+		</div></div>
+	</div>
+	{{ form.csrf_token }}
+	<div class="popup-footer"><div class="btn-group" role="group">
+		{{ form.confirm(class_="btn btn-default") }}
+		{{ form.cancel(class_="btn btn-default") }}
+	</div></div>
+</form>
