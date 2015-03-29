@@ -18,9 +18,9 @@ html, body {
 	left: 0px;
 	top: 0xp;
 	width: 100%;
-	height: 100px;
-	border-bottom: 1px solid #ddd;
-	background-color: #eee;
+	height: 46px;
+	border-bottom: 4px solid #c0d050;
+    background-image: -moz-linear-gradient(center bottom , #202020 25%, #404040 75%);
 }
 
 #content-area {
@@ -64,65 +64,29 @@ h2 {
 }
 
 
-/* Dashboard.
-***********************************************************************************/
-.dashboard-frame {
-	width: 100%;
-	border: 1px solid #ddd;
-}
-
-.dashboard-link {
-	display: inline-block;
-	margin: 15px 0px;
-	font-size: 16px;
-}
-
-.dashboard-link span {
-	display: block;
-	text-align: center;
-}
-
-.dashboard-link .glyphicon {
-	padding: 5px;
-	font-size: 48px;
-}
-
-
 /* Menus.
 ***********************************************************************************/
-#personal-menu {
-	list-style: none;
-	text-align: right;
+#main-menu > ul {
+	padding: 0px 15px;
 }
 
-#personal-menu li {
-	display: inline-block;
-	padding: 5px 0px 0px 20px;
+#main-menu li a {
+	padding: 10px 20px;
+	color: #fff;
 }
 
-#main-menu ul {
+#main-menu li a:hover {
+	background-color: rgba(255, 255, 255, 0.1);
+	color: #c0d050;
+}
+
+#main-menu ul.dropdown-menu {
 	padding: 0px;
-	list-style: none;
-	font-size: 24px;
+	background-color: #303030;
 }
 
-#main-menu li {
-	display: inline-block;
-	padding: 0px 30px 0px 0px;
-}
-
-#personal-menu a, #main-menu a {
-	text-decoration: none;
-	color: #333;
-}
-
-#personal-menu a:hover, #main-menu a:hover {
-	text-decoration: none;
-	color: #4682B4;
-}
-
-.no-image img, .no-image .glyphicon {
-	display: none;
+#main-menu li.dropdown:hover ul.dropdown-menu {
+	display: block;
 }
 
 
@@ -275,3 +239,38 @@ table input[type="text"], table select {
 .align-right { text-align: right; }
 .no-icon img, .no-icon .glyphicon { display: none; }
 .block { display: block; }
+div > .container { width: 100%; }
+
+
+/* Dashboard.
+***********************************************************************************/
+.dashboard-data {
+	border-bottom: 1px dotted #ddd;
+}
+
+.dashboard-link {
+	display: block;
+	width: 64px;
+	height: 64px;
+	margin: 10px auto;
+	padding: 5px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	font-size: 12px;
+	text-align: center;
+	background-color: #f0f0f0;
+	color: #404060;
+}
+
+.dashboard-link:hover {
+	text-decoration: none;
+	background-color: #f8f8f8;
+	color: #80a0f0;
+	text-shadow: 0px 0px 1px #80a0f0;
+}
+
+.dashboard-link .glyphicon {
+	display: block;
+	padding: 4px;
+	font-size: 28px;
+}

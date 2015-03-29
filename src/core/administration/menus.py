@@ -31,8 +31,7 @@ class FormMenu(DefaultForm):
     name        = TextField(localize("core", "menus.field_name"))
     weight      = IntegerField(localize("core", "menus.field_weight"),
                                validators = [NumberRange(0, 25)])
-    flags       = TextField(localize("core", "menus.field_flags"),
-                            validators = [NumberRange(0, 16)])
+    flags       = TextField(localize("core", "menus.field_flags"))
     image       = TextField(localize("core", "menus.field_image"))
 
 class FormMenubar(DefaultForm):
@@ -60,7 +59,7 @@ def create_menuitem():
     form.menubar_id.choices = [(bar.id, bar.name) for bar in Menubar.all()]
     headline = localize("core", "menus.create_headline")
     message = localize("core", "menus.create_success")
-    return create_form(item, form, headline, message, "/menus")
+    return create_form(item, form, headline, message, "/menuitem/")
 
 # Handler: Delete menu item.
 # -------------------------------------------------------------------------------- #
@@ -71,7 +70,7 @@ def delete_menuitem(identifier):
     headline = localize("core", "menus.delete_headline")
     text = localize("core", "menus.delete_description") % (item.name)
     message = localize("core", "menus.delete_success")
-    return delete_form(item, headline, text, message, "/menus",
+    return delete_form(item, headline, text, message, "/menuitem/",
                        template = "core/administration/confirm.html")
 
 # Handler: Edit menu item.
@@ -84,7 +83,7 @@ def update_menuitem(identifier):
     if not item: return mismatch()
     headline = localize("core", "menus.update_headline")
     message = localize("core", "menus.update_success")
-    return update_form(item, form, headline, message, "/menus")
+    return update_form(item, form, headline, message, "/menuitem/")
 
 # Default route: View a list of all menu bars.
 # -------------------------------------------------------------------------------- #
@@ -92,7 +91,7 @@ def update_menuitem(identifier):
 def list_menubars():
     navigation = menubar("administration", g.role.id)
     items = Menubar.all()
-    actions = menubar("menu", g.role.id)
+    actions = menubar("menubar", g.role.id)
     for item in items: item.actions = contextmenu("menubar", g.role.id)
     return render("core/administration/menubar-list.html", navigation = navigation,
                   items = items, actions = actions)
@@ -105,7 +104,7 @@ def create_menubar():
     form = FormMenubar()
     headline = localize("core", "menubars.create_headline")
     message = localize("core", "menubars.create_success")
-    return create_form(item, form, headline, message, "/menus")
+    return create_form(item, form, headline, message, "/menubar/")
 
 # Handler: Delete menu bar.
 # -------------------------------------------------------------------------------- #
@@ -116,7 +115,7 @@ def delete_menubar(identifier):
     headline = localize("core", "menubars.delete_headline")
     text = localize("core", "menubars.delete_description") % (item.name)
     message = localize("core", "menus.delete_success")
-    return delete_form(item, headline, text, message, "/menus",
+    return delete_form(item, headline, text, message, "/menubar/",
                        template = "core/administration/confirm.html")
 
 # Handler: Edit menu bar.
@@ -128,4 +127,4 @@ def update_menubar(identifier):
     form = FormMenubar(obj = item)
     headline = localize("core", "menubars.update_headline")
     message = localize("core", "menubars.update_success")
-    return update_form(item, form, headline, message, "/menus")
+    return update_form(item, form, headline, message, "/menubar/")

@@ -1,25 +1,40 @@
 {% extends "core/administration/base.html" %}
 {% block content %}
-
-<div class="panel panel-default">
-	<div class="panel-heading">
-		<h3 class="panel-title">System Information</h3>
-	</div>
-	<div class="panel-body"><div class="container"><div class="row">
-		<div class="col-sm-6 col-xs-12">
-			<p class="dashboard-data">
-			Active since <span class="float-right">{{ information[0] }}</span>
-			</p>
-			<p class="dashboard-data">
-			Heartbeats <span class="float-right">{{ information[1] }}</span>
-			</p>
-			<p class="dashboard-data">
-			Requests <span class="float-right">{{ information[2] }}</span>
-			</p>
+<div class="container"><div class="row">
+	<div class="col-xs-12 col-sm-6">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">System Information</h3>
+			</div>
+			<div class="panel-body">
+				<p class="dashboard-data">
+				Active since <span class="float-right">{{ information[0] }}</span>
+				</p>
+				<p class="dashboard-data">
+				Heartbeats <span class="float-right">{{ information[1] }}</span>
+				</p>
+				<p class="dashboard-data">
+				Requests <span class="float-right">{{ information[2] }}</span>
+				</p>
+			</div>
 		</div>
-		<div class="col-sm-6 col-xs-12"><div class="row">
-			{{ menus.build(navigation, "col-sm-4 col-xs-6 dashboard-link") }}
-		</div></div>
-	</div></div></div>
-</div>
+	</div>
+	<div class="col-xs-12 col-sm-6">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Administration</h3>
+			</div>
+			<div class="panel-body"><div class="container"><div class="row">
+				{% for link in navigation %}
+				<div class="col-sm-4 col-xs-6">
+					<a class="dashboard-link" href="{{ link.address }}">
+					<span class="glyphicon glyphicon-{{ link.image }}"></span>
+					{{ link.name }}
+					</a>
+				</div>
+				{% endfor %}
+			</div></div></div>
+		</div>
+	</div>
+</div></div>
 {% endblock %}

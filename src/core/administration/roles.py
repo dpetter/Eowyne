@@ -53,7 +53,7 @@ def create_role():
     form.parent_id.choices = [(role.id, role.name) for role in Role.all()]
     headline = localize("core", "roles.create_headline")
     message = localize("core", "roles.create_success")
-    return create_form(item, form, headline, message, "/roles")
+    return create_form(item, form, headline, message, "/role/")
 
 # Handler: Delete Role.
 # -------------------------------------------------------------------------------- #
@@ -64,7 +64,7 @@ def delete_role(identifier):
     headline = localize("core", "roles.delete_headline")
     text = localize("core", "roles.delete_description") % (item.name)
     message = localize("core", "roles.delete_success")
-    return delete_form(item, headline, text, message, "/roles",
+    return delete_form(item, headline, text, message, "/role/",
                        template = "core/administration/confirm.html")
 
 # Handler: Edit Role.
@@ -77,4 +77,4 @@ def update_role(identifier):
     form.parent_id.choices = [(role.id, role.name) for role in Role.all()]
     headline = localize("core", "roles.update_headline")
     message = localize("core", "roles.update_success")
-    return update_form(item, form, headline, message, "/roles")
+    return update_form(item, form, headline, message, "/role/")

@@ -1,9 +1,7 @@
 TODO:
 
 The EOWYNE whiteboard ...
--	Naming Converntions ...
+-	rewrite menus so that you can link menubar by name
+-	rewrite rules so that a folders permissions apply to its children.
 -	utility.generator.randomkey sollte dahingehend verbessert werden, das nur
 	unique keys rauskommen
--	vielleicht natives von sql-alchemy abkoppeln oder besser integrieren?
--	vielleicht sso standard rein?
--	ldap auth?

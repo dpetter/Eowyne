@@ -60,7 +60,7 @@ def create_rule():
     form.role_id.choices = [(role.id, role.name) for role in Role.all()]
     headline = localize("core", "rules.create_headline")
     message = localize("core", "rules.create_success")
-    return create_form(item, form, headline, message, "/rules")
+    return create_form(item, form, headline, message, "/rule/")
 
 # Handler: Delete Rule.
 # -------------------------------------------------------------------------------- #
@@ -71,7 +71,7 @@ def delete_rule(identifier):
     headline = localize("core", "rules.delete_headline")
     text = localize("core", "rules.delete_description") % (item.route)
     message = localize("core", "rules.delete_success")
-    return delete_form(item, headline, text, message, "/rules",
+    return delete_form(item, headline, text, message, "/rule/",
                        template = "core/administration/confirm.html")
 
 # Handler: Edit Rule.
@@ -84,4 +84,4 @@ def update_rule(identifier):
     form.role_id.choices = [(role.id, role.name) for role in Role.all()]
     headline = localize("core", "rules.update_headline")
     message = localize("core", "rules.update_success")
-    return update_form(item, form, headline, message, "/rules")
+    return update_form(item, form, headline, message, "/rule/")

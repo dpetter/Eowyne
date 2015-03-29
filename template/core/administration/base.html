@@ -11,22 +11,29 @@
 {% endblock %}
 {% block body %}
 <div id="page-area">
-	<div id="header-area">
-		<div class="wrapper">
-			<ul id="personal-menu">
-				{{ menus.navigation(g.personal_menu) }}
+	<div id="header-area"><div class="wrapper">
+		<nav class="navbar" id="main-menu">
+			<ul class="nav navbar-nav">
+				<li><a href="/">Main page</a></li>
+				<li class="dropdown dropdown-hover">
+	       			<a href="/administration" role="button" aria-expanded="false">
+	       			Administration <span class="caret"></span>
+	       			</a>
+	       			<ul class="dropdown-menu" role="menu">
+	       				{{ menus.navigation(navigation, "no-icon") }}
+	       			</ul>
+	      		</li>
 			</ul>
-			<nav role="navigation" id="main-menu"><ul>
-				{{ menus.navigation(navigation, "no-image") }}
-			</ul></nav>
-		</div>
-	</div>
-	<div id="content-area">
-		<div class="wrapper">
+			<ul class="nav navbar-nav float-right">
+	       		{{ menus.navigation(g.personal_menu, "no-icon") }}
+	       	</ul>
+		</ul>
+		</nav>
+	</div></div>
+	<div id="content-area"><div class="wrapper">
 			{% include "base/messages.html" %}
 			{% block content %}{% endblock %}
-		</div>
-	</div>
+	</div></div>
 	<div id="footer-area">
 		<br/>
 		Powered by <a>Eowyne</a><br/><br/>
