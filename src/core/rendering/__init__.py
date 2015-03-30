@@ -23,18 +23,40 @@ class DefaultForm(Form):
     confirm = SubmitField("Confirm")
     cancel = SubmitField("Deny")
 
-
+# Rendering.
 # -------------------------------------------------------------------------------- #
-def render(template, **kwargs):
+def render(template, **args):
     '''
-    Renders a template. Catches the template not found exception and shows the
-    missing template error page if caught.
+    @returns            Html rendered through template and args. Logs the error
+                        and returns an error page if the template couldn't be found.
+    @param template     Template to render.
+    @param **args       Additional arguments for the templater.
     '''
     try:
-        return render_template(template, **kwargs)
+        return render_template(template, **args)
     except TemplateNotFound:
         log.error("Template not found: %s." % (template))
         return render_template("error/template.html", name = template)
+
+def render_form(form, on_confirm, on_cancel, template = "core/form.html", **args):
+    '''
+    @returns            The form's html rendered through form and template.
+    @param form         The form to render. It can have two buttons, confirm and
+                        cancel that execute the corresponding callback function.
+    @param on_confirm   A callback function that is executed when the user clicks
+                        confirm and the form validates. Must return either a
+                        redirect or valid html after the requested action has been
+                        performed.
+    @param on_cancel    A callback function that is executed when the user clicks
+                        cancel. Must return either a redirect or valid html.
+                        It should usually redirect to the page the form was
+                        requested from.
+    @param template     Template to render the form.
+    @param **args       Additional arguments for the templater.
+    '''
+    if form.cancel.data == True: return on_cancel()
+    elif form.validate_on_submit(): return on_confirm()
+    return render(template, form = form, action = request.path, **args)
 
 # -------------------------------------------------------------------------------- #
 def mismatch():
@@ -57,19 +79,7 @@ def confirmation(headline, text, on_confirm, on_cancel,
     return render(template, form = form, action = request.path,
                   headline = headline, text = text, **args)
 
-# -------------------------------------------------------------------------------- #
-def editor(form, headline, on_confirm, on_cancel, template = "base/form.html",
-           **args):
-    '''
-    Renders a form. The form can have various elements and two buttons - confirm
-    and cancel. on_confirm and on_cancel are functions that have
-    to perform the desired actions and return a redirect or html.
-    '''
-    if form.cancel.data == True: return on_cancel()
-    elif form.validate_on_submit(): return on_confirm()
-    return render(template, form = form, action = request.path, headline = headline,
-                  **args)
-
+# Predefined forms.
 # -------------------------------------------------------------------------------- #
 def create_form(item, form, headline, message, on_confirm, on_cancel = None,
                 template = "core/form.html", **args):
@@ -85,9 +95,8 @@ def create_form(item, form, headline, message, on_confirm, on_cancel = None,
         return redirect(on_confirm)
     if on_cancel: o_can = lambda: redirect(on_cancel)
     else: o_can = lambda: redirect(on_confirm)
-    return editor(form, headline, o_con, o_can, template, **args)
+    return render_form(form, o_con, o_can, template, headline = headline, **args)
 
-# -------------------------------------------------------------------------------- #
 def delete_form(item, headline, text, message, on_confirm, on_cancel = None,
                 template = "base/confirm.html", **args):
     '''
@@ -103,7 +112,6 @@ def delete_form(item, headline, text, message, on_confirm, on_cancel = None,
     else: o_can = lambda: redirect(on_confirm)
     return confirmation(headline, text, o_con, o_can, template, **args)
 
-# -------------------------------------------------------------------------------- #
 def update_form(item, form, headline, message, on_confirm, on_cancel = None,
                 template = "core/form.html", **args):
     '''
@@ -118,4 +126,4 @@ def update_form(item, form, headline, message, on_confirm, on_cancel = None,
         return redirect(on_confirm)
     if on_cancel: o_can = lambda: redirect(on_cancel)
     else: o_can = lambda: redirect(on_confirm)
-    return editor(form, headline, o_con, o_can, template, **args)
+    return render_form(form, o_con, o_can, template, headline = headline, **args)

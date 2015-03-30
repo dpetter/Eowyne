@@ -8,6 +8,44 @@
 </style>
 {% endblock %}
 {% block content %}
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">Rule Administration</h3>
+	</div>
+<table class="table">
+	<thead>
+		<th>{{ menus.build(actions, "eo-ap") }}</th>
+		<th>Route</th>
+		<th>Role</th>
+		<th>{{ icons.glyph("plus") }}</th>
+		<th>{{ icons.glyph("remove") }}</th>
+		<th>{{ icons.glyph("pencil") }}</th>
+		<th>{{ icons.glyph("eye-open") }}</th>
+	</thead>
+	<tbody>
+		<tr class="filters">
+			<td>{{ icons.glyph("filter") }}</td>
+			<td><input type="text" class="eowyne-table-filter"/></td>
+			<td><select class="eowyne-table-filter"/></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		{% for item in items %}
+		<tr class="{{ loop.cycle('odd', 'even') }}">
+			<td>{{ menus.context(item.actions, item.id, "eo-ap") }}</td>
+			<td>{{ item.route }}</td>
+			<td>{{ item.role.name }}</td>
+			<td>{% if item.insert != "None" %}{{ item.insert }}{% endif %}</td>
+			<td>{% if item.remove != "None" %}{{ item.remove }}{% endif %}</td>
+			<td>{% if item.change != "None" %}{{ item.change }}{% endif %}</td>
+			<td>{% if item.view != "None" %}{{ item.view }}{% endif %}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+</div>
 <h1>Rule Administration</h1>
 <table>
 	<thead>

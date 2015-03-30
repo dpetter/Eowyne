@@ -13,7 +13,7 @@ from werkzeug import redirect
 from wtforms.fields.simple import TextField, PasswordField
 from wtforms.validators import Email, DataRequired
 
-from core.rendering import DefaultForm, editor, render
+from core.rendering import DefaultForm, render_form, render
 from core.security.user import User
 from core.shared import mailservice
 from core.utility.keyutility import match_password, randomkey, hash_password
@@ -53,13 +53,6 @@ class FormPassword(DefaultForm):
 @blueprint.route("/signin", methods = ["GET", "POST"])
 def signin():
     form = FormSignin()
-    print("-----------------<>---------------")
-    print(form.email.data)
-    print(form.password.data)
-    print(form.confirm.data)
-    print(form.cancel.data)
-    print(form.csrf_token.data)
-    print("-----------------<>---------------")
     def confirm():
         email = form.email.data
         user = User.unique(User.email == email)
@@ -70,8 +63,8 @@ def signin():
         g.session.update()
         flash(localize("core", "client.signin_success") % (user.name))
         return redirect("/")
-    return editor(form, "", confirm, lambda: redirect("/"),
-                  "core/security/signin_form.html")
+    return render_form(form, confirm, lambda: redirect("/"),
+                       "core/security/signin_form.html")
 
 # Sign out
 # -------------------------------------------------------------------------------- #
@@ -103,8 +96,8 @@ def register():
         mailservice.send([form.email.data], "Activate your account", text)
         flash(localize("core", "client.register_success"))
         return redirect("/")
-    return editor(form, "", confirm, lambda: redirect("/"),
-                  "core/security/register_form.html")
+    return render_form(form, confirm, lambda: redirect("/"),
+                       "core/security/register_form.html")
 
 # Unlock Account
 # -------------------------------------------------------------------------------- #
@@ -138,8 +131,8 @@ def reset():
         mailservice.send([form.email.data], "Reset your password", text)
         flash(localize("core", "client.reset_success"))
         return redirect("/")
-    return editor(form, "", confirm, lambda: redirect("/"),
-                  "core/security/email_form.html")
+    return render_form(form, confirm, lambda: redirect("/"),
+                       "core/security/email_form.html")
 
 # Update Password
 # -------------------------------------------------------------------------------- #
@@ -156,5 +149,5 @@ def reset_update(key):
         user.update()
         flash(localize("core", "client.password_success"))
         return redirect("/")
-    return editor(form, "", confirm, lambda: redirect("/"),
-                  "core/security/password_form.html")
+    return render_form(form, confirm, lambda: redirect("/"),
+                       "core/security/password_form.html")

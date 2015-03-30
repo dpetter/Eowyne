@@ -182,39 +182,18 @@ select:disabled, textarea:disabled {
 
 /* Tables.
 ***********************************************************************************/
-table {
-	width: 100%;
-	margin: 20px auto;
-	border: 1px solid #ddd;
-	border-collapse: collapse;
-}
-
-table tr:hover {
-	background-color: #F5FAEA;
-	text-decoration: none;
-}
-
 th {
-	padding: 15px 10px;
-	border-bottom: 1px solid #ddd;
-	background-color: #EBF5D6;
+	padding: 10px 10px;
 }
 
 td {
 	padding: 10px;
+	font-size: 12px;
 }
 
 td:first-child {
 	padding-right: 16px;
 	white-space: nowrap;
-}
-
-table .even {
-	background-color: #ffffff;
-}
-
-table .odd {
-	background-color: #fbfbfb;
 }
 
 table .filters {

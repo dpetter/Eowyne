@@ -21,14 +21,13 @@ from core.shared import db
 from core.utility.keyutility import hash_password
 
 
-# Core data
+# Core data.
 # -------------------------------------------------------------------------------- #
 roles = [# parent, name, description
 Role(None,  "Root",             "Applies to everyone."),
 Role(1,     "Guest",            "Applies to clients who aren't logged in."),
 Role(1,     "User",             "Applies to all logged in users."),
-Role(3,     "Locked",
-     "Applies to clients who haven't activated their account yet."),
+Role(3,     "Locked",           "Applies to clients who haven't been activated."),
 Role(3,     "Administrator",    "Has the most extensive permissions.")
 ]
 
