@@ -53,6 +53,13 @@ def invalid():
     '''
     return render("error/route.html")
 
+def ajax_redirect(url):
+    '''
+    @returns            A html response telling the ajax handler to redirect the
+                        browser to the given url.
+    @param url          Url to redirect to.
+    '''
+    return "<eo-au>%s</eo-au>" % (url)
 
 # Runs before every request
 # -------------------------------------------------------------------------------- #

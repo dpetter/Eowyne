@@ -13,6 +13,7 @@ from werkzeug import redirect
 from wtforms.fields.simple import TextField, PasswordField
 from wtforms.validators import Email, DataRequired
 
+from core.core import ajax_redirect
 from core.rendering import DefaultForm, render_form, render
 from core.security.user import User
 from core.shared import mailservice
@@ -21,6 +22,7 @@ from core.utility.localization import localize
 
 
 blueprint = Blueprint("core-login-controller", __name__)
+template = lambda name: "core/security/%s.html" % (name)
 
 
 # Forms
@@ -53,18 +55,18 @@ class FormPassword(DefaultForm):
 @blueprint.route("/signin", methods = ["GET", "POST"])
 def signin():
     form = FormSignin()
-    def confirm():
-        email = form.email.data
-        user = User.unique(User.email == email)
-        if not user or not match_password(form.password.data, user.password):
-            flash(localize("core", "client.signin_failure"))
-            return redirect(request.path)
-        g.session.user_id = user.id
-        g.session.update()
-        flash(localize("core", "client.signin_success") % (user.name))
-        return redirect("/")
-    return render_form(form, confirm, lambda: redirect("/"),
-                       "core/security/signin_form.html")
+    confirm = lambda: signin_execute(form)
+    return render_form(form, confirm, lambda: redirect("/"), template("signin_form"))
+
+def signin_execute(form):
+    user = User.unique(User.email == form.email.data)
+    if not user or not match_password(form.password.data, user.password):
+        flash(localize("core", "client.signin_failure"))
+        return redirect(request.path)
+    g.session.user_id = user.id
+    g.session.update()
+    flash(localize("core", "client.signin_success") % (user.name))
+    return ajax_redirect("/")
 
 # Sign out
 # -------------------------------------------------------------------------------- #
@@ -95,7 +97,7 @@ def register():
         text = render("mail/register.html", name = user.name, link = link)
         mailservice.send([form.email.data], "Activate your account", text)
         flash(localize("core", "client.register_success"))
-        return redirect("/")
+        return ajax_redirect("/")
     return render_form(form, confirm, lambda: redirect("/"),
                        "core/security/register_form.html")
 
@@ -130,7 +132,7 @@ def reset():
         text = render("mail/reset.html", name = user.name, link = link)
         mailservice.send([form.email.data], "Reset your password", text)
         flash(localize("core", "client.reset_success"))
-        return redirect("/")
+        return ajax_redirect("/")
     return render_form(form, confirm, lambda: redirect("/"),
                        "core/security/email_form.html")
 
@@ -148,6 +150,6 @@ def reset_update(key):
         user.password = hash_password(form.password.data)
         user.update()
         flash(localize("core", "client.password_success"))
-        return redirect("/")
+        return ajax_redirect("/")
     return render_form(form, confirm, lambda: redirect("/"),
                        "core/security/password_form.html")

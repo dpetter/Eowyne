@@ -62,6 +62,8 @@ function ajax_post(url, container, fieldData, f) {
 			document.close();
 //			history.pushState("a", "b", location.href);
 //			location.href = url;
+		} else if (data.indexOf("</eo-au>") > -1) {
+			location.href = data.replace("<eo-au>", "").replace("</eo-au>", "");
 		} else {
 			$(container).html(data);
 			f(container);
@@ -118,6 +120,8 @@ function ajax_popup(container, url) {
 			document.open("text/html");
 			document.write(data);
 			document.close();
+		} else if (data.indexOf("</eo-au>") > -1) {
+			location.href = data.replace("<eo-au>", "").replace("</eo-au>", "");
 		} else {
 			$(container).html(data);
 			$(container).popup("show");
