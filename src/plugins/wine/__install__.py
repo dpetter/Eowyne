@@ -75,7 +75,8 @@ def installWein():
                 Land.get(1),
                 Region.get(1),
                 Weingut.get(1),
-                2013)
+                2013,
+                "Dieser Wein ist reichhaltig und voll. Daher schmeckt er toll!")
     item.create()
 
 # -------------------------------------------------------------------------------- #

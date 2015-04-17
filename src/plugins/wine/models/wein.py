@@ -1,5 +1,5 @@
 from sqlalchemy.sql.schema import Column, ForeignKey
-from sqlalchemy.sql.sqltypes import Integer, String, SmallInteger
+from sqlalchemy.sql.sqltypes import Integer, String, SmallInteger, Text
 
 from core.shared import db
 from models import Model
@@ -27,9 +27,11 @@ class Wein(Model):
     weingut             = db.relationship("Weingut",
             backref=db.backref('Wein', lazy='dynamic'))
     jahrgang            = Column(SmallInteger)
+    beschreibung        = Column(Text)
 
     def __init__(self, name = None, gattung = None, rebsorte = None,
-            land = None, region = None, weingut = None, jahrgang = None):
+            land = None, region = None, weingut = None, jahrgang = None,
+            beschreibung = None):
         self.name       = name
         self.gattung    = gattung
         self.rebsorte   = rebsorte
@@ -37,6 +39,7 @@ class Wein(Model):
         self.region     = region
         self.weingut    = weingut
         self.jahrgang   = jahrgang
+        self.beschreibung = beschreibung
 
     def __str__(self):
         return "Wein '%s'" % (self.name)
