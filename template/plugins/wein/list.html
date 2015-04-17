@@ -1,0 +1,12 @@
+{% extends "base/main.html" %}
+{% block content %}
+    <div class="toolbar">
+		{{ menus.build(actions, "menuitem") }}
+	</div>
+	<h1>Wines matching your query</h1>
+	{% for item in items %}
+	<div>
+        <a href="/wein/{{ item.name.replace(' ', '_') }}">{{ item.name }}</a>
+	</div>
+	{% endfor %}
+{% endblock %}

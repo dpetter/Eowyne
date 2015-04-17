@@ -1,0 +1,30 @@
+{% extends "base/main.html" %}
+{% block content %}
+
+<div class="container">
+	<div class="row clearfix">
+		<div class="col-md-6 column">
+            <img src="../static/img/wine.jpg"></img>
+		</div>
+		<div class="col-md-6 column">
+            <ul>
+                <h2>Steckbrief</h2>
+                <li>{{ item.name }}</li>
+                <li>{{ item.gattung.name }}</li>
+                <li>{{ item.rebsorte.name }}</li>
+                <li>{{ item.land.name }}</li>
+                <li>{{ item.region.name }}</li>
+                <li>{{ item.weingut.name }}</li>
+                <li>{{ item.jahrgang }}<li>
+            </ul>
+		</div>
+	</div>
+	<div class="row clearfix">
+		<div class="col-md-12 column">
+            <h2>Beschreibung</h2>
+            <p>{{ item.beschreibung }}</p>
+		</div>
+	</div>
+
+</div>
+{% endblock %}
